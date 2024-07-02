@@ -23,7 +23,7 @@ export default function Login() {
             if (response.success) {
                 localStorage.setItem('token', response.accessToken);
                 localStorage.setItem('idBarbearia', response.result.idExterno);
-                navigate('/home');
+                navigate('/inicio');
             }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {

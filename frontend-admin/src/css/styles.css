@@ -5,3 +5,17 @@
     flex-direction: column;
     background-color: #e8f5ff;
 }
+
+.app-container {
+    display: flex;
+}
+
+.content {
+    margin-left: 60px; /* Ajuste conforme necessário para largura da barra lateral recolhida */
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.expanded ~ .content {
+    margin-left: 200px; /* Ajuste conforme necessário para largura da barra lateral expandida */
+}
