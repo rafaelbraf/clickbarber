@@ -71,7 +71,6 @@ export const Servicos: React.FC = () => {
                             <Col xs={12} key={servico.idExterno} className="mb-4">
                                 <Card className="shadow-sm">
                                     <Card.Body>
-                                        {/* <Card.Title>{servico.nome}</Card.Title> */}
                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                             <div>
                                                 <strong>Nome:</strong> {servico.nome}
@@ -87,7 +86,7 @@ export const Servicos: React.FC = () => {
                                             </div>
                                             <div>
                                                 <strong>Status:</strong>{' '}
-                                                <Badge variant={servico.ativo ? 'success' : 'danger'}>
+                                                <Badge bg={servico.ativo ? 'success' : 'secondary'}>
                                                     {servico.ativo ? 'Ativo' : 'Inativo'}
                                                 </Badge>
                                             </div>
