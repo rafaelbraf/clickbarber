@@ -16,6 +16,7 @@ import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroDto;
 import com.optimiza.clickbarber.model.dto.cliente.ClienteCadastroDto;
 import com.optimiza.clickbarber.model.dto.cliente.ClienteDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoAtualizarDto;
+import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
 import com.optimiza.clickbarber.model.dto.usuario.UsuarioCadastrarDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -221,13 +222,34 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static ServicoDto montarServicoDto() {
+    public static Servico montarServico(UUID idExterno, String nome) {
+        return Servico.builder()
+                .id(1L)
+                .nome(nome)
+                .idExterno(idExterno)
+                .ativo(true)
+                .tempoDuracaoEmMinutos(45)
+                .preco(new BigDecimal("45"))
+                .build();
+    }
+
+    public static ServicoDto montarServicoDto(UUID idExterno) {
         return ServicoDto.builder()
+                .idExterno(idExterno)
                 .nome("Serviço Teste")
                 .tempoDuracaoEmMinutos(45)
                 .preco(new BigDecimal("30.0"))
                 .ativo(true)
-                .barbearia(montarBarbearia())
+                .build();
+    }
+
+    public static ServicoDto montarServicoDto(UUID idExterno, String nome) {
+        return ServicoDto.builder()
+                .idExterno(idExterno)
+                .nome(nome)
+                .tempoDuracaoEmMinutos(45)
+                .preco(new BigDecimal("30.0"))
+                .ativo(true)
                 .build();
     }
 
@@ -238,6 +260,16 @@ public class TestDataFactory {
                 .preco(new BigDecimal("50.0"))
                 .tempoDuracaoEmMinutos(45)
                 .ativo(false)
+                .build();
+    }
+
+    public static ServicoCadastroDto montarServicoCadastroDto() {
+        return ServicoCadastroDto.builder()
+                .nome("Serviço Teste")
+                .preco(new BigDecimal("50.0"))
+                .tempoDuracaoEmMinutos(45)
+                .ativo(true)
+                .barbearia(montarBarbearia())
                 .build();
     }
 

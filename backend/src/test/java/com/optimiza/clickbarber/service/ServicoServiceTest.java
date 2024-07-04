@@ -2,6 +2,7 @@ package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.Servico;
+import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoMapper;
 import com.optimiza.clickbarber.repository.ServicoRepository;
@@ -14,9 +15,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-import static com.optimiza.clickbarber.utils.TestDataFactory.montarServico;
-import static com.optimiza.clickbarber.utils.TestDataFactory.montarServicoDto;
+import static com.optimiza.clickbarber.utils.TestDataFactory.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -38,10 +39,14 @@ class ServicoServiceTest {
     private BarbeariaService barbeariaService;
 
     private Long servicoId;
+    private UUID idExternoBarbearia;
+    private UUID idExternoServico;
 
     @BeforeEach
     void setup() {
         servicoId = 1L;
+        idExternoBarbearia = UUID.randomUUID();
+        idExternoServico = UUID.randomUUID();
     }
 
     @Test
@@ -76,14 +81,23 @@ class ServicoServiceTest {
     @Test
     void testBuscarPorBarbeariaId() {
         var servico1 = montarServico();
-        var servico2 = montarServico();
+        var servico2 = montarServico("Serviço Teste 2");
         var servicosLista = List.of(servico1, servico2);
-        when(servicoRepository.findByBarbeariaId(anyInt())).thenReturn(servicosLista);
+        when(servicoRepository.findByIdExternoBarbearia(any(UUID.class))).thenReturn(servicosLista);
 
-        var servicosEncontradosResult = servicoService.buscarPorBarbeariaId(1);
+        var servico1Dto = montarServicoDto(idExternoServico);
+        when(servicoMapper.toDto(servico1)).thenReturn(servico1Dto);
+
+        var idExternoServico2 = UUID.randomUUID();
+        var servico2Dto = montarServicoDto(idExternoServico2, "Servico Teste 2");
+        when(servicoMapper.toDto(servico2)).thenReturn(servico2Dto);
+
+        var servicosEncontradosResult = servicoService.buscarPorIdExternoBarbearia(idExternoBarbearia);
         assertFalse(servicosEncontradosResult.isEmpty());
-        assertEquals(1, servicosEncontradosResult.getFirst().getBarbearia().getId());
-        assertEquals(1, servicosEncontradosResult.getLast().getBarbearia().getId());
+        assertEquals(idExternoServico, servicosEncontradosResult.getFirst().getIdExterno());
+        assertEquals("Serviço Teste", servicosEncontradosResult.getFirst().getNome());
+        assertEquals(idExternoServico2, servicosEncontradosResult.getLast().getIdExterno());
+        assertEquals("Serviço Teste", servicosEncontradosResult.getFirst().getNome());
     }
 
     @Test
@@ -91,11 +105,11 @@ class ServicoServiceTest {
         when(barbeariaService.existePorId(anyLong())).thenReturn(true);
 
         var servico = montarServico();
-        when(servicoMapper.toEntity(any(ServicoDto.class))).thenReturn(servico);
+        when(servicoMapper.toEntity(any(ServicoCadastroDto.class))).thenReturn(servico);
         when(servicoRepository.save(any(Servico.class))).thenReturn(servico);
 
-        var servicoDto = montarServicoDto();
-        var servicoCadastradoResult = servicoService.cadastrar(servicoDto);
+        var servicoCadastrarDto = montarServicoCadastroDto();
+        var servicoCadastradoResult = servicoService.cadastrar(servicoCadastrarDto);
         assertNotNull(servicoCadastradoResult);
         assertEquals("Serviço Teste", servicoCadastradoResult.getNome());
         assertEquals("30.0", servicoCadastradoResult.getPreco().toString());

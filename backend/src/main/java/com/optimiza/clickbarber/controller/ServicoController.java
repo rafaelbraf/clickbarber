@@ -4,6 +4,7 @@ import com.optimiza.clickbarber.model.Resposta;
 import com.optimiza.clickbarber.model.RespostaUtils;
 import com.optimiza.clickbarber.model.Servico;
 import com.optimiza.clickbarber.model.dto.servico.ServicoAtualizarDto;
+import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
 import com.optimiza.clickbarber.service.ServicoService;
 import com.optimiza.clickbarber.utils.Constants;
@@ -38,14 +39,14 @@ public class ServicoController {
         return RespostaUtils.ok(Constants.Success.SERVICO_ENCONTRADO_COM_SUCESSO, servicoEncontrado);
     }
 
-    @GetMapping("/barbearia/{barbeariaId}")
-    public Resposta<List<Servico>> buscarPorBarbeariaId(@PathVariable Integer barbeariaId) {
-        var servicosEncontrados = servicoService.buscarPorBarbeariaId(barbeariaId);
-        return RespostaUtils.ok(Constants.Success.SERVICOS_ENCONTRADOS_DA_BARBEARIA + barbeariaId, servicosEncontrados);
+    @GetMapping("/barbearia/{idExternoBarbearia}")
+    public Resposta<List<ServicoDto>> buscarPorBarbeariaId(@PathVariable UUID idExternoBarbearia) {
+        var servicosEncontrados = servicoService.buscarPorIdExternoBarbearia(idExternoBarbearia);
+        return RespostaUtils.ok(Constants.Success.SERVICOS_ENCONTRADOS_DA_BARBEARIA + idExternoBarbearia, servicosEncontrados);
     }
 
     @PostMapping
-    public ResponseEntity<Resposta<Servico>> cadastrar(@RequestBody ServicoDto servico) {
+    public ResponseEntity<Resposta<Servico>> cadastrar(@RequestBody ServicoCadastroDto servico) {
         var servicoCadastrado = servicoService.cadastrar(servico);
         var resposta = RespostaUtils.created(Constants.Success.SERVICO_CADASTRADO_COM_SUCESSO, servicoCadastrado);
 
