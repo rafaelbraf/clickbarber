@@ -31,9 +31,7 @@ public class BarbeiroService {
     }
 
     public List<BarbeiroDto> buscarPorIdExternoBarbearia(UUID idExternoBarbearia) {
-        var barbeirosEncontrados = barbeiroRepository.findByIdExternoBarbearia(idExternoBarbearia);
-
-        return barbeirosEncontrados.stream()
+        return barbeiroRepository.findByIdExternoBarbearia(idExternoBarbearia).stream()
                 .map(barbeiroMapper::toDto)
                 .toList();
     }
