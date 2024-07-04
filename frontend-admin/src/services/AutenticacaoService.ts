@@ -16,7 +16,6 @@ interface LoginResponse {
 }
 
 class AutenticacaoService {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static async fazerLogin(params: ParamsLogin): Promise<LoginResponse> {
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, params);

@@ -4,6 +4,7 @@ import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.Servico;
 import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaMapper;
 import com.optimiza.clickbarber.model.dto.servico.ServicoAtualizarDto;
+import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoMapper;
 import com.optimiza.clickbarber.repository.ServicoRepository;
@@ -37,17 +38,21 @@ public class ServicoService {
         return servicoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.SERVICO, Constants.Attribute.ID, id.toString()));
     }
 
-    public List<Servico> buscarPorBarbeariaId(Integer barbeariaId) {
-        return servicoRepository.findByBarbeariaId(barbeariaId);
+    public List<ServicoDto> buscarPorIdExternoBarbearia(UUID idExternoBarbearia) {
+        var servicos = servicoRepository.findByIdExternoBarbearia(idExternoBarbearia);
+
+        return servicos.stream()
+                .map(servicoMapper::toDto)
+                .toList();
     }
 
     @Transactional
-    public Servico cadastrar(ServicoDto servicoDto) {
-        var barbeariaId = servicoDto.getBarbearia().getId();
+    public Servico cadastrar(ServicoCadastroDto servicoCadastroDto) {
+        var barbeariaId = servicoCadastroDto.getBarbearia().getId();
         if (!barbeariaService.existePorId(barbeariaId)) {
             throw new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.ID, barbeariaId.toString());
         }
-        var servico = servicoMapper.toEntity(servicoDto);
+        var servico = servicoMapper.toEntity(servicoCadastroDto);
         return servicoRepository.save(servico);
     }
 

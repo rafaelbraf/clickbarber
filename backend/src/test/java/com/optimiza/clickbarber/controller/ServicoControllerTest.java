@@ -3,6 +3,7 @@ package com.optimiza.clickbarber.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.optimiza.clickbarber.model.Servico;
 import com.optimiza.clickbarber.model.dto.servico.ServicoAtualizarDto;
+import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
 import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
 import com.optimiza.clickbarber.service.ServicoService;
 import com.optimiza.clickbarber.utils.Constants;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.optimiza.clickbarber.utils.TestDataFactory.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -42,6 +44,8 @@ class ServicoControllerTest {
 
     private Long servicoId;
     private Servico servico;
+    private UUID idExternoBarbearia;
+    private UUID idExternoServico;
 
     @BeforeEach
     void setup() {
@@ -49,6 +53,8 @@ class ServicoControllerTest {
 
         servicoId = 1L;
         servico = montarServico();
+        idExternoBarbearia = UUID.randomUUID();
+        idExternoServico = UUID.randomUUID();
     }
 
     @Test
@@ -78,26 +84,30 @@ class ServicoControllerTest {
     }
 
     @Test
-    void testBuscarServicosPorBarbeariaId() throws Exception {
-        var servico2 = montarServico("Serviço Teste 2");
+    void testBuscarServicosPorIdExternoBarbearia() throws Exception {
+        var servico1 = montarServicoDto(idExternoServico);
 
-        var servicosEncontrados = List.of(servico, servico2);
+        var idExternoServico2 = UUID.randomUUID();
+        var servico2 = montarServicoDto(idExternoServico2,"Serviço Teste 2");
 
-        when(servicoService.buscarPorBarbeariaId(anyInt())).thenReturn(servicosEncontrados);
+        var servicosEncontrados = List.of(servico1, servico2);
 
-        mockMvc.perform(get("/servicos/barbearia/1"))
+        when(servicoService.buscarPorIdExternoBarbearia(any(UUID.class))).thenReturn(servicosEncontrados);
+
+        mockMvc.perform(get("/servicos/barbearia/{idExternoBarbearia}", idExternoBarbearia))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value(Constants.Success.SERVICOS_ENCONTRADOS_DA_BARBEARIA + 1))
+                .andExpect(jsonPath("$.message").value(Constants.Success.SERVICOS_ENCONTRADOS_DA_BARBEARIA + idExternoBarbearia))
+                .andExpect(jsonPath("$.result.[0].idExterno").value(idExternoServico.toString()))
                 .andExpect(jsonPath("$.result.[0].nome").value("Serviço Teste"))
-                .andExpect(jsonPath("$.result.[0].id").value(servicoId.toString()))
+                .andExpect(jsonPath("$.result.[1].idExterno").value(idExternoServico2.toString()))
                 .andExpect(jsonPath("$.result.[1].nome").value("Serviço Teste 2"));
     }
 
     @Test
     void testCadastrarServico() throws Exception {
-        when(servicoService.cadastrar(any(ServicoDto.class))).thenReturn(servico);
+        when(servicoService.cadastrar(any(ServicoCadastroDto.class))).thenReturn(servico);
 
-        var servicoParaCadastro = objectMapper.writeValueAsString(montarServicoDto());
+        var servicoParaCadastro = objectMapper.writeValueAsString(montarServicoDto(idExternoServico));
 
         mockMvc.perform(post("/servicos")
                 .content(servicoParaCadastro)
