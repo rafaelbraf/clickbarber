@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/barbeiros")
@@ -30,10 +31,10 @@ public class BarbeiroController {
         return RespostaUtils.ok(Constants.Success.BARBEIRO_ENCONTRADO_COM_SUCESSO, barbeiro);
     }
 
-    @GetMapping("/barbearia/{id}")
-    public Resposta<List<Barbeiro>> buscarPorBarbeariaId(@PathVariable Integer id) {
-        var barbeiros = barbeiroService.buscarPorBarbeariaId(id);
-        return RespostaUtils.ok(Constants.Success.BARBEIROS_ENCONTRADOS_DA_BARBEARIA + id, barbeiros);
+    @GetMapping("/barbearia/{idExternoBarbearia}")
+    public Resposta<List<BarbeiroDto>> buscarPorBarbeariaId(@PathVariable UUID idExternoBarbearia) {
+        var barbeiros = barbeiroService.buscarPorIdExternoBarbearia(idExternoBarbearia);
+        return RespostaUtils.ok(Constants.Success.BARBEIROS_ENCONTRADOS_DA_BARBEARIA + idExternoBarbearia, barbeiros);
     }
 
     @PostMapping

@@ -74,23 +74,29 @@ class BarbeiroServiceTest {
         var barbeiro2 = montarBarbeiro();
         barbeiro2.setId(2L);
         var barbeirosEncontrados = List.of(barbeiro1, barbeiro2);
+        when(barbeiroRepository.findByIdExternoBarbearia(any(UUID.class))).thenReturn(barbeirosEncontrados);
 
-        when(barbeiroRepository.findByBarbeariaId(anyInt())).thenReturn(barbeirosEncontrados);
+        var barbeiroDto1 = montarBarbeiroDto(barbeiroIdExterno);
+        when(barbeiroMapper.toDto(barbeiro1)).thenReturn(barbeiroDto1);
 
-        var barbeirosResult = barbeiroService.buscarPorBarbeariaId(1);
+        var idExternoBarbeiroDto2 = UUID.randomUUID();
+        var barbeiroDto2 = montarBarbeiroDto(idExternoBarbeiroDto2, "Barbeiro Teste 2");
+        when(barbeiroMapper.toDto(barbeiro2)).thenReturn(barbeiroDto2);
+
+        var barbeirosResult = barbeiroService.buscarPorIdExternoBarbearia(barbeariaIdExterno);
 
         assertFalse(barbeirosResult.isEmpty());
-        assertEquals(1, barbeirosResult.getFirst().getId());
-        assertEquals(1, barbeirosResult.getFirst().getBarbearia().getId());
-        assertEquals(2, barbeirosResult.getLast().getId());
-        assertEquals(1, barbeirosResult.getLast().getBarbearia().getId());
+        assertEquals(barbeiroIdExterno, barbeirosResult.getFirst().getIdExterno());
+        assertEquals("Barbeiro Teste", barbeirosResult.getFirst().getNome());
+        assertEquals(idExternoBarbeiroDto2, barbeirosResult.getLast().getIdExterno());
+        assertEquals("Barbeiro Teste 2", barbeirosResult.getLast().getNome());
     }
 
     @Test
     void testBuscarPorBarbeariaId_NaoEncontrados() {
         when(barbeiroRepository.findByBarbeariaId(anyInt())).thenReturn(Collections.emptyList());
 
-        var barbeirosResult = barbeiroService.buscarPorBarbeariaId(1);
+        var barbeirosResult = barbeiroService.buscarPorIdExternoBarbearia(barbeariaIdExterno);
 
         assertTrue(barbeirosResult.isEmpty());
     }
