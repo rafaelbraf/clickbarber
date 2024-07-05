@@ -70,17 +70,18 @@ class BarbeiroControllerTest {
 
     @Test
     void testBuscarBarbeirosPorBarbeariaId() throws Exception {
-        var barbeiro1 = montarBarbeiro();
-        var barbeiro2 = montarBarbeiro();
-        barbeiro2.setId(2L);
+        var barbeiroDto1 = montarBarbeiroDto(barbeiroIdExterno);
+        var idExternoBarbeiroDto2 = UUID.randomUUID();
+        var barbeiroDto2 = montarBarbeiroDto(idExternoBarbeiroDto2, "Barbeiro Teste 2");
+        when(barbeiroService.buscarPorIdExternoBarbearia(any(UUID.class))).thenReturn(List.of(barbeiroDto1, barbeiroDto2));
 
-        when(barbeiroService.buscarPorBarbeariaId(anyInt())).thenReturn(List.of(barbeiro1, barbeiro2));
-
-        mockMvc.perform(get("/barbeiros/barbearia/" + 1))
+        mockMvc.perform(get("/barbeiros/barbearia/" + barbeariaIdExterno))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value(Constants.Success.BARBEIROS_ENCONTRADOS_DA_BARBEARIA + 1))
-                .andExpect(jsonPath("$.result.[0].barbearia.id").value(1))
-                .andExpect(jsonPath("$.result.[1].barbearia.id").value(1));
+                .andExpect(jsonPath("$.message").value(Constants.Success.BARBEIROS_ENCONTRADOS_DA_BARBEARIA + barbeariaIdExterno))
+                .andExpect(jsonPath("$.result.[0].idExterno").value(barbeiroIdExterno.toString()))
+                .andExpect(jsonPath("$.result.[0].nome").value("Barbeiro Teste"))
+                .andExpect(jsonPath("$.result.[1].idExterno").value(idExternoBarbeiroDto2.toString()))
+                .andExpect(jsonPath("$.result.[1].nome").value("Barbeiro Teste 2"));
     }
 
     @Test

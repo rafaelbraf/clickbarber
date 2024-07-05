@@ -122,6 +122,17 @@ public class TestDataFactory {
                 .build();
     }
 
+    public static BarbeiroDto montarBarbeiroDto(UUID idExternoBarbeiro, String nome) {
+        return BarbeiroDto.builder()
+                .idExterno(idExternoBarbeiro)
+                .nome(nome)
+                .ativo(true)
+                .admin(false)
+                .cpf("0134567891011")
+                .celular("988888888")
+                .build();
+    }
+
     public static BarbeiroAgendamentoDto montarBarbeiroAgendamentoDto() {
         return BarbeiroAgendamentoDto.builder()
                 .id(1L)
