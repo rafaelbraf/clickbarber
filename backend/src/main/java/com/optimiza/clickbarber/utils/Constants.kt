@@ -23,7 +23,7 @@ object Constants {
         const val BARBEIRO_CADASTRADO_COM_SUCESSO: String = "Barbeiro cadastrado com sucesso!"
         const val USUARIO_CADASTRADO_COM_SUCESSO: String = "Usuário cadastrado com sucesso!"
         const val AGENDAMENTO_ENCONTRADO_COM_SUCESSO: String = "Agendamento encontrado com sucesso!"
-        const val AGENDAMENTOS_ENCONTRADOS: String = "Agendamentos encontrados"
+        const val AGENDAMENTOS_ENCONTRADOS: String = "Agendamentos encontrados para Barbearia com id "
         const val AGENDAMENTO_CADASTRADO_COM_SUCESSO: String = "Agendamento cadastrado com sucesso!"
         const val AGENDAMENTO_ATUALIZADO_COM_SUCESSO: String = "Agendamento atualizado com sucesso!"
         const val CLIENTES_ENCONTRADOS_DA_BARBEARIA: String = "Clientes encontrados para Barbearia com id "

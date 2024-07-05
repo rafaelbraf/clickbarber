@@ -35,10 +35,11 @@ public class AgendamentoController {
         return RespostaUtils.ok(Constants.Success.AGENDAMENTO_ENCONTRADO_COM_SUCESSO, agendamento);
     }
 
-    @GetMapping("/barbearias/{barbeariaId}")
-    public Resposta<List<AgendamentoRespostaDto>> buscarPorBarbeariaId(@PathVariable Integer barbeariaId) {
-        var agendamentos = agendamentoService.buscarPorBarbeariaId(barbeariaId);
-        return RespostaUtils.ok(Constants.Success.AGENDAMENTOS_ENCONTRADOS, agendamentos);
+    @GetMapping("/barbearias/{idExternoBarbearia}")
+    public Resposta<List<AgendamentoRespostaDto>> buscarPorIdExternoBarbearia(@PathVariable UUID idExternoBarbearia) {
+        var agendamentos = agendamentoService.buscarPorIdExternoBarbearia(idExternoBarbearia);
+        var mensagem = Constants.Success.AGENDAMENTOS_ENCONTRADOS + idExternoBarbearia;
+        return RespostaUtils.ok(mensagem, agendamentos);
     }
 
     @GetMapping("/data-hora/{dataHora}/barbearias/{barbeariaId}")
