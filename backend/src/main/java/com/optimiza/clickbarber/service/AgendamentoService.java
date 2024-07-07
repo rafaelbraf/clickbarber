@@ -42,16 +42,16 @@ public class AgendamentoService {
         return agendamentoMapper.toDto(agendamento);
     }
 
-    public List<AgendamentoRespostaDto> buscarPorBarbeariaId(Integer barbeariaId) {
-        var agendamentos = agendamentoRepository.findByBarbeariaId(barbeariaId);
-        var agendamentosRespostaDto = new ArrayList<AgendamentoRespostaDto>();
+    public List<AgendamentoRespostaDto> buscarPorIdExternoBarbearia(UUID idExternoBarbearia) {
+        return agendamentoRepository.findByIdExternoBarbearia(idExternoBarbearia).stream()
+                .map(agendamentoMapper::toAgendamentoRespostaDto)
+                .toList();
+    }
 
-        for (Agendamento agendamento : agendamentos) {
-            var agendamentoRespostaDto = agendamentoMapper.toAgendamentoRespostaDto(agendamento);
-            agendamentosRespostaDto.add(agendamentoRespostaDto);
-        }
-
-        return agendamentosRespostaDto;
+    public List<AgendamentoReduzidoDto> buscarReduzidoPorIdExternoBarberia(UUID idExternoBarbearia) {
+        return agendamentoRepository.findByIdExternoBarbearia(idExternoBarbearia).stream()
+                .map(agendamentoMapper::toAgendamentoReduzidoDto)
+                .toList();
     }
 
     public List<Agendamento> buscarPorBarbeariaIdEDataHora(Integer barbeariaId, ZonedDateTime dataHora) {

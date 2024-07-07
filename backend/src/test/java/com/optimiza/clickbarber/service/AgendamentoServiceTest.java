@@ -95,12 +95,12 @@ class AgendamentoServiceTest {
         var agendamento1 = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
         var agendamento2 = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
         var agendamentos = List.of(agendamento1, agendamento2);
-        when(agendamentoRepository.findByBarbeariaId(anyInt())).thenReturn(agendamentos);
+        when(agendamentoRepository.findByIdExternoBarbearia(any(UUID.class))).thenReturn(agendamentos);
 
         var agendamentoRespostaDto = montarAgendamentoRespostaDto(1L, dataHoraAgendamento, valorTotalAgendamento, barbeariaIdExterno, clienteIdExterno);
         when(agendamentoMapper.toAgendamentoRespostaDto(any(Agendamento.class))).thenReturn(agendamentoRespostaDto);
 
-        var agendamentosLista = agendamentoService.buscarPorBarbeariaId(1);
+        var agendamentosLista = agendamentoService.buscarPorIdExternoBarbearia(barbeariaIdExterno);
         assertFalse(agendamentosLista.isEmpty());
         assertEquals(barbeariaIdExterno, agendamentosLista.getFirst().getBarbearia().getIdExterno());
         assertEquals(barbeariaIdExterno, agendamentosLista.getLast().getBarbearia().getIdExterno());
