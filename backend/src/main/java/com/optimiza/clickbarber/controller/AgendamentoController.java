@@ -3,10 +3,7 @@ package com.optimiza.clickbarber.controller;
 import com.optimiza.clickbarber.model.Agendamento;
 import com.optimiza.clickbarber.model.Resposta;
 import com.optimiza.clickbarber.model.RespostaUtils;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoAtualizarDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoCadastroDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoRespostaDto;
+import com.optimiza.clickbarber.model.dto.agendamento.*;
 import com.optimiza.clickbarber.service.AgendamentoService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +32,16 @@ public class AgendamentoController {
         return RespostaUtils.ok(Constants.Success.AGENDAMENTO_ENCONTRADO_COM_SUCESSO, agendamento);
     }
 
-    @GetMapping("/barbearias/{idExternoBarbearia}")
+    @GetMapping("/barbearia/{idExternoBarbearia}")
     public Resposta<List<AgendamentoRespostaDto>> buscarPorIdExternoBarbearia(@PathVariable UUID idExternoBarbearia) {
         var agendamentos = agendamentoService.buscarPorIdExternoBarbearia(idExternoBarbearia);
+        var mensagem = Constants.Success.AGENDAMENTOS_ENCONTRADOS + idExternoBarbearia;
+        return RespostaUtils.ok(mensagem, agendamentos);
+    }
+
+    @GetMapping("/barbearia/{idExternoBarbearia}/reduzido")
+    public Resposta<List<AgendamentoReduzidoDto>> buscarReduzidoPorIdExternoBarbearia(@PathVariable UUID idExternoBarbearia) {
+        var agendamentos = agendamentoService.buscarReduzidoPorIdExternoBarberia(idExternoBarbearia);
         var mensagem = Constants.Success.AGENDAMENTOS_ENCONTRADOS + idExternoBarbearia;
         return RespostaUtils.ok(mensagem, agendamentos);
     }

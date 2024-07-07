@@ -1,6 +1,7 @@
 package com.optimiza.clickbarber.model.dto.agendamento;
 
 import com.optimiza.clickbarber.model.Agendamento;
+import com.optimiza.clickbarber.model.Servico;
 import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaMapper;
 import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroMapper;
 import com.optimiza.clickbarber.model.dto.cliente.ClienteMapper;
@@ -58,6 +59,20 @@ public class AgendamentoMapper {
                 .barbearia(barbearia)
                 .barbeiros(barbeiros)
                 .servicos(agendamento.getServicos())
+                .build();
+    }
+
+    public AgendamentoReduzidoDto toAgendamentoReduzidoDto(Agendamento agendamento) {
+        var nomeServicos = agendamento.getServicos().stream()
+                .map(Servico::getNome)
+                .toList();
+
+        return AgendamentoReduzidoDto.builder()
+                .idExterno(agendamento.getIdExterno())
+                .nomeCliente(agendamento.getCliente().getNome())
+                .dataHoraInicio(agendamento.getDataHora())
+                .dataHoraFim(agendamento.getDataHora().plusMinutes(agendamento.getTempoDuracaoEmMinutos()))
+                .servicos(nomeServicos)
                 .build();
     }
 

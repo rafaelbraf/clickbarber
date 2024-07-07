@@ -48,6 +48,12 @@ public class AgendamentoService {
                 .toList();
     }
 
+    public List<AgendamentoReduzidoDto> buscarReduzidoPorIdExternoBarberia(UUID idExternoBarbearia) {
+        return agendamentoRepository.findByIdExternoBarbearia(idExternoBarbearia).stream()
+                .map(agendamentoMapper::toAgendamentoReduzidoDto)
+                .toList();
+    }
+
     public List<Agendamento> buscarPorBarbeariaIdEDataHora(Integer barbeariaId, ZonedDateTime dataHora) {
         return agendamentoRepository.findByDataHoraAndBarbeariaId(dataHora, barbeariaId);
     }

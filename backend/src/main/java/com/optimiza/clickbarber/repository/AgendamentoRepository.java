@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
-    @Query("SELECT a FROM Agendamento a INNER JOIN Barbearia b ON b.idExterno = :idExternoBarbearia")
+    @Query("SELECT a FROM Agendamento a INNER JOIN Barbearia b ON a.barbearia.id = b.id WHERE b.idExterno = :idExternoBarbearia")
     List<Agendamento> findByIdExternoBarbearia(UUID idExternoBarbearia);
 
     List<Agendamento> findByBarbeariaId(Integer barbeariaId);
