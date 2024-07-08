@@ -1,8 +1,8 @@
 package com.optimiza.clickbarber.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoAtualizarDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoCadastroDto;
+import com.optimiza.clickbarber.model.agendamento.dto.AgendamentoAtualizarDto;
+import com.optimiza.clickbarber.model.agendamento.dto.AgendamentoCadastroDto;
 import com.optimiza.clickbarber.service.AgendamentoService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;

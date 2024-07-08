@@ -2,11 +2,11 @@ package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.EntidadeNaoPerteceABarbeariaException;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
-import com.optimiza.clickbarber.model.Agendamento;
-import com.optimiza.clickbarber.model.Barbearia;
-import com.optimiza.clickbarber.model.Barbeiro;
-import com.optimiza.clickbarber.model.Servico;
-import com.optimiza.clickbarber.model.dto.agendamento.*;
+import com.optimiza.clickbarber.model.agendamento.Agendamento;
+import com.optimiza.clickbarber.model.agendamento.dto.*;
+import com.optimiza.clickbarber.model.barbearia.Barbearia;
+import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
+import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.repository.AgendamentoRepository;
 import com.optimiza.clickbarber.utils.Constants;
 import jakarta.transaction.Transactional;
