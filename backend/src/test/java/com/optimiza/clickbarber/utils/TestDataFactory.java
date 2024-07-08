@@ -233,14 +233,14 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static Servico montarServico(UUID idExterno, String nome) {
+    public static Servico montarServico(Barbearia barbearia) {
         return Servico.builder()
                 .id(1L)
-                .nome(nome)
-                .idExterno(idExterno)
+                .nome("Serviço Teste")
                 .ativo(true)
                 .tempoDuracaoEmMinutos(45)
                 .preco(new BigDecimal("45"))
+                .barbearia(barbearia)
                 .build();
     }
 

@@ -3,7 +3,6 @@ package com.optimiza.clickbarber.service;
 import com.optimiza.clickbarber.config.JwtUtil;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.Role;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaDto;
 import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaRespostaLoginDto;
 import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroDto;
 import com.optimiza.clickbarber.model.dto.cliente.ClienteDto;
