@@ -107,6 +107,27 @@ class AgendamentoServiceTest {
     }
 
     @Test
+    void testBuscarAgendamentosComInformacoesReduzidasPorIdExternoBarbearia() {
+        var agendamento1 = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
+        var agendamento2 = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
+        var agendamentos = List.of(agendamento1, agendamento2);
+        when(agendamentoRepository.findByIdExternoBarbearia(any(UUID.class))).thenReturn(agendamentos);
+
+        var agendamentoReduzidoDto1 = montarAgendamentoReduzidoDto();
+        when(agendamentoMapper.toAgendamentoReduzidoDto(agendamento1)).thenReturn(agendamentoReduzidoDto1);
+
+        var agendamentoReduzidoDto2 = montarAgendamentoReduzidoDto();
+        when(agendamentoMapper.toAgendamentoReduzidoDto(agendamento2)).thenReturn(agendamentoReduzidoDto2);
+
+        var agendamentosEncontrados = agendamentoService.buscarReduzidoPorIdExternoBarberia(barbeariaIdExterno);
+        assertFalse(agendamentosEncontrados.isEmpty());
+        assertEquals("Nome Cliente", agendamentosEncontrados.getFirst().getNomeCliente());
+        assertEquals("Nome Cliente", agendamentosEncontrados.getLast().getNomeCliente());
+        assertFalse(agendamentosEncontrados.getFirst().getServicos().isEmpty());
+        assertFalse(agendamentosEncontrados.getLast().getServicos().isEmpty());
+    }
+
+    @Test
     void testBuscarAgendamentoPorBarbeariaIdEDataHora() {
         var agendamento1 = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
         var agendamento2 = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);

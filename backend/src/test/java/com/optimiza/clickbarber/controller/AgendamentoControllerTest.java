@@ -1,13 +1,8 @@
 package com.optimiza.clickbarber.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.optimiza.clickbarber.model.Servico;
 import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoAtualizarDto;
 import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoCadastroDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoRespostaDto;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaDto;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroAgendamentoDto;
-import com.optimiza.clickbarber.model.dto.cliente.ClienteDto;
 import com.optimiza.clickbarber.service.AgendamentoService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,10 +20,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import static com.optimiza.clickbarber.utils.TestDataFactory.*;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -85,30 +80,41 @@ class AgendamentoControllerTest {
                 .andExpect(jsonPath("$.result.barbeiros.[0].nome").value("Barbeiro Teste"));
     }
 
-//    @Test
-//    void testBuscarAgendamentosPorBarbeariaId() throws Exception {
-//        var barbearia = montarBarbeariaDto();
-//        var servico = montarServico();
-//        var barbeiro = montarBarbeiroAgendamentoDto();
-//        var cliente = montarClienteDto();
-//
-//        var agendamentoEncontrado1 = montarAgendamentoRespostaDto(1L, barbearia, cliente, servico, barbeiro);
-//        var agendamentoEncontrado2 = montarAgendamentoRespostaDto(2L, barbearia, cliente, servico, barbeiro);
-//
-//        var agendamentosEncontradosList = List.of(agendamentoEncontrado1, agendamentoEncontrado2);
-//
-//        when(agendamentoService.buscarPorBarbeariaId(anyInt())).thenReturn(agendamentosEncontradosList);
-//
-//        mockMvc.perform(get("/agendamentos/barbearias/" + barbearia.getIdExterno()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.statusCode").value(HttpStatus.OK.value()))
-//                .andExpect(jsonPath("$.message").value(Constants.Success.AGENDAMENTOS_ENCONTRADOS))
-//                .andExpect(jsonPath("$.success").value(true))
-//                .andExpect(jsonPath("$.result.[0].id").value("1"))
-//                .andExpect(jsonPath("$.result.[0].barbearia.id").value(barbearia.getIdExterno()))
-//                .andExpect(jsonPath("$.result.[1].id").value("2"))
-//                .andExpect(jsonPath("$.result.[1].barbearia.id").value(barbearia.getIdExterno()));
-//    }
+    @Test
+    void testBuscarAgendamentosPeloIdExternoBarbearia() throws Exception {
+        var agendamento = montarAgendamentoRespostaDto(1L, ZonedDateTime.now(), new BigDecimal("50.0"), barbeariaIdExterno, clienteIdExterno);
+        when(agendamentoService.buscarPorIdExternoBarbearia(any(UUID.class))).thenReturn(List.of(agendamento));
+
+        mockMvc.perform(get("/agendamentos/barbearia/{idExternoBarbearia}", barbeariaIdExterno))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.statusCode").value(HttpStatus.OK.value()))
+                .andExpect(jsonPath("$.message").value("Agendamentos encontrados para Barbearia com id " + barbeariaIdExterno))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.result[0].id").value(1L))
+                .andExpect(jsonPath("$.result[0].dataHora").value(notNullValue()))
+                .andExpect(jsonPath("$.result[0].valorTotal").value("50.0"))
+                .andExpect(jsonPath("$.result[0].cliente.nome").value("Cliente Teste"))
+                .andExpect(jsonPath("$.result[0].barbearia.nome").value("Barbearia Teste"))
+                .andExpect(jsonPath("$.result[0].barbeiros[0].nome").value("Barbeiro Teste"))
+                .andExpect(jsonPath("$.result[0].servicos[0].nome").value("Serviço Teste"));
+    }
+
+    @Test
+    void testBuscarAgendamentoComInformacoesReduzidasPeloIdExternoDaBarbearia() throws Exception {
+        var agendamentoReduzido1 = montarAgendamentoReduzidoDto();
+        when(agendamentoService.buscarReduzidoPorIdExternoBarberia(any(UUID.class))).thenReturn(List.of(agendamentoReduzido1));
+
+        mockMvc.perform(get("/agendamentos/barbearia/{idExternoBarbearia}/reduzido", barbeariaIdExterno))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.statusCode").value(HttpStatus.OK.value()))
+                .andExpect(jsonPath("$.message").value("Agendamentos encontrados para Barbearia com id " + barbeariaIdExterno))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.result[0].idExterno").value(notNullValue()))
+                .andExpect(jsonPath("$.result[0].nomeCliente").value("Nome Cliente"))
+                .andExpect(jsonPath("$.result[0].dataHoraInicio").value(notNullValue()))
+                .andExpect(jsonPath("$.result[0].dataHoraFim").value(notNullValue()))
+                .andExpect(jsonPath("$.result[0].servicos[0]").value("Serviço 1"));
+    }
 
     @Test
     void testCadastrarAgendamento() throws Exception {
@@ -162,19 +168,6 @@ class AgendamentoControllerTest {
 
         mockMvc.perform(delete("/agendamentos/" + agendamentoId))
                 .andExpect(status().isNoContent());
-    }
-
-    private AgendamentoRespostaDto montarAgendamentoRespostaDto(Long agendamentoId, BarbeariaDto barbearia, ClienteDto cliente, Servico servico, BarbeiroAgendamentoDto barbeiro) {
-        return AgendamentoRespostaDto.builder()
-                .id(agendamentoId)
-                .dataHora(ZonedDateTime.now())
-                .tempoDuracaoEmMinutos(45)
-                .valorTotal(new BigDecimal("75.50"))
-                .barbearia(barbearia)
-                .cliente(cliente)
-                .servicos(Set.of(servico))
-                .barbeiros(Set.of(barbeiro))
-                .build();
     }
 
     private AgendamentoCadastroDto montarAgendamentoCadastroDto(BigDecimal valorTotal, Integer tempoDuracaoEmMinutos, ZonedDateTime dataHora) {

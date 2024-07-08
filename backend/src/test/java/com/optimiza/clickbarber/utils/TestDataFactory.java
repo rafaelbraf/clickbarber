@@ -1,10 +1,7 @@
 package com.optimiza.clickbarber.utils;
 
 import com.optimiza.clickbarber.model.*;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoAtualizarDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoCadastroDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoDto;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoRespostaDto;
+import com.optimiza.clickbarber.model.dto.agendamento.*;
 import com.optimiza.clickbarber.model.dto.autenticacao.LoginRequestDto;
 import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaCadastroDto;
 import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaDto;
@@ -394,6 +391,16 @@ public class TestDataFactory {
                 .cliente(montarClienteDto(idExternoCliente))
                 .servicos(Set.of(montarServico()))
                 .barbeiros(Set.of(montarBarbeiroAgendamentoDto()))
+                .build();
+    }
+
+    public static AgendamentoReduzidoDto montarAgendamentoReduzidoDto() {
+        return AgendamentoReduzidoDto.builder()
+                .idExterno(UUID.randomUUID())
+                .nomeCliente("Nome Cliente")
+                .dataHoraInicio(ZonedDateTime.now())
+                .dataHoraFim(ZonedDateTime.now().plusMinutes(30))
+                .servicos(List.of("Serviço 1"))
                 .build();
     }
 
