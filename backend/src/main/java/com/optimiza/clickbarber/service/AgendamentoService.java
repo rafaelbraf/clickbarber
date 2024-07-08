@@ -1,7 +1,11 @@
 package com.optimiza.clickbarber.service;
 
+import com.optimiza.clickbarber.exception.EntidadeNaoPerteceABarbeariaException;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.Agendamento;
+import com.optimiza.clickbarber.model.Barbearia;
+import com.optimiza.clickbarber.model.Barbeiro;
+import com.optimiza.clickbarber.model.Servico;
 import com.optimiza.clickbarber.model.dto.agendamento.*;
 import com.optimiza.clickbarber.repository.AgendamentoRepository;
 import com.optimiza.clickbarber.utils.Constants;
@@ -10,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -60,11 +64,7 @@ public class AgendamentoService {
 
     @Transactional
     public AgendamentoDto cadastrar(AgendamentoCadastroDto agendamentoCadastro) {
-        var agendamento = Agendamento.builder()
-                .dataHora(agendamentoCadastro.getDataHora())
-                .valorTotal(agendamentoCadastro.getValorTotal())
-                .tempoDuracaoEmMinutos(agendamentoCadastro.getTempoDuracaoEmMinutos())
-                .build();
+        var agendamento = montarAgendamentoComInformacoesIniciais(agendamentoCadastro);
 
         var barbearia = barbeariaService.buscarPorId(agendamentoCadastro.getBarbeariaId());
         agendamento.setBarbearia(barbearia);
@@ -72,14 +72,10 @@ public class AgendamentoService {
         var cliente = clienteService.buscarPorId(agendamentoCadastro.getClienteId());
         agendamento.setCliente(cliente);
 
-        var servicos = agendamentoCadastro.getServicos().stream()
-                .map(servicoService::buscarPorId)
-                .collect(Collectors.toSet());
+        var servicos = buscarServicosDaBarbearia(agendamentoCadastro.getServicos(), barbearia);
         agendamento.setServicos(servicos);
 
-        var barbeiros = agendamentoCadastro.getBarbeiros().stream()
-                .map(barbeiroService::buscarPorId)
-                .collect(Collectors.toSet());
+        var barbeiros = buscarBarbeirosDaBarbearia(agendamentoCadastro.getBarbeiros(), barbearia);
         agendamento.setBarbeiros(barbeiros);
 
         var agendamentoCadastrado = agendamentoRepository.save(agendamento);
@@ -99,5 +95,39 @@ public class AgendamentoService {
 
     public void deletarPorId(Long id) {
         agendamentoRepository.deleteById(id);
+    }
+
+    private Set<Servico> buscarServicosDaBarbearia(List<Long> servicosId, Barbearia barbearia) {
+        return servicosId.stream()
+                .map(servicoId -> {
+                    var servico = servicoService.buscarPorId(servicoId);
+                    if (!servico.getBarbearia().getId().equals(barbearia.getId())) {
+                        throw new EntidadeNaoPerteceABarbeariaException(Constants.Entity.SERVICO, Constants.Attribute.ID, servicoId.toString());
+                    }
+
+                    return servico;
+                })
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Barbeiro> buscarBarbeirosDaBarbearia(List<Long> barbeirosId, Barbearia barbearia) {
+        return barbeirosId.stream()
+                .map(barbeiroId -> {
+                    var barbeiro = barbeiroService.buscarPorId(barbeiroId);
+                    if (!barbeiro.getBarbearia().getId().equals(barbearia.getId())) {
+                        throw new EntidadeNaoPerteceABarbeariaException(Constants.Entity.BARBEIRO, Constants.Attribute.ID, barbeiroId.toString());
+                    }
+
+                    return barbeiro;
+                })
+                .collect(Collectors.toSet());
+    }
+
+    private Agendamento montarAgendamentoComInformacoesIniciais(AgendamentoCadastroDto agendamentoCadastro) {
+        return Agendamento.builder()
+                .dataHora(agendamentoCadastro.getDataHora())
+                .valorTotal(agendamentoCadastro.getValorTotal())
+                .tempoDuracaoEmMinutos(agendamentoCadastro.getTempoDuracaoEmMinutos())
+                .build();
     }
 }

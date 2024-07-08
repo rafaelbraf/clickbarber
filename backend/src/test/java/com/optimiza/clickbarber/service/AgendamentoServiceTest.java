@@ -1,5 +1,6 @@
 package com.optimiza.clickbarber.service;
 
+import com.optimiza.clickbarber.exception.EntidadeNaoPerteceABarbeariaException;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.Agendamento;
 import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoMapper;
@@ -173,6 +174,40 @@ class AgendamentoServiceTest {
         assertEquals(clienteIdExterno, agendamentoCadastrado.getCliente().getIdExterno());
         assertFalse(agendamentoCadastrado.getServicos().isEmpty());
         assertFalse(agendamentoCadastrado.getBarbeiros().isEmpty());
+    }
+
+    @Test
+    void testCadastrarAgendamentoComServicoQueNaoPertenceABarbearia() {
+        var barbearia = montarBarbearia(2L, "Barbearia Teste");
+        when(barbeariaService.buscarPorId(anyLong())).thenReturn(barbearia);
+
+        var cliente = montarCliente();
+        when(clienteService.buscarPorId(anyLong())).thenReturn(cliente);
+
+        var servico = montarServico();
+        when(servicoService.buscarPorId(anyLong())).thenReturn(servico);
+
+        var agendamentoCadastroDto = montarAgendamentoCadastroDto(valorTotalAgendamento, 45, dataHoraAgendamento);
+        assertThrows(EntidadeNaoPerteceABarbeariaException.class, () -> agendamentoService.cadastrar(agendamentoCadastroDto));
+    }
+
+    @Test
+    void testCadastrarAgendamentoComBarbeiroQueNaoPertenceABarbearia() {
+        var barbearia = montarBarbearia(2L, "Barbearia Teste");
+        when(barbeariaService.buscarPorId(anyLong())).thenReturn(barbearia);
+
+        var cliente = montarCliente();
+        when(clienteService.buscarPorId(anyLong())).thenReturn(cliente);
+
+        var servico = montarServico(barbearia);
+        servico.setBarbearia(barbearia);
+        when(servicoService.buscarPorId(anyLong())).thenReturn(servico);
+
+        var barbeiro = montarBarbeiro();
+        when(barbeiroService.buscarPorId(anyLong())).thenReturn(barbeiro);
+
+        var agendamentoCadastroDto = montarAgendamentoCadastroDto(valorTotalAgendamento, 45, dataHoraAgendamento);
+        assertThrows(EntidadeNaoPerteceABarbeariaException.class, () -> agendamentoService.cadastrar(agendamentoCadastroDto));
     }
 
     @Test
