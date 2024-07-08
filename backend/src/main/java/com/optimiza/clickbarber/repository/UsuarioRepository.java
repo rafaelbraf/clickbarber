@@ -1,6 +1,6 @@
 package com.optimiza.clickbarber.repository;
 
-import com.optimiza.clickbarber.model.Usuario;
+import com.optimiza.clickbarber.model.usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

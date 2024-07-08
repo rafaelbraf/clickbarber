@@ -1,9 +1,9 @@
 package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
-import com.optimiza.clickbarber.model.Usuario;
-import com.optimiza.clickbarber.model.dto.usuario.UsuarioMapper;
-import com.optimiza.clickbarber.model.dto.usuario.UsuarioCadastrarDto;
+import com.optimiza.clickbarber.model.usuario.Usuario;
+import com.optimiza.clickbarber.model.usuario.dto.UsuarioMapper;
+import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
 import com.optimiza.clickbarber.repository.UsuarioRepository;
 import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.optimiza.clickbarber.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.optimiza.clickbarber.model.RespostaLogin;
-import com.optimiza.clickbarber.model.dto.autenticacao.LoginRequestDto;
-import com.optimiza.clickbarber.model.dto.usuario.UsuarioCadastrarDto;
+import com.optimiza.clickbarber.model.autenticacao.RespostaLogin;
+import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
+import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
 import com.optimiza.clickbarber.service.AutenticacaoService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;

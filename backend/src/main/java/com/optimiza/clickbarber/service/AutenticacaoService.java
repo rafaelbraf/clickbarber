@@ -2,17 +2,17 @@ package com.optimiza.clickbarber.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.optimiza.clickbarber.config.JwtUtil;
-import com.optimiza.clickbarber.model.RespostaLogin;
+import com.optimiza.clickbarber.model.autenticacao.RespostaLogin;
 import com.optimiza.clickbarber.model.Role;
-import com.optimiza.clickbarber.model.Usuario;
-import com.optimiza.clickbarber.model.dto.autenticacao.LoginRequestDto;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaCadastroDto;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaDto;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroCadastroDto;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroDto;
-import com.optimiza.clickbarber.model.dto.cliente.ClienteCadastroDto;
-import com.optimiza.clickbarber.model.dto.cliente.ClienteDto;
-import com.optimiza.clickbarber.model.dto.usuario.UsuarioCadastrarDto;
+import com.optimiza.clickbarber.model.usuario.Usuario;
+import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaCadastroDto;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroCadastroDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
+import com.optimiza.clickbarber.model.cliente.dto.ClienteCadastroDto;
+import com.optimiza.clickbarber.model.cliente.dto.ClienteDto;
+import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
 import com.optimiza.clickbarber.utils.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 
 import static java.util.Objects.*;

@@ -1,6 +1,6 @@
 package com.optimiza.clickbarber.repository;
 
-import com.optimiza.clickbarber.model.Servico;
+import com.optimiza.clickbarber.model.servico.Servico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

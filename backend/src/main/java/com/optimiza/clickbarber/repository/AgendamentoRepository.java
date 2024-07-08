@@ -1,6 +1,6 @@
 package com.optimiza.clickbarber.repository;
 
-import com.optimiza.clickbarber.model.Agendamento;
+import com.optimiza.clickbarber.model.agendamento.Agendamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

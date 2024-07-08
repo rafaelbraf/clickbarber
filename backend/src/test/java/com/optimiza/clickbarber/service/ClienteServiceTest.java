@@ -1,9 +1,9 @@
 package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
-import com.optimiza.clickbarber.model.Cliente;
-import com.optimiza.clickbarber.model.dto.cliente.ClienteCadastroDto;
-import com.optimiza.clickbarber.model.dto.cliente.ClienteMapper;
+import com.optimiza.clickbarber.model.cliente.Cliente;
+import com.optimiza.clickbarber.model.cliente.dto.ClienteCadastroDto;
+import com.optimiza.clickbarber.model.cliente.dto.ClienteMapper;
 import com.optimiza.clickbarber.repository.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
