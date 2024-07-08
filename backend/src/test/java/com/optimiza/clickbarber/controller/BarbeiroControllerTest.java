@@ -2,8 +2,8 @@ package com.optimiza.clickbarber.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.optimiza.clickbarber.model.Role;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroAtualizarDto;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroCadastroDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroAtualizarDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroCadastroDto;
 import com.optimiza.clickbarber.service.BarbeiroService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;

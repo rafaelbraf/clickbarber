@@ -1,11 +1,11 @@
 package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
-import com.optimiza.clickbarber.model.Barbearia;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaCadastroDto;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaDto;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaMapper;
-import com.optimiza.clickbarber.model.dto.barbearia.BarbeariaRespostaLoginDto;
+import com.optimiza.clickbarber.model.barbearia.Barbearia;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaCadastroDto;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaDto;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaMapper;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaLoginDto;
 import com.optimiza.clickbarber.repository.BarbeariaRepository;
 import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

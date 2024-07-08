@@ -1,11 +1,11 @@
 package com.optimiza.clickbarber.controller;
 
-import com.optimiza.clickbarber.model.Barbeiro;
+import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
 import com.optimiza.clickbarber.model.Resposta;
 import com.optimiza.clickbarber.model.RespostaUtils;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroAtualizarDto;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroCadastroDto;
-import com.optimiza.clickbarber.model.dto.barbeiro.BarbeiroDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroAtualizarDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroCadastroDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
 import com.optimiza.clickbarber.service.BarbeiroService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.http.HttpStatus;

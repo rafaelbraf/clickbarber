@@ -1,5 +1,6 @@
 package com.optimiza.clickbarber.model;
 
+import com.optimiza.clickbarber.model.autenticacao.RespostaAutenticacao;
 import org.springframework.http.HttpStatus;
 
 public class RespostaUtils {

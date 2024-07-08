@@ -1,10 +1,9 @@
 package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
-import com.optimiza.clickbarber.model.Servico;
-import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
-import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
-import com.optimiza.clickbarber.model.dto.servico.ServicoMapper;
+import com.optimiza.clickbarber.model.servico.Servico;
+import com.optimiza.clickbarber.model.servico.dto.ServicoCadastroDto;
+import com.optimiza.clickbarber.model.servico.dto.ServicoMapper;
 import com.optimiza.clickbarber.repository.ServicoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import java.util.UUID;
 import static com.optimiza.clickbarber.utils.TestDataFactory.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)

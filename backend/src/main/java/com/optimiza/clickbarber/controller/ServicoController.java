@@ -2,10 +2,10 @@ package com.optimiza.clickbarber.controller;
 
 import com.optimiza.clickbarber.model.Resposta;
 import com.optimiza.clickbarber.model.RespostaUtils;
-import com.optimiza.clickbarber.model.Servico;
-import com.optimiza.clickbarber.model.dto.servico.ServicoAtualizarDto;
-import com.optimiza.clickbarber.model.dto.servico.ServicoCadastroDto;
-import com.optimiza.clickbarber.model.dto.servico.ServicoDto;
+import com.optimiza.clickbarber.model.servico.Servico;
+import com.optimiza.clickbarber.model.servico.dto.ServicoAtualizarDto;
+import com.optimiza.clickbarber.model.servico.dto.ServicoCadastroDto;
+import com.optimiza.clickbarber.model.servico.dto.ServicoDto;
 import com.optimiza.clickbarber.service.ServicoService;
 import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

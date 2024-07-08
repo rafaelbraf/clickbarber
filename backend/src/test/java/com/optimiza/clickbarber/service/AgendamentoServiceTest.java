@@ -2,8 +2,8 @@ package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.exception.EntidadeNaoPerteceABarbeariaException;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
-import com.optimiza.clickbarber.model.Agendamento;
-import com.optimiza.clickbarber.model.dto.agendamento.AgendamentoMapper;
+import com.optimiza.clickbarber.model.agendamento.Agendamento;
+import com.optimiza.clickbarber.model.agendamento.dto.AgendamentoMapper;
 import com.optimiza.clickbarber.repository.AgendamentoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
