@@ -53,9 +53,13 @@ public class BarbeariaService {
         return barbeariaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.ID, id.toString()));
     }
 
-    public BarbeariaDto buscarPorIdExterno(UUID idExterno) {
-        var barbeariaEncontrada = barbeariaRepository.findByIdExterno(idExterno)
+    public Barbearia buscarPorIdExterno(UUID idExterno) {
+        return barbeariaRepository.findByIdExterno(idExterno)
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
+    }
+
+    public BarbeariaDto buscarDtoPorIdExteno(UUID idExterno) {
+        var barbeariaEncontrada = buscarPorIdExterno(idExterno);
         return barbeariaMapper.toDto(barbeariaEncontrada);
     }
 

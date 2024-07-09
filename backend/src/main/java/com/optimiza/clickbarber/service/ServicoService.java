@@ -22,12 +22,14 @@ public class ServicoService {
     private final ServicoRepository servicoRepository;
     private final ServicoMapper servicoMapper;
     private final BarbeariaService barbeariaService;
+    private final BarbeariaMapper barbeariaMapper;
 
     @Autowired
     public ServicoService(ServicoRepository servicoRepository, ServicoMapper servicoMapper, BarbeariaService barbeariaService, BarbeariaMapper barbeariaMapper) {
         this.servicoRepository = servicoRepository;
         this.servicoMapper = servicoMapper;
         this.barbeariaService = barbeariaService;
+        this.barbeariaMapper = barbeariaMapper;
     }
 
     public List<Servico> buscarTodos() {
@@ -48,11 +50,10 @@ public class ServicoService {
 
     @Transactional
     public Servico cadastrar(ServicoCadastroDto servicoCadastroDto) {
-        var barbeariaId = servicoCadastroDto.getBarbearia().getId();
-        if (!barbeariaService.existePorId(barbeariaId)) {
-            throw new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.ID, barbeariaId.toString());
-        }
         var servico = servicoMapper.toEntity(servicoCadastroDto);
+        var barbearia = barbeariaService.buscarPorIdExterno(servicoCadastroDto.getIdExternoBarbearia());
+        servico.setBarbearia(barbearia);
+
         return servicoRepository.save(servico);
     }
 
