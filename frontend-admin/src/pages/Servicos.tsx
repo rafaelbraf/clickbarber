@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ServicoService } from "../services/ServicoService";
 import MenuLateral from "../components/MenuLateral";
-import { Alert, Badge, Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
-import { Servico } from "../models/Servico";
+import { Alert, Badge, Button, Card, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
+import { Servico, ServicoCadastro } from "../models/Servico";
 
 import { BiPlus } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -13,6 +13,14 @@ export const Servicos: React.FC = () => {
     const [servicos, setServicos] = useState<Servico[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [novoServico, setNovoServico] = useState<ServicoCadastro>({
+        nome: '',
+        preco: 0,
+        tempoDuracaoEmMinutos: 0,
+        ativo: true,
+        idExternoBarbearia: idBarbearia
+    });
 
     useEffect(() => {
         const fetchServicos = async () => {
@@ -28,6 +36,41 @@ export const Servicos: React.FC = () => {
 
         fetchServicos();
     }, []);
+
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setNovoServico({
+            ...novoServico,
+            [name]: value
+        });
+    };
+
+    const handleCheckboxChange = (e) => {
+        setNovoServico({
+            ...novoServico,
+            ativo: e.target.checked
+        })
+    }
+
+    const handleSalvar = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const servicoCadastrado = await ServicoService.cadastrarServico(novoServico, token);
+            if (servicoCadastrado) {
+                handleCloseModal();
+            }
+        } catch (error) {
+            setError("Erro ao cadastrar serviço: " + error);
+        } finally {
+            setLoading(false);
+            window.location.reload();
+        }        
+    }
 
     const handleEditar = (idExterno: string) => {
         console.log(`Editar serviço com ID externo: ${idExterno}`);
@@ -59,7 +102,7 @@ export const Servicos: React.FC = () => {
                         <h1>Serviços</h1>
                     </Col>
                     <Col xs={12} md={3} lg={3} className="d-flex justify-content-end">
-                        <Button className="mt-2"><BiPlus />Novo serviço</Button>
+                        <Button onClick={handleShowModal} className="mt-2"><BiPlus />Novo serviço</Button>
                     </Col>
                 </Row>
                 <Row className="mt-3">
@@ -79,7 +122,7 @@ export const Servicos: React.FC = () => {
                                                 <strong>ID:</strong> {servico.idExterno}
                                             </div>
                                             <div>
-                                                <strong>Preço:</strong> R$ {servico.preco.toFixed(2)}
+                                                <strong>Preço:</strong> R${servico.preco.toFixed(2)}
                                             </div>
                                             <div>
                                                 <strong>Duração:</strong> {servico.tempoDuracaoEmMinutos} min
@@ -105,7 +148,78 @@ export const Servicos: React.FC = () => {
                             <p>Nenhum serviço encontrado.</p>
                         </Col>
                     )}
-                </Row>   
+                </Row>
+
+                {/* Modal para adicionar novo serviço */}
+                <Modal 
+                    show={showModal} 
+                    onHide={handleCloseModal}
+                    size="lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Novo Serviço</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {loading && <p>Carregando...</p>}
+                        {error && <p>{error}</p>}
+                        <form>
+                            <div className="mb-3">
+                                <label htmlFor="nome" className="form-label">Nome</label>
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="nome" 
+                                    name="nome"
+                                    value={novoServico.nome}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="preco" className="form-label">Preço</label>
+                                <input 
+                                    type="number" 
+                                    className="form-control" 
+                                    id="preco" 
+                                    name="preco"
+                                    value={novoServico.preco}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="tempoDuracaoEmMinutos" className="form-label">Duração (minutos)</label>
+                                <input 
+                                    type="number" 
+                                    className="form-control" 
+                                    id="tempoDuracaoEmMinutos" 
+                                    name="tempoDuracaoEmMinutos"
+                                    value={novoServico.tempoDuracaoEmMinutos}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                            </div>
+                            <div className="form-check">
+                                <input 
+                                    type="checkbox" 
+                                    className="form-check-input" 
+                                    id="ativo" 
+                                    name="ativo"
+                                    checked={novoServico.ativo}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <label className="form-check-label" htmlFor="ativo">Ativo</label>
+                            </div>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                            Fechar
+                        </Button>
+                        <Button variant="primary" onClick={handleSalvar}>
+                            Salvar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </div>
     );

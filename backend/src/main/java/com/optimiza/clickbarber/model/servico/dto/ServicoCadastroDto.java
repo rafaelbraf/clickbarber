@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,6 +19,6 @@ public class ServicoCadastroDto {
     private BigDecimal preco;
     private Integer tempoDuracaoEmMinutos;
     private boolean ativo;
-    private Barbearia barbearia;
+    private UUID idExternoBarbearia;
 
 }
