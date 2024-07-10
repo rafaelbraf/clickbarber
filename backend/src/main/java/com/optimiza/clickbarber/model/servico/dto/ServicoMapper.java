@@ -31,7 +31,6 @@ public class ServicoMapper {
                 .preco(servicoCadastroDto.getPreco())
                 .tempoDuracaoEmMinutos(servicoCadastroDto.getTempoDuracaoEmMinutos())
                 .ativo(servicoCadastroDto.isAtivo())
-                .barbearia(servicoCadastroDto.getBarbearia())
                 .build();
     }
 

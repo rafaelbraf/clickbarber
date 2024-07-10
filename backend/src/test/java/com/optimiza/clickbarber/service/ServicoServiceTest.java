@@ -100,7 +100,7 @@ class ServicoServiceTest {
 
     @Test
     void testCadastrarServico() {
-        when(barbeariaService.existePorId(anyLong())).thenReturn(true);
+        when(barbeariaService.buscarPorIdExterno(any(UUID.class))).thenReturn(montarBarbearia());
 
         var servico = montarServico();
         when(servicoMapper.toEntity(any(ServicoCadastroDto.class))).thenReturn(servico);

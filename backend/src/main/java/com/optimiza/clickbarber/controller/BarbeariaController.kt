@@ -43,7 +43,7 @@ class BarbeariaController @Autowired constructor(
 
     @GetMapping("/idExterno")
     fun buscarPorIdExterno(@RequestParam(name = "idExterno") idExterno: UUID): Resposta<BarbeariaDto> {
-        val barbeariaEncontrada = barbeariaService.buscarPorIdExterno(idExterno)
+        val barbeariaEncontrada = barbeariaService.buscarDtoPorIdExteno(idExterno)
         val mensagem = "${Constants.Success.BARBEARIAS_ENCONTRADA_PELO_ID_EXTERNO} $idExterno"
         return RespostaUtils.ok(mensagem, barbeariaEncontrada)
     }

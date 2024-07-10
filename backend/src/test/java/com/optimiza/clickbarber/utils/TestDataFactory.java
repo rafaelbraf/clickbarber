@@ -283,7 +283,7 @@ public class TestDataFactory {
                 .preco(new BigDecimal("50.0"))
                 .tempoDuracaoEmMinutos(45)
                 .ativo(true)
-                .barbearia(montarBarbearia())
+                .idExternoBarbearia(UUID.randomUUID())
                 .build();
     }
 
