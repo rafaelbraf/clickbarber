@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface ServicoRepository : JpaRepository<Servico?, Long?> {
+interface ServicoRepository : JpaRepository<Servico, Long> {
 
     @Query("SELECT s FROM Servico s INNER JOIN Barbearia b ON b.id = s.barbearia.id WHERE b.idExterno = :idExternoBarbearia")
-    fun findByIdExternoBarbearia(@Param("idExternoBarbearia") idExternoBarbearia: UUID?): List<Servico?>?
+    fun findByIdExternoBarbearia(@Param("idExternoBarbearia") idExternoBarbearia: UUID): List<Servico>
 
 }
