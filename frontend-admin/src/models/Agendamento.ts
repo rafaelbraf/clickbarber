@@ -3,7 +3,7 @@ import { Cliente } from "./Cliente";
 import { Servico } from "./Servico";
 
 export interface Agendamento {
-    id: number;
+    idExterno: number;
     dataHora: string;
     valorTotal: number;
     tempoDuracaoEmMinutos: number;
