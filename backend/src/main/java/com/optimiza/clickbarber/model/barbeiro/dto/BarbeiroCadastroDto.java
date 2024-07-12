@@ -3,6 +3,8 @@ package com.optimiza.clickbarber.model.barbeiro.dto;
 import com.optimiza.clickbarber.model.usuario.Usuario;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @ToString
@@ -15,7 +17,7 @@ public class BarbeiroCadastroDto {
     private String celular;
     private boolean admin;
     private boolean ativo;
-    private Long barbeariaId;
+    private UUID idExternoBarbearia;
     private Usuario usuario;
 
 }
