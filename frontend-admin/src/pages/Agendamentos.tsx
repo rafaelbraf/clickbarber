@@ -1,18 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { AgendamentoReduzido } from "../models/Agendamento";
+import { Agendamento, AgendamentoReduzido } from "../models/Agendamento";
 import { AgendamentoService } from "../services/AgendamentoService";
-import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import MenuLateral from "../components/MenuLateral";
 import { BiPlus } from "react-icons/bi";
 import Calendario, { AgendamentoCalendario } from "../components/Calendario";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
+import { AgendamentoModal } from "../components/AgendamentoModal";
 
 export const Agendamentos: React.FC = () => {
     const idBarbearia = localStorage.getItem('idBarbearia') as string;
     const [agendamentos, setAgendamentos] = useState<AgendamentoReduzido[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [loadingAgendamento, setLoadingAgendamento] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [selectedAgendamento, setSelectedAgendamento] = useState<Agendamento | null>(null);
 
     const fetchAgendamentos = useCallback(async () => {
         try {
@@ -23,7 +27,30 @@ export const Agendamentos: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    }, [idBarbearia])
+    }, [idBarbearia]);
+
+    const fetchAgendamento = async (idExternoAgendamento: string) => {
+        try {
+            setShowModal(true);
+            const agendamentoDetalhado: Agendamento = await AgendamentoService.buscarAgendamentoPorIdExterno(idExternoAgendamento);
+            setSelectedAgendamento(agendamentoDetalhado);
+            console.log(agendamentoDetalhado);                        
+        } catch (error) {
+            setError(`Èrro ao buscar agendamento: ${error}`);
+        } finally {
+            setLoadingAgendamento(false);
+        }
+    }
+
+    const handleAgendamentoClick = (idExternoAgendamento: string) => {
+        setLoadingAgendamento(true);
+        fetchAgendamento(idExternoAgendamento);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedAgendamento(null);
+    }
 
     useEffect(() => {
         fetchAgendamentos();
@@ -43,7 +70,10 @@ export const Agendamentos: React.FC = () => {
         id: agendamento.idExterno,
         title: `${agendamento.nomeCliente} - ${agendamento.servicos.toString()}`,
         start: new Date(agendamento.dataHoraInicio),
-        end: new Date(agendamento.dataHoraFim)
+        end: new Date(agendamento.dataHoraFim),
+        extendedProps: { 
+            idExternoAgendamento: agendamento.idExterno
+        }
     }));
 
     return (
@@ -59,9 +89,18 @@ export const Agendamentos: React.FC = () => {
                     </Col>
                 </Row>
                 <Row className="mt-5">
-                    <Calendario agendamentos={agendamentosCalendarios} />
+                    <Calendario 
+                        agendamentos={agendamentosCalendarios} 
+                        onAgendamentoClick={handleAgendamentoClick} />
                 </Row>
             </Container>
+
+            <AgendamentoModal
+                loadingAgendamento={loadingAgendamento}
+                selectedAgendamento={selectedAgendamento}
+                showModal={showModal}
+                handleCloseModal={handleCloseModal}
+            />
         </div>
     );
 }

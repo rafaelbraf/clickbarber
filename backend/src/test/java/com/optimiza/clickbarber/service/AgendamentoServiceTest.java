@@ -49,6 +49,7 @@ class AgendamentoServiceTest {
     private BarbeiroService barbeiroService;
 
     private Long agendamentoId;
+    private UUID agendamentoIdExterno;
     private ZonedDateTime dataHoraAgendamento;
     private BigDecimal valorTotalAgendamento;
     private UUID barbeariaIdExterno;
@@ -57,6 +58,7 @@ class AgendamentoServiceTest {
     @BeforeEach
     void setup() {
         agendamentoId = 1L;
+        agendamentoIdExterno = UUID.randomUUID();
         dataHoraAgendamento = ZonedDateTime.now();
         valorTotalAgendamento = new BigDecimal(50.0);
         barbeariaIdExterno = UUID.randomUUID();
@@ -64,17 +66,15 @@ class AgendamentoServiceTest {
     }
 
     @Test
-    void testBuscarAgendamentoPorId_Encontrado() {
+    void testBuscarAgendamentoPorIdExterno_Encontrado() {
         var agendamento = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
-        when(agendamentoRepository.findById(anyLong())).thenReturn(Optional.of(agendamento));
+        when(agendamentoRepository.findByIdExterno(any(UUID.class))).thenReturn(Optional.of(agendamento));
 
-        var agendamentoDto = montarAgendamentoDto(
-                1L, dataHoraAgendamento, 45, valorTotalAgendamento, barbeariaIdExterno, clienteIdExterno);
+        var agendamentoDto = montarAgendamentoDto(dataHoraAgendamento, 45, valorTotalAgendamento, barbeariaIdExterno, clienteIdExterno);
         when(agendamentoMapper.toDto(any(Agendamento.class))).thenReturn(agendamentoDto);
 
-        var agendamentoEncontrado = agendamentoService.buscarPorId(agendamentoId);
+        var agendamentoEncontrado = agendamentoService.buscarPorIdExterno(agendamentoIdExterno);
         assertNotNull(agendamentoEncontrado);
-        assertEquals(agendamentoId, agendamentoEncontrado.getId());
         assertEquals(dataHoraAgendamento, agendamentoEncontrado.getDataHora());
         assertEquals(valorTotalAgendamento, agendamentoEncontrado.getValorTotal());
         assertEquals(45, agendamentoEncontrado.getTempoDuracaoEmMinutos());
@@ -88,7 +88,7 @@ class AgendamentoServiceTest {
     void testBuscarAgendamentoPorId_NaoEncontrado() {
         when(agendamentoRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> agendamentoService.buscarPorId(agendamentoId));
+        assertThrows(ResourceNotFoundException.class, () -> agendamentoService.buscarPorIdExterno(agendamentoIdExterno));
     }
 
     @Test
@@ -160,8 +160,7 @@ class AgendamentoServiceTest {
         var agendamento = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
         when(agendamentoRepository.save(any(Agendamento.class))).thenReturn(agendamento);
 
-        var agendamentoDto = montarAgendamentoDto(
-                1L, dataHoraAgendamento, 45, valorTotalAgendamento, barbeariaIdExterno, clienteIdExterno);
+        var agendamentoDto = montarAgendamentoDto(dataHoraAgendamento, 45, valorTotalAgendamento, barbeariaIdExterno, clienteIdExterno);
         when(agendamentoMapper.toDto(any(Agendamento.class))).thenReturn(agendamentoDto);
 
         var agendamentoCadastroDto = montarAgendamentoCadastroDto(valorTotalAgendamento, 45, dataHoraAgendamento);

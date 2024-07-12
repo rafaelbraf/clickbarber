@@ -10,6 +10,7 @@ import java.util.*
 
 @Repository
 interface AgendamentoRepository : JpaRepository<Agendamento, Long> {
+    fun findByIdExterno(idExterno: UUID): Optional<Agendamento>
 
     @Query("""
         SELECT a FROM Agendamento a

@@ -46,6 +46,7 @@ class AgendamentoControllerTest {
     private ObjectMapper objectMapper;
 
     private Long agendamentoId;
+    private UUID agendamentoIdExterno;
     private UUID barbeariaIdExterno;
     private UUID clienteIdExterno;
 
@@ -54,25 +55,25 @@ class AgendamentoControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(new AgendamentoController(agendamentoService)).build();
 
         agendamentoId = 1L;
+        agendamentoIdExterno = UUID.randomUUID();
         barbeariaIdExterno = UUID.randomUUID();
         clienteIdExterno = UUID.randomUUID();
     }
 
     @Test
-    void testBuscarAgendamentoPorId() throws Exception {
+    void testBuscarAgendamentoPorIdExterno() throws Exception {
         var barbearia = montarBarbeariaDto(barbeariaIdExterno);
         var servico = montarServico();
         var barbeiro = montarBarbeiroAgendamentoDto();
         var cliente = montarClienteDto(clienteIdExterno);
-        var agendamentoEncontrado = montarAgendamentoDto(agendamentoId, barbearia, cliente, servico, barbeiro);
-        when(agendamentoService.buscarPorId(anyLong())).thenReturn(agendamentoEncontrado);
+        var agendamentoEncontrado = montarAgendamentoDto(barbearia, cliente, servico, barbeiro);
+        when(agendamentoService.buscarPorIdExterno(any(UUID.class))).thenReturn(agendamentoEncontrado);
 
-        mockMvc.perform(get("/agendamentos/" + agendamentoId))
+        mockMvc.perform(get("/agendamentos/" + agendamentoIdExterno))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.statusCode").value(HttpStatus.OK.value()))
                 .andExpect(jsonPath("$.message").value(Constants.Success.AGENDAMENTO_ENCONTRADO_COM_SUCESSO))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.result.id").value(agendamentoId.toString()))
                 .andExpect(jsonPath("$.result.tempoDuracaoEmMinutos").value(45))
                 .andExpect(jsonPath("$.result.cliente.nome").value("Cliente Teste"))
                 .andExpect(jsonPath("$.result.barbearia.nome").value("Barbearia Teste"))
@@ -124,7 +125,7 @@ class AgendamentoControllerTest {
 
         var agendamentoCadastro = montarAgendamentoCadastroDto(valorTotal, tempoDuracaoEmMinutos, dataHora);
 
-        var agendamentoDto = montarAgendamentoDto(agendamentoId, dataHora, tempoDuracaoEmMinutos, valorTotal, barbeariaIdExterno, clienteIdExterno);
+        var agendamentoDto = montarAgendamentoDto(dataHora, tempoDuracaoEmMinutos, valorTotal, barbeariaIdExterno, clienteIdExterno);
 
         when(agendamentoService.cadastrar(any(AgendamentoCadastroDto.class))).thenReturn(agendamentoDto);
 
@@ -134,7 +135,6 @@ class AgendamentoControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.message").value(Constants.Success.AGENDAMENTO_CADASTRADO_COM_SUCESSO))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.result.id").value(agendamentoId.toString()))
                 .andExpect(jsonPath("$.result.tempoDuracaoEmMinutos").value(tempoDuracaoEmMinutos))
                 .andExpect(jsonPath("$.result.barbearia.nome").value("Barbearia Teste"));
     }
@@ -145,8 +145,7 @@ class AgendamentoControllerTest {
         var tempoDuracaoEmMinutos = 45;
         var valorTotal = new BigDecimal("75.70");
 
-        var agendamentoAtualizado = montarAgendamentoDto(
-                agendamentoId, dataHora, 30, new BigDecimal("40"), barbeariaIdExterno, clienteIdExterno);
+        var agendamentoAtualizado = montarAgendamentoDto(dataHora, 30, new BigDecimal("40"), barbeariaIdExterno, clienteIdExterno);
         when(agendamentoService.atualizar(any(AgendamentoAtualizarDto.class))).thenReturn(agendamentoAtualizado);
 
         var agendamentoParaAtualizar = montarAgendamentoAtualizarDto(agendamentoId, dataHora, valorTotal, tempoDuracaoEmMinutos);
@@ -157,7 +156,6 @@ class AgendamentoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value(Constants.Success.AGENDAMENTO_ATUALIZADO_COM_SUCESSO))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.result.id").value(agendamentoId.toString()))
                 .andExpect(jsonPath("$.result.tempoDuracaoEmMinutos").value(30))
                 .andExpect(jsonPath("$.result.valorTotal").value("40"));
     }

@@ -32,7 +32,7 @@ public class AgendamentoMapper {
         var barbeiros = barbeiroMapper.toSetAgendamentoDto(agendamento.getBarbeiros());
 
         return AgendamentoDto.builder()
-                .id(agendamento.getId())
+                .idExterno(agendamento.getIdExterno())
                 .dataHora(agendamento.getDataHora())
                 .valorTotal(agendamento.getValorTotal())
                 .tempoDuracaoEmMinutos(agendamento.getTempoDuracaoEmMinutos())

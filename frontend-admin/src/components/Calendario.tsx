@@ -1,11 +1,11 @@
 import moment from "moment";
 import React, { useState } from "react";
-import { Calendar, Event, momentLocalizer, Views, View } from "react-big-calendar";
+import { Calendar, momentLocalizer, Views, View } from "react-big-calendar";
 import { Container } from "react-bootstrap";
 import "../css/Calendar.css";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-moment.locale('America/Sao_Paulo');
+moment.locale('pt-br');
 const localizer = momentLocalizer(moment);
 
 export interface AgendamentoCalendario {
@@ -13,27 +13,28 @@ export interface AgendamentoCalendario {
     title: string;
     start: Date;
     end: Date;
+    extendedProps: {
+        idExternoAgendamento: string;
+    };
 }
 
 interface CalendarioProps {
     agendamentos: AgendamentoCalendario[];
+    onAgendamentoClick: (idExternoAgendamento: string) => void;
 }
 
-const Calendario: React.FC<CalendarioProps> = ({ agendamentos }) => {
+const Calendario: React.FC<CalendarioProps> = ({ agendamentos, onAgendamentoClick }) => {
     const [view, setView] = useState<View>(Views.DAY);
 
-    const eventos: Event[] = agendamentos.map(agendamento => ({
-        id: agendamento.id,
-        title: agendamento.title,
-        start: agendamento.start,
-        end: agendamento.end
-    }));
+    const handleSelectEvent = (event: AgendamentoCalendario) => {
+        onAgendamentoClick(event.extendedProps.idExternoAgendamento);
+    };
 
     return (
         <Container>
             <Calendar
                 localizer={localizer}
-                events={eventos}
+                events={agendamentos}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: '90vh' }}
@@ -41,6 +42,7 @@ const Calendario: React.FC<CalendarioProps> = ({ agendamentos }) => {
                 views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]}
                 onView={setView}
                 showAllEvents={true}
+                onSelectEvent={handleSelectEvent}
             />
         </Container>
     );
