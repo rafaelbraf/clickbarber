@@ -26,9 +26,9 @@ public class AgendamentoController {
         this.agendamentoService = agendamentoService;
     }
 
-    @GetMapping("/{id}")
-    public Resposta<AgendamentoDto> buscarPorId(@PathVariable Long id) {
-        var agendamento = agendamentoService.buscarPorId(id);
+    @GetMapping("/{idExternoAgendamento}")
+    public Resposta<AgendamentoDto> buscarPorIdExterno(@PathVariable UUID idExternoAgendamento) {
+        var agendamento = agendamentoService.buscarPorIdExterno(idExternoAgendamento);
         return RespostaUtils.ok(Constants.Success.AGENDAMENTO_ENCONTRADO_COM_SUCESSO, agendamento);
     }
 

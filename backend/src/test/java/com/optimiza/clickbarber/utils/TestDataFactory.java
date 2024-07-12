@@ -205,7 +205,6 @@ public class TestDataFactory {
 
     public static BarbeiroCadastroDto montarBarbeiroCadastroDto() {
         return BarbeiroCadastroDto.builder()
-                .barbeariaId(1L)
                 .admin(false)
                 .ativo(true)
                 .celular("988888888")
@@ -336,10 +335,9 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static AgendamentoDto montarAgendamentoDto(
-            Long agendamentoId, ZonedDateTime dataHora, Integer tempoDuracaoEmMinutos, BigDecimal valorTotal, UUID idExternoBarbearia, UUID idExternoCliente) {
+    public static AgendamentoDto montarAgendamentoDto(ZonedDateTime dataHora, Integer tempoDuracaoEmMinutos, BigDecimal valorTotal, UUID idExternoBarbearia, UUID idExternoCliente) {
         return AgendamentoDto.builder()
-                .id(agendamentoId)
+                .idExterno(UUID.randomUUID())
                 .cliente(montarClienteDto(idExternoCliente))
                 .barbearia(montarBarbeariaDto(idExternoBarbearia))
                 .servicos(Set.of(montarServico()))
@@ -350,10 +348,9 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static AgendamentoDto montarAgendamentoDto(
-            Long agendamentoId, BarbeariaDto barbearia, ClienteDto cliente, Servico servico, BarbeiroAgendamentoDto barbeiro) {
+    public static AgendamentoDto montarAgendamentoDto(BarbeariaDto barbearia, ClienteDto cliente, Servico servico, BarbeiroAgendamentoDto barbeiro) {
         return AgendamentoDto.builder()
-                .id(agendamentoId)
+                .idExterno(UUID.randomUUID())
                 .dataHora(ZonedDateTime.now())
                 .tempoDuracaoEmMinutos(45)
                 .valorTotal(new BigDecimal("75.50"))

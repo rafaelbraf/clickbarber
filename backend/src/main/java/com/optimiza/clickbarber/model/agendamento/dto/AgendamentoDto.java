@@ -20,7 +20,6 @@ import java.util.UUID;
 @Builder
 public class AgendamentoDto {
 
-    private Long id;
     private UUID idExterno;
     private ZonedDateTime dataHora;
     private BigDecimal valorTotal;
