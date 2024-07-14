@@ -58,8 +58,8 @@ public class BarbeariaMapper {
                 .build();
     }
 
-    public BarbeariaRespostaLoginDto toRespostaLoginDto(Barbearia barbearia) {
-        return BarbeariaRespostaLoginDto.builder()
+    public BarbeariaRespostaDto toRespostaDto(Barbearia barbearia) {
+        return BarbeariaRespostaDto.builder()
                 .nome(barbearia.getNome())
                 .cnpj(barbearia.getCnpj())
                 .endereco(barbearia.getEndereco())

@@ -3,7 +3,7 @@ package com.optimiza.clickbarber.service;
 import com.optimiza.clickbarber.config.JwtUtil;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.Role;
-import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaLoginDto;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaDto;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
 import com.optimiza.clickbarber.model.cliente.dto.ClienteDto;
 import com.optimiza.clickbarber.utils.Constants;
@@ -90,7 +90,7 @@ class AutenticacaoServiceTest {
         var usuario = montarUsuario(Role.BARBEARIA, senha);
         when(usuarioService.buscarPorEmail(anyString())).thenReturn(usuario);
 
-        var barbearia = montarBarbeariaRespostaLoginDto(barbeariaIdExterno);
+        var barbearia = montarBarbeariaRespostaDto(barbeariaIdExterno);
         when(barbeariaService.buscarPorUsuarioIdLogin(anyLong())).thenReturn(barbearia);
 
         when(jwtUtil.gerarToken(anyString())).thenReturn("token_barbearia");
@@ -103,7 +103,7 @@ class AutenticacaoServiceTest {
         assertEquals(Constants.Success.LOGIN_REALIZADO_COM_SUCESSO, resposta.getMessage());
         assertEquals("token_barbearia", resposta.getAccessToken());
         assertNotNull(resposta.getResult());
-        assertInstanceOf(BarbeariaRespostaLoginDto.class, resposta.getResult());
+        assertInstanceOf(BarbeariaRespostaDto.class, resposta.getResult());
     }
 
     @Test

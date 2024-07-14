@@ -62,8 +62,8 @@ class AgendamentoControllerTest {
 
     @Test
     void testBuscarAgendamentoPorIdExterno() throws Exception {
-        var barbearia = montarBarbeariaDto(barbeariaIdExterno);
-        var servico = montarServico();
+        var barbearia = montarBarbeariaRespostaDto(barbeariaIdExterno);
+        var servico = montarServicoDto();
         var barbeiro = montarBarbeiroAgendamentoDto();
         var cliente = montarClienteDto(clienteIdExterno);
         var agendamentoEncontrado = montarAgendamentoDto(barbearia, cliente, servico, barbeiro);
