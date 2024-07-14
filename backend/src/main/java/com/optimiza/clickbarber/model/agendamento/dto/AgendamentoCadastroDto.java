@@ -5,6 +5,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,9 +19,9 @@ public class AgendamentoCadastroDto {
     private ZonedDateTime dataHora;
     private BigDecimal valorTotal;
     private Integer tempoDuracaoEmMinutos;
-    private Long barbeariaId;
-    private Long clienteId;
-    private List<Long> servicos;
-    private List<Long> barbeiros;
+    private UUID barbeariaIdExterno;
+    private UUID clienteIdExterno;
+    private List<UUID> servicosIdsExterno;
+    private List<UUID> barbeirosIdsExterno;
 
 }

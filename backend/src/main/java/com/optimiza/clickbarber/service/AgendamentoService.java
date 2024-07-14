@@ -65,16 +65,16 @@ public class AgendamentoService {
     public AgendamentoDto cadastrar(AgendamentoCadastroDto agendamentoCadastro) {
         var agendamento = montarAgendamentoComInformacoesIniciais(agendamentoCadastro);
 
-        var barbearia = barbeariaService.buscarPorId(agendamentoCadastro.getBarbeariaId());
+        var barbearia = barbeariaService.buscarPorIdExterno(agendamentoCadastro.getBarbeariaIdExterno());
         agendamento.setBarbearia(barbearia);
 
-        var cliente = clienteService.buscarPorId(agendamentoCadastro.getClienteId());
+        var cliente = clienteService.buscarPorIdExterno(agendamentoCadastro.getClienteIdExterno());
         agendamento.setCliente(cliente);
 
-        var servicos = buscarServicosDaBarbearia(agendamentoCadastro.getServicos(), barbearia);
+        var servicos = buscarServicosDaBarbearia(agendamentoCadastro.getServicosIdsExterno(), barbearia);
         agendamento.setServicos(servicos);
 
-        var barbeiros = buscarBarbeirosDaBarbearia(agendamentoCadastro.getBarbeiros(), barbearia);
+        var barbeiros = buscarBarbeirosDaBarbearia(agendamentoCadastro.getBarbeirosIdsExterno(), barbearia);
         agendamento.setBarbeiros(barbeiros);
 
         var agendamentoCadastrado = agendamentoRepository.save(agendamento);
@@ -96,12 +96,12 @@ public class AgendamentoService {
         agendamentoRepository.deleteById(id);
     }
 
-    private Set<Servico> buscarServicosDaBarbearia(List<Long> servicosId, Barbearia barbearia) {
-        return servicosId.stream()
-                .map(servicoId -> {
-                    var servico = servicoService.buscarPorId(servicoId);
+    private Set<Servico> buscarServicosDaBarbearia(List<UUID> servicosIdsExterno, Barbearia barbearia) {
+        return servicosIdsExterno.stream()
+                .map(servicoIdExterno -> {
+                    var servico = servicoService.buscarPorIdExterno(servicoIdExterno);
                     if (!servico.getBarbearia().getId().equals(barbearia.getId())) {
-                        throw new EntidadeNaoPerteceABarbeariaException(Constants.Entity.SERVICO, Constants.Attribute.ID, servicoId.toString());
+                        throw new EntidadeNaoPerteceABarbeariaException(Constants.Entity.SERVICO, Constants.Attribute.ID, servicoIdExterno.toString());
                     }
 
                     return servico;
@@ -109,12 +109,12 @@ public class AgendamentoService {
                 .collect(Collectors.toSet());
     }
 
-    private Set<Barbeiro> buscarBarbeirosDaBarbearia(List<Long> barbeirosId, Barbearia barbearia) {
-        return barbeirosId.stream()
-                .map(barbeiroId -> {
-                    var barbeiro = barbeiroService.buscarPorId(barbeiroId);
+    private Set<Barbeiro> buscarBarbeirosDaBarbearia(List<UUID> barbeirosIdsExterno, Barbearia barbearia) {
+        return barbeirosIdsExterno.stream()
+                .map(barbeiroIdExterno -> {
+                    var barbeiro = barbeiroService.buscarPorIdExterno(barbeiroIdExterno);
                     if (!barbeiro.getBarbearia().getId().equals(barbearia.getId())) {
-                        throw new EntidadeNaoPerteceABarbeariaException(Constants.Entity.BARBEIRO, Constants.Attribute.ID, barbeiroId.toString());
+                        throw new EntidadeNaoPerteceABarbeariaException(Constants.Entity.BARBEIRO, Constants.Attribute.ID_EXTERNO, barbeiroIdExterno.toString());
                     }
 
                     return barbeiro;
