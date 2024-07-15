@@ -5,6 +5,7 @@ import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaMapper;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroMapper;
 import com.optimiza.clickbarber.model.cliente.dto.ClienteMapper;
+import com.optimiza.clickbarber.model.servico.dto.ServicoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,20 +17,23 @@ public class AgendamentoMapper {
     private final BarbeariaMapper barbeariaMapper;
     private final ClienteMapper clienteMapper;
     private final BarbeiroMapper barbeiroMapper;
+    private final ServicoMapper servicoMapper;
 
     @Autowired
-    public AgendamentoMapper(BarbeariaMapper barbeariaMapper, ClienteMapper clienteMapper, BarbeiroMapper barbeiroMapper) {
+    public AgendamentoMapper(BarbeariaMapper barbeariaMapper, ClienteMapper clienteMapper, BarbeiroMapper barbeiroMapper, ServicoMapper servicoMapper) {
         this.barbeariaMapper = barbeariaMapper;
         this.clienteMapper = clienteMapper;
         this.barbeiroMapper = barbeiroMapper;
+        this.servicoMapper = servicoMapper;
     }
 
     public AgendamentoDto toDto(Agendamento agendamento) {
         if (isNull(agendamento)) return null;
 
         var cliente = clienteMapper.toDto(agendamento.getCliente());
-        var barbearia = barbeariaMapper.toDto(agendamento.getBarbearia());
+        var barbearia = barbeariaMapper.toRespostaDto(agendamento.getBarbearia());
         var barbeiros = barbeiroMapper.toSetAgendamentoDto(agendamento.getBarbeiros());
+        var servicos = servicoMapper.toSetDto(agendamento.getServicos());
 
         return AgendamentoDto.builder()
                 .idExterno(agendamento.getIdExterno())
@@ -38,7 +42,7 @@ public class AgendamentoMapper {
                 .tempoDuracaoEmMinutos(agendamento.getTempoDuracaoEmMinutos())
                 .cliente(cliente)
                 .barbearia(barbearia)
-                .servicos(agendamento.getServicos())
+                .servicos(servicos)
                 .barbeiros(barbeiros)
                 .build();
     }

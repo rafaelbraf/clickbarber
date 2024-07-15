@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BarbeariaRespostaLoginDto {
+public class BarbeariaRespostaDto {
 
     private UUID idExterno;
     private String cnpj;

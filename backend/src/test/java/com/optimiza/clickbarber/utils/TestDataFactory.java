@@ -7,12 +7,9 @@ import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
 import com.optimiza.clickbarber.model.barbearia.Barbearia;
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaCadastroDto;
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaDto;
-import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaLoginDto;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaDto;
 import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
-import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroAgendamentoDto;
-import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroAtualizarDto;
-import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroCadastroDto;
-import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
+import com.optimiza.clickbarber.model.barbeiro.dto.*;
 import com.optimiza.clickbarber.model.cliente.Cliente;
 import com.optimiza.clickbarber.model.cliente.dto.ClienteCadastroDto;
 import com.optimiza.clickbarber.model.cliente.dto.ClienteDto;
@@ -75,8 +72,8 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static BarbeariaRespostaLoginDto montarBarbeariaRespostaLoginDto(UUID idExterno) {
-        return BarbeariaRespostaLoginDto.builder()
+    public static BarbeariaRespostaDto montarBarbeariaRespostaDto(UUID idExterno) {
+        return BarbeariaRespostaDto.builder()
                 .idExterno(idExterno)
                 .nome("Barbearia Teste")
                 .cnpj("0123456789101112")
@@ -138,11 +135,9 @@ public class TestDataFactory {
 
     public static BarbeiroAgendamentoDto montarBarbeiroAgendamentoDto() {
         return BarbeiroAgendamentoDto.builder()
-                .id(1L)
+                .idExterno(UUID.randomUUID())
                 .nome("Barbeiro Teste")
-                .admin(false)
                 .ativo(true)
-                .cpf("012345678910")
                 .celular("988888888")
                 .build();
     }
@@ -246,6 +241,16 @@ public class TestDataFactory {
                 .build();
     }
 
+    public static ServicoDto montarServicoDto() {
+        return ServicoDto.builder()
+                .idExterno(UUID.randomUUID())
+                .nome("Serviço Teste")
+                .ativo(true)
+                .preco(new BigDecimal("30.0"))
+                .tempoDuracaoEmMinutos(45)
+                .build();
+    }
+
     public static ServicoDto montarServicoDto(UUID idExterno) {
         return ServicoDto.builder()
                 .idExterno(idExterno)
@@ -339,8 +344,8 @@ public class TestDataFactory {
         return AgendamentoDto.builder()
                 .idExterno(UUID.randomUUID())
                 .cliente(montarClienteDto(idExternoCliente))
-                .barbearia(montarBarbeariaDto(idExternoBarbearia))
-                .servicos(Set.of(montarServico()))
+                .barbearia(montarBarbeariaRespostaDto(idExternoBarbearia))
+                .servicos(Set.of(montarServicoDto()))
                 .barbeiros(Set.of(montarBarbeiroAgendamentoDto()))
                 .dataHora(dataHora)
                 .tempoDuracaoEmMinutos(tempoDuracaoEmMinutos)
@@ -348,7 +353,7 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static AgendamentoDto montarAgendamentoDto(BarbeariaDto barbearia, ClienteDto cliente, Servico servico, BarbeiroAgendamentoDto barbeiro) {
+    public static AgendamentoDto montarAgendamentoDto(BarbeariaRespostaDto barbearia, ClienteDto cliente, ServicoDto servico, BarbeiroAgendamentoDto barbeiro) {
         return AgendamentoDto.builder()
                 .idExterno(UUID.randomUUID())
                 .dataHora(ZonedDateTime.now())

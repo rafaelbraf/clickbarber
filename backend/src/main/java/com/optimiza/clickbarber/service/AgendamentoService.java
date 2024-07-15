@@ -6,6 +6,7 @@ import com.optimiza.clickbarber.model.agendamento.Agendamento;
 import com.optimiza.clickbarber.model.agendamento.dto.*;
 import com.optimiza.clickbarber.model.barbearia.Barbearia;
 import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
+import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroMapper;
 import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.repository.AgendamentoRepository;
 import com.optimiza.clickbarber.utils.Constants;
@@ -30,7 +31,7 @@ public class AgendamentoService {
     private final BarbeiroService barbeiroService;
 
     @Autowired
-    public AgendamentoService(AgendamentoRepository agendamentoRepository, AgendamentoMapper agendamentoMapper, BarbeariaService barbeariaService, ClienteService clienteService, ServicoService servicoService, BarbeiroService barbeiroService) {
+    public AgendamentoService(AgendamentoRepository agendamentoRepository, AgendamentoMapper agendamentoMapper, BarbeariaService barbeariaService, ClienteService clienteService, ServicoService servicoService, BarbeiroService barbeiroService, BarbeiroMapper barbeiroMapper) {
         this.agendamentoRepository = agendamentoRepository;
         this.agendamentoMapper = agendamentoMapper;
         this.barbeariaService = barbeariaService;
