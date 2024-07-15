@@ -26,6 +26,12 @@ class ClienteService @Autowired constructor(
         return clienteRepository.findById(id).orElseThrow { ResourceNotFoundException(Constants.Entity.CLIENTE, Constants.Attribute.ID, id.toString()) }
     }
 
+    fun buscarPorIdExterno(idExterno: UUID): Cliente {
+        return clienteRepository.findByIdExterno(idExterno).orElseThrow {
+            ResourceNotFoundException(Constants.Entity.CLIENTE, Constants.Attribute.ID_EXTERNO, idExterno.toString())
+        }
+    }
+
     fun buscarPorIdExternoBarbearia(idExternoBarbearia: UUID): List<ClienteDto> {
         return clienteRepository.findByIdExternoBarbearia(idExternoBarbearia)
             .map(clienteMapper::toDto)

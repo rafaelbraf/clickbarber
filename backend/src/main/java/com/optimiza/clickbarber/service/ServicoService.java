@@ -40,6 +40,12 @@ public class ServicoService {
         return servicoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.SERVICO, Constants.Attribute.ID, id.toString()));
     }
 
+    public Servico buscarPorIdExterno(UUID idExterno) {
+        return servicoRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        Constants.Entity.SERVICO, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
+    }
+
     public List<ServicoDto> buscarPorIdExternoBarbearia(UUID idExternoBarbearia) {
         var servicos = servicoRepository.findByIdExternoBarbearia(idExternoBarbearia);
 

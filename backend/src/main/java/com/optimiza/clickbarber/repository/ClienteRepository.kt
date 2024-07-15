@@ -8,13 +8,15 @@ import java.util.*
 
 @Repository
 interface ClienteRepository : JpaRepository<Cliente, Long> {
+    fun findByIdExterno(idExterno: UUID): Optional<Cliente>
+
     fun findByUsuarioId(usuarioId: Long): Optional<Cliente>
 
     @Query("""
         SELECT c FROM Cliente c
-        INNER JOIN Barbearia b ON b.idExterno = :idExternoBarbearia
         INNER JOIN Agendamento a ON a.cliente = c
-        INNER JOIN Usuario u ON u.id = c.usuario.id
+        INNER JOIN Barbearia b ON a.barbearia = b
+        WHERE b.idExterno = :idExternoBarbearia
     """)
     fun findByIdExternoBarbearia(idExternoBarbearia: UUID): List<Cliente>
 }

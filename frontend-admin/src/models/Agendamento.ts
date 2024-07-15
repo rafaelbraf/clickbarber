@@ -19,3 +19,13 @@ export interface AgendamentoReduzido {
     dataHoraInicio: Date;
     dataHoraFim: Date;
 }
+
+export interface AgendamentoCadastro {
+    dataHora: string;
+    valorTotal: number;
+    tempoDuracaoEmMinutos: number;
+    barbeariaIdExterno: string;
+    clienteIdExterno: string;
+    servicosIdsExterno: string[];
+    barbeirosIdsExterno: string[];
+}

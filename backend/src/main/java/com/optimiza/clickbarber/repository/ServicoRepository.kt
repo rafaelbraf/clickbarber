@@ -9,6 +9,7 @@ import java.util.*
 
 @Repository
 interface ServicoRepository : JpaRepository<Servico, Long> {
+    fun findByIdExterno(idExterno: UUID): Optional<Servico>
 
     @Query("SELECT s FROM Servico s INNER JOIN Barbearia b ON b.id = s.barbearia.id WHERE b.idExterno = :idExternoBarbearia")
     fun findByIdExternoBarbearia(@Param("idExternoBarbearia") idExternoBarbearia: UUID): List<Servico>

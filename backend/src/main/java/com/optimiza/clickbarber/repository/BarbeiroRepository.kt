@@ -8,6 +8,8 @@ import java.util.*
 
 @Repository
 interface BarbeiroRepository : JpaRepository<Barbeiro, Long> {
+    fun findByIdExterno(idExterno: UUID): Optional<Barbeiro>
+
     @Query("SELECT b1 FROM Barbeiro b1 INNER JOIN Barbearia b2 ON b1.barbearia.id = b2.id WHERE b2.idExterno = :idExternoBarbearia")
     fun findByIdExternoBarbearia(idExternoBarbearia: UUID?): List<Barbeiro>
 

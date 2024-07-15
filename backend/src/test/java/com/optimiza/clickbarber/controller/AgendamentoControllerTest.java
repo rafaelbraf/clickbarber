@@ -25,7 +25,6 @@ import java.util.UUID;
 import static com.optimiza.clickbarber.utils.TestDataFactory.*;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -175,8 +174,8 @@ class AgendamentoControllerTest {
             .dataHora(dataHora)
             .clienteId(1L)
             .barbeariaId(1L)
-            .servicos(List.of(1L))
-            .barbeiros(List.of(1L))
+            .servicosIds(List.of(1L))
+            .barbeirosIds(List.of(1L))
             .build();
     }
 

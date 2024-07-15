@@ -30,6 +30,12 @@ public class BarbeiroService {
         return barbeiroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEIRO, Constants.Attribute.ID, id.toString()));
     }
 
+    public Barbeiro buscarPorIdExterno(UUID idExterno) {
+        return barbeiroRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        Constants.Entity.BARBEIRO, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
+    }
+
     public List<BarbeiroDto> buscarPorIdExternoBarbearia(UUID idExternoBarbearia) {
         return barbeiroRepository.findByIdExternoBarbearia(idExternoBarbearia).stream()
                 .map(barbeiroMapper::toDto)

@@ -368,8 +368,8 @@ public class TestDataFactory {
                 .dataHora(dataHora)
                 .clienteId(1L)
                 .barbeariaId(1L)
-                .servicos(List.of(1L))
-                .barbeiros(List.of(1L))
+                .servicosIds(List.of(1L))
+                .barbeirosIds(List.of(1L))
                 .build();
     }
 

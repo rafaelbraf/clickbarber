@@ -196,7 +196,7 @@ export const Barbeiros: React.FC = () => {
                                     name="nome"
                                     value={novoBarbeiro.data.nome}
                                     onChange={handleChange}
-                                    required 
+                                    required
                                 />
                             </div>
                             <div className="mb-3">

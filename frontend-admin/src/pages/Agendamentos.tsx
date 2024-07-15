@@ -8,6 +8,7 @@ import Calendario, { AgendamentoCalendario } from "../components/Calendario";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { AgendamentoModal } from "../components/AgendamentoModal";
+import { AgendamentoCadastroModal } from "../components/AgendamentoCadastroModal";
 
 export const Agendamentos: React.FC = () => {
     const idBarbearia = localStorage.getItem('idBarbearia') as string;
@@ -16,6 +17,7 @@ export const Agendamentos: React.FC = () => {
     const [loadingAgendamento, setLoadingAgendamento] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModalCadastro, setShowModalCadastro] = useState<boolean>(false);
     const [selectedAgendamento, setSelectedAgendamento] = useState<Agendamento | null>(null);
 
     const fetchAgendamentos = useCallback(async () => {
@@ -34,7 +36,6 @@ export const Agendamentos: React.FC = () => {
             setShowModal(true);
             const agendamentoDetalhado: Agendamento = await AgendamentoService.buscarAgendamentoPorIdExterno(idExternoAgendamento);
             setSelectedAgendamento(agendamentoDetalhado);
-            console.log(agendamentoDetalhado);                        
         } catch (error) {
             setError(`Èrro ao buscar agendamento: ${error}`);
         } finally {
@@ -47,9 +48,17 @@ export const Agendamentos: React.FC = () => {
         fetchAgendamento(idExternoAgendamento);
     };
 
+    const handleAgendamentoCadastroClick = () => {
+        setShowModalCadastro(true);
+    }
+
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedAgendamento(null);
+    }
+
+    const handleCloseModalCadastro = () => {
+        setShowModalCadastro(false);
     }
 
     useEffect(() => {
@@ -85,7 +94,7 @@ export const Agendamentos: React.FC = () => {
                         <h1>Agendamentos</h1>
                     </Col>
                     <Col xs={12} md={3} lg={3} className="d-flex justify-content-end">
-                        <Button className="mt-2"><BiPlus />Novo agendamento</Button>
+                        <Button className="mt-2" onClick={handleAgendamentoCadastroClick}><BiPlus />Novo agendamento</Button>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -100,6 +109,11 @@ export const Agendamentos: React.FC = () => {
                 selectedAgendamento={selectedAgendamento}
                 showModal={showModal}
                 handleCloseModal={handleCloseModal}
+            />
+
+            <AgendamentoCadastroModal
+                showModal={showModalCadastro}
+                handleCloseModal={handleCloseModalCadastro}
             />
         </div>
     );
