@@ -371,10 +371,10 @@ public class TestDataFactory {
                 .valorTotal(valorTotal)
                 .tempoDuracaoEmMinutos(tempoDuracaoEmMinutos)
                 .dataHora(dataHora)
-                .clienteId(1L)
-                .barbeariaId(1L)
-                .servicosIds(List.of(1L))
-                .barbeirosIds(List.of(1L))
+                .clienteIdExterno(UUID.randomUUID())
+                .barbeariaIdExterno(UUID.randomUUID())
+                .barbeirosIdsExterno(List.of(UUID.randomUUID()))
+                .servicosIdsExterno(List.of(UUID.randomUUID()))
                 .build();
     }
 

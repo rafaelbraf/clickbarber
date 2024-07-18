@@ -172,10 +172,6 @@ class AgendamentoControllerTest {
             .valorTotal(valorTotal)
             .tempoDuracaoEmMinutos(tempoDuracaoEmMinutos)
             .dataHora(dataHora)
-            .clienteId(1L)
-            .barbeariaId(1L)
-            .servicosIds(List.of(1L))
-            .barbeirosIds(List.of(1L))
             .build();
     }
 
