@@ -146,16 +146,16 @@ class AgendamentoServiceTest {
     @Test
     void testCadastrarAgendamento() {
         var barbearia = montarBarbearia();
-        when(barbeariaService.buscarPorId(anyLong())).thenReturn(barbearia);
+        when(barbeariaService.buscarPorIdExterno(any(UUID.class))).thenReturn(barbearia);
 
         var cliente = montarCliente();
         when(clienteService.buscarPorId(anyLong())).thenReturn(cliente);
 
         var servico = montarServico();
-        when(servicoService.buscarPorId(anyLong())).thenReturn(servico);
+        when(servicoService.buscarPorIdExterno(any(UUID.class))).thenReturn(servico);
 
         var barbeiro = montarBarbeiro();
-        when(barbeiroService.buscarPorId(anyLong())).thenReturn(barbeiro);
+        when(barbeiroService.buscarPorIdExterno(any(UUID.class))).thenReturn(barbeiro);
 
         var agendamento = montarAgendamento(agendamentoId, dataHoraAgendamento, valorTotalAgendamento);
         when(agendamentoRepository.save(any(Agendamento.class))).thenReturn(agendamento);
@@ -178,13 +178,13 @@ class AgendamentoServiceTest {
     @Test
     void testCadastrarAgendamentoComServicoQueNaoPertenceABarbearia() {
         var barbearia = montarBarbearia(2L, "Barbearia Teste");
-        when(barbeariaService.buscarPorId(anyLong())).thenReturn(barbearia);
+        when(barbeariaService.buscarPorIdExterno(any(UUID.class))).thenReturn(barbearia);
 
         var cliente = montarCliente();
-        when(clienteService.buscarPorId(anyLong())).thenReturn(cliente);
+        when(clienteService.buscarPorIdExterno(any(UUID.class))).thenReturn(cliente);
 
         var servico = montarServico();
-        when(servicoService.buscarPorId(anyLong())).thenReturn(servico);
+        when(servicoService.buscarPorIdExterno(any(UUID.class))).thenReturn(servico);
 
         var agendamentoCadastroDto = montarAgendamentoCadastroDto(valorTotalAgendamento, 45, dataHoraAgendamento);
         assertThrows(EntidadeNaoPerteceABarbeariaException.class, () -> agendamentoService.cadastrar(agendamentoCadastroDto));
@@ -193,17 +193,17 @@ class AgendamentoServiceTest {
     @Test
     void testCadastrarAgendamentoComBarbeiroQueNaoPertenceABarbearia() {
         var barbearia = montarBarbearia(2L, "Barbearia Teste");
-        when(barbeariaService.buscarPorId(anyLong())).thenReturn(barbearia);
+        when(barbeariaService.buscarPorIdExterno(any(UUID.class))).thenReturn(barbearia);
 
         var cliente = montarCliente();
-        when(clienteService.buscarPorId(anyLong())).thenReturn(cliente);
+        when(clienteService.buscarPorIdExterno(any(UUID.class))).thenReturn(cliente);
 
         var servico = montarServico(barbearia);
         servico.setBarbearia(barbearia);
-        when(servicoService.buscarPorId(anyLong())).thenReturn(servico);
+        when(servicoService.buscarPorIdExterno(any(UUID.class))).thenReturn(servico);
 
         var barbeiro = montarBarbeiro();
-        when(barbeiroService.buscarPorId(anyLong())).thenReturn(barbeiro);
+        when(barbeiroService.buscarPorIdExterno(any(UUID.class))).thenReturn(barbeiro);
 
         var agendamentoCadastroDto = montarAgendamentoCadastroDto(valorTotalAgendamento, 45, dataHoraAgendamento);
         assertThrows(EntidadeNaoPerteceABarbeariaException.class, () -> agendamentoService.cadastrar(agendamentoCadastroDto));

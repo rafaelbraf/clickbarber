@@ -2,6 +2,7 @@ package com.optimiza.clickbarber.model.barbearia.dto;
 
 import com.optimiza.clickbarber.model.barbearia.Barbearia;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroMapper;
+import com.optimiza.clickbarber.model.servico.dto.ServicoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +12,12 @@ import static java.util.Objects.isNull;
 public class BarbeariaMapper {
 
     private final BarbeiroMapper barbeiroMapper;
+    private final ServicoMapper servicoMapper;
 
     @Autowired
-    public BarbeariaMapper(BarbeiroMapper barbeiroMapper) {
+    public BarbeariaMapper(BarbeiroMapper barbeiroMapper, ServicoMapper servicoMapper) {
         this.barbeiroMapper = barbeiroMapper;
+        this.servicoMapper = servicoMapper;
     }
 
     public BarbeariaDto toDto(Barbearia barbearia) {
@@ -24,13 +27,17 @@ public class BarbeariaMapper {
                 .map(barbeiroMapper::toDto)
                 .toList();
 
+        var servicosDto = barbearia.getServicos().stream()
+                .map(servicoMapper::toDto)
+                .toList();
+
         return BarbeariaDto.builder()
                 .idExterno(barbearia.getIdExterno())
                 .nome(barbearia.getNome())
                 .cnpj(barbearia.getCnpj())
                 .telefone(barbearia.getTelefone())
                 .endereco(barbearia.getEndereco())
-                .servicos(barbearia.getServicos())
+                .servicos(servicosDto)
                 .barbeiros(barbeirosDto)
                 .build();
     }
