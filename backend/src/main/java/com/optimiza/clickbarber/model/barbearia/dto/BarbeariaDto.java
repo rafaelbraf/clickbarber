@@ -2,6 +2,7 @@ package com.optimiza.clickbarber.model.barbearia.dto;
 
 import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
+import com.optimiza.clickbarber.model.servico.dto.ServicoDto;
 import lombok.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class BarbeariaDto {
     private String nome;
     private String endereco;
     private String telefone;
-    private List<Servico> servicos;
+    private List<ServicoDto> servicos;
     private List<BarbeiroDto> barbeiros;
 
 }
