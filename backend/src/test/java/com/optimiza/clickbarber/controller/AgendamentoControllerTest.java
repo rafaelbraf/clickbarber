@@ -172,6 +172,10 @@ class AgendamentoControllerTest {
             .valorTotal(valorTotal)
             .tempoDuracaoEmMinutos(tempoDuracaoEmMinutos)
             .dataHora(dataHora)
+            .clienteIdExterno(UUID.randomUUID())
+            .barbeariaIdExterno(UUID.randomUUID())
+            .servicosIdsExterno(List.of(UUID.randomUUID()))
+            .barbeirosIdsExterno(List.of(UUID.randomUUID()))
             .build();
     }
 

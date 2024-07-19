@@ -7,11 +7,13 @@ import org.springframework.stereotype.Component;
 public class UsuarioMapper {
 
     public Usuario toEntity(UsuarioCadastrarDto usuarioRegistrar) {
-        return Usuario.builder()
-                .email(usuarioRegistrar.getEmail())
-                .senha(usuarioRegistrar.getSenha())
-                .role(usuarioRegistrar.getRole())
-                .build();
+        return new Usuario(
+                null,
+                null,
+                usuarioRegistrar.getEmail(),
+                usuarioRegistrar.getSenha(),
+                usuarioRegistrar.getRole()
+        );
     }
 
     public UsuarioAgendamentoDto toAgendamentoDto(Usuario usuario) {

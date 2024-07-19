@@ -2,6 +2,7 @@ package com.optimiza.clickbarber.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.optimiza.clickbarber.config.JwtUtil;
+import com.optimiza.clickbarber.handler.LoginHandlerChain;
 import com.optimiza.clickbarber.model.autenticacao.RespostaLogin;
 import com.optimiza.clickbarber.model.Role;
 import com.optimiza.clickbarber.model.usuario.Usuario;
@@ -34,15 +35,17 @@ public class AutenticacaoService {
     private final ObjectMapper objectMapper;
     private final ClienteService clienteService;
     private final BarbeiroService barbeiroService;
+    private final LoginHandlerChain loginHandlerChain;
 
     @Autowired
-    public AutenticacaoService(BarbeariaService barbeariaService, JwtUtil jwtUtil, UsuarioService usuarioService, ObjectMapper objectMapper, ClienteService clienteService, BarbeiroService barbeiroService) {
+    public AutenticacaoService(BarbeariaService barbeariaService, JwtUtil jwtUtil, UsuarioService usuarioService, ObjectMapper objectMapper, ClienteService clienteService, BarbeiroService barbeiroService, LoginHandlerChain loginHandlerChain) {
         this.barbeariaService = barbeariaService;
         this.jwtUtil = jwtUtil;
         this.usuarioService = usuarioService;
         this.objectMapper = objectMapper;
         this.clienteService = clienteService;
         this.barbeiroService = barbeiroService;
+        this.loginHandlerChain = loginHandlerChain;
         this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -55,29 +58,13 @@ public class AutenticacaoService {
             return RespostaLogin.unauthorized();
         }
 
-        var acoesRole = Map.of(
-                Role.CLIENTE, clienteService::buscarPorUsuarioId,
-                Role.BARBEARIA, barbeariaService::buscarPorUsuarioIdLogin,
-                Role.BARBEIRO, (Function<Long, Object>) barbeiroService::buscarPorUsuarioId
-        );
-
-        var acaoRole = acoesRole.get(usuario.getRole());
-        if (nonNull(acaoRole)) {
-            var entity = acaoRole.apply(usuario.getId());
-            return RespostaLogin.authorized(entity, gerarToken(usuario.getEmail()));
-        }
-
-        return RespostaLogin.unauthorized();
+        return loginHandlerChain.handle(loginRequest, usuario);
     }
 
     @Transactional
     public Object cadastrarUsuario(UsuarioCadastrarDto usuarioRegistrar) {
         var usuarioCadastrado = usuarioService.cadastrarUsuario(usuarioRegistrar);
         return cadastrarObjeto(usuarioRegistrar, usuarioCadastrado);
-    }
-
-    private String gerarToken(String email) {
-        return jwtUtil.gerarToken(email);
     }
 
     private boolean isSenhaValida(String senha, String senhaCadastrada) {
