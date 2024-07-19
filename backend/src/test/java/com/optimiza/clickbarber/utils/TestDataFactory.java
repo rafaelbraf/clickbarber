@@ -3,6 +3,7 @@ package com.optimiza.clickbarber.utils;
 import com.optimiza.clickbarber.model.Role;
 import com.optimiza.clickbarber.model.agendamento.Agendamento;
 import com.optimiza.clickbarber.model.agendamento.dto.*;
+import com.optimiza.clickbarber.model.autenticacao.RespostaLogin;
 import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
 import com.optimiza.clickbarber.model.barbearia.Barbearia;
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaCadastroDto;
@@ -162,32 +163,35 @@ public class TestDataFactory {
     }
 
     public static Usuario montarUsuario() {
-        return Usuario.builder()
-                .id(1L)
-                .email(EMAIL_USUARIO)
-                .senha(SENHA_USUARIO)
-                .role(Role.BARBEARIA)
-                .build();
+        return new Usuario(
+                1L,
+                UUID.randomUUID(),
+                EMAIL_USUARIO,
+                SENHA_USUARIO,
+                Role.BARBEARIA
+        );
     }
 
     public static Usuario montarUsuario(Role role) {
-        return Usuario.builder()
-                .id(1L)
-                .email(EMAIL_USUARIO)
-                .senha(SENHA_USUARIO)
-                .role(role)
-                .build();
+        return new Usuario(
+                1L,
+                UUID.randomUUID(),
+                EMAIL_USUARIO,
+                SENHA_USUARIO,
+                role
+        );
     }
 
     public static Usuario montarUsuario(Role role, String senha) {
         String senhaCriptografada = bCryptPasswordEncoder.encode(senha);
 
-        return Usuario.builder()
-                .id(1L)
-                .email(EMAIL_USUARIO)
-                .senha(senhaCriptografada)
-                .role(role)
-                .build();
+        return new Usuario(
+                1L,
+                UUID.randomUUID(),
+                EMAIL_USUARIO,
+                senhaCriptografada,
+                role
+        );
     }
 
     public static UsuarioCadastrarDto montarUsuarioCadastrarDto() {
@@ -373,8 +377,8 @@ public class TestDataFactory {
                 .dataHora(dataHora)
                 .clienteIdExterno(UUID.randomUUID())
                 .barbeariaIdExterno(UUID.randomUUID())
-                .barbeirosIdsExterno(List.of(UUID.randomUUID()))
                 .servicosIdsExterno(List.of(UUID.randomUUID()))
+                .barbeirosIdsExterno(List.of(UUID.randomUUID()))
                 .build();
     }
 
@@ -409,6 +413,15 @@ public class TestDataFactory {
                 .dataHoraInicio(ZonedDateTime.now())
                 .dataHoraFim(ZonedDateTime.now().plusMinutes(30))
                 .servicos(List.of("Serviço 1"))
+                .build();
+    }
+
+    public static RespostaLogin montarRespostaLoginSucesso(Object result, String accessToken) {
+        return RespostaLogin.builder()
+                .success(true)
+                .message(Constants.Success.LOGIN_REALIZADO_COM_SUCESSO)
+                .accessToken(accessToken)
+                .result(result)
                 .build();
     }
 

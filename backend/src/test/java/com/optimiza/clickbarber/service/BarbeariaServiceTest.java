@@ -124,8 +124,8 @@ class BarbeariaServiceTest {
         var barbearia = montarBarbearia();
         when(barbeariaRepository.findByUsuarioId(anyLong())).thenReturn(Optional.of(barbearia));
 
-        var barbeariaDto = montarBarbeariaDto(barbeariaIdExterno);
-        when(barbeariaMapper.toDto(any(Barbearia.class))).thenReturn(barbeariaDto);
+        var barbeariaRespostaDto = montarBarbeariaRespostaDto(barbeariaIdExterno);
+        when(barbeariaMapper.toRespostaDto(any(Barbearia.class))).thenReturn(barbeariaRespostaDto);
 
         var barbeariaEncontrada = barbeariaService.buscarPorUsuarioId(usuarioId);
         assertNotNull(barbeariaEncontrada);

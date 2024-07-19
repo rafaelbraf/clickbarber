@@ -149,7 +149,7 @@ class AgendamentoServiceTest {
         when(barbeariaService.buscarPorIdExterno(any(UUID.class))).thenReturn(barbearia);
 
         var cliente = montarCliente();
-        when(clienteService.buscarPorId(anyLong())).thenReturn(cliente);
+        when(clienteService.buscarPorIdExterno(any(UUID.class))).thenReturn(cliente);
 
         var servico = montarServico();
         when(servicoService.buscarPorIdExterno(any(UUID.class))).thenReturn(servico);

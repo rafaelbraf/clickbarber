@@ -75,10 +75,10 @@ public class BarbeariaService {
         return barbeariasEncontradasDto;
     }
 
-    public BarbeariaDto buscarPorUsuarioId(Long usuarioId) {
+    public BarbeariaRespostaDto buscarPorUsuarioId(Long usuarioId) {
         var barbearia = barbeariaRepository.findByUsuarioId(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.USUARIO_ID, usuarioId.toString()));
-        return barbeariaMapper.toDto(barbearia);
+        return barbeariaMapper.toRespostaDto(barbearia);
     }
 
     public BarbeariaRespostaDto buscarPorUsuarioIdLogin(Long usuarioId) {

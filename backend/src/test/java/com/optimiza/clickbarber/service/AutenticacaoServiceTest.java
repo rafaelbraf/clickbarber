@@ -2,10 +2,13 @@ package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.config.JwtUtil;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
+import com.optimiza.clickbarber.handler.LoginHandlerChain;
 import com.optimiza.clickbarber.model.Role;
+import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaDto;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
 import com.optimiza.clickbarber.model.cliente.dto.ClienteDto;
+import com.optimiza.clickbarber.model.usuario.Usuario;
 import com.optimiza.clickbarber.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,8 +22,7 @@ import java.util.UUID;
 
 import static com.optimiza.clickbarber.utils.TestDataFactory.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -43,6 +45,9 @@ class AutenticacaoServiceTest {
 
     @Mock
     private JwtUtil jwtUtil;
+
+    @Mock
+    private LoginHandlerChain loginHandlerChainMock;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -72,7 +77,8 @@ class AutenticacaoServiceTest {
         var cliente = montarClienteDto(clienteIdExterno);
         when(clienteService.buscarPorUsuarioId(anyLong())).thenReturn(cliente);
 
-        when(jwtUtil.gerarToken(anyString())).thenReturn("token_cliente");
+        var respostaLogin = montarRespostaLoginSucesso(montarClienteDto(UUID.randomUUID()), "token_cliente");
+        when(loginHandlerChainMock.handle(any(LoginRequestDto.class), any(Usuario.class))).thenReturn(respostaLogin);
 
         var loginRequest = montarLoginRequestDto();
         var resposta = autenticacaoService.login(loginRequest);
@@ -93,7 +99,8 @@ class AutenticacaoServiceTest {
         var barbearia = montarBarbeariaRespostaDto(barbeariaIdExterno);
         when(barbeariaService.buscarPorUsuarioIdLogin(anyLong())).thenReturn(barbearia);
 
-        when(jwtUtil.gerarToken(anyString())).thenReturn("token_barbearia");
+        var respostaLogin = montarRespostaLoginSucesso(montarBarbeariaRespostaDto(UUID.randomUUID()), "token_barbearia");
+        when(loginHandlerChainMock.handle(any(LoginRequestDto.class), any(Usuario.class))).thenReturn(respostaLogin);
 
         var loginRequest = montarLoginRequestDto();
         var resposta = autenticacaoService.login(loginRequest);
@@ -114,7 +121,8 @@ class AutenticacaoServiceTest {
         var barbeiro = montarBarbeiroDto(barbeiroIdExterno);
         when(barbeiroService.buscarPorUsuarioId(anyLong())).thenReturn(barbeiro);
 
-        when(jwtUtil.gerarToken(anyString())).thenReturn("token_barbeiro");
+        var respostaLogin = montarRespostaLoginSucesso(montarBarbeiroDto(UUID.randomUUID()), "token_barbeiro");
+        when(loginHandlerChainMock.handle(any(LoginRequestDto.class), any(Usuario.class))).thenReturn(respostaLogin);
 
         var loginRequest = montarLoginRequestDto();
         var resposta = autenticacaoService.login(loginRequest);

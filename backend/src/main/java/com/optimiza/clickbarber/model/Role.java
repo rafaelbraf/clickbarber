@@ -4,6 +4,7 @@ public enum Role {
 
     CLIENTE,
     BARBEARIA,
-    BARBEIRO;
+    BARBEIRO,
+    DEFAULT
 
 }
