@@ -3,10 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/click-barber_db
-    username: clbb
-    password: clbb
+    url: jdbc:postgresql://localhost:5432/click-barber_db?user=clbb&password=clbb
     driver-class-name: org.postgresql.Driver
+    validation-query: SELECT 1;
+    test-on-borrow: true
 
   jpa:
     packages-to-scan: com.optimiza.clickbarber.model
