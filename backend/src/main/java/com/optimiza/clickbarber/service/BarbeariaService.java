@@ -87,9 +87,9 @@ public class BarbeariaService {
         return barbeariaMapper.toRespostaDto(barbearia);
     }
 
-    public BarbeariaDto cadastrar(BarbeariaCadastroDto barbeariaCadastro) {
+    public BarbeariaRespostaDto cadastrar(BarbeariaCadastroDto barbeariaCadastro) {
         var barbearia = barbeariaMapper.toEntity(barbeariaCadastro);
         var barbeariaCadastrada = barbeariaRepository.save(barbearia);
-        return barbeariaMapper.toDto(barbeariaCadastrada);
+        return barbeariaMapper.toRespostaDto(barbeariaCadastrada);
     }
 }

@@ -5,6 +5,7 @@ import com.optimiza.clickbarber.config.JwtUtil;
 import com.optimiza.clickbarber.handler.LoginHandlerChain;
 import com.optimiza.clickbarber.model.autenticacao.RespostaLogin;
 import com.optimiza.clickbarber.model.Role;
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaDto;
 import com.optimiza.clickbarber.model.usuario.Usuario;
 import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaCadastroDto;
@@ -95,7 +96,7 @@ public class AutenticacaoService {
         return null;
     }
 
-    private BarbeariaDto cadastrarBarbearia(Map<String, Object> dataMap, Usuario usuarioCadastrado) {
+    private BarbeariaRespostaDto cadastrarBarbearia(Map<String, Object> dataMap, Usuario usuarioCadastrado) {
         var barbeariaCadastro = objectMapper.convertValue(dataMap, BarbeariaCadastroDto.class);
         barbeariaCadastro.setUsuario(usuarioCadastrado);
         return barbeariaService.cadastrar(barbeariaCadastro);
