@@ -26,11 +26,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Origin", Constants.FRONTEND_BARBEARIA_URL);
-        response.setHeader("Access-Control-Allow-Origin", Constants.FRONTEND_CLIENTE_URL);
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+        setCorsHeaders(request, response);
 
         if (request.getMethod().equalsIgnoreCase(Constants.OPTIONS_METHOD)) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -70,5 +66,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private boolean isRefererValido(HttpServletRequest request) {
         String referer = request.getHeader("Referer");
         return nonNull(referer) && referer.startsWith(Constants.FRONTEND_CLIENTE_URL);
+    }
+
+    private void setCorsHeaders(HttpServletRequest request, HttpServletResponse response) {
+        String origin = request.getHeader("Origin");
+        if (origin.equals(Constants.FRONTEND_BARBEARIA_URL) || origin.equals(Constants.FRONTEND_CLIENTE_URL)) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.setHeader("Access-Control-Allow-Headers", "*");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+        }
     }
 }
