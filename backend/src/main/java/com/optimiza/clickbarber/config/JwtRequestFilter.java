@@ -69,12 +69,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private void setCorsHeaders(HttpServletRequest request, HttpServletResponse response) {
-        String origin = request.getHeader("Origin");
-        if (origin.equals(Constants.FRONTEND_BARBEARIA_URL) || origin.equals(Constants.FRONTEND_CLIENTE_URL)) {
-            response.setHeader("Access-Control-Allow-Origin", origin);
-            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-            response.setHeader("Access-Control-Allow-Headers", "*");
-            response.setHeader("Access-Control-Allow-Credentials", "true");
+        String origin = "";
+
+        String originHeader = request.getHeader("Origin");
+        if (nonNull(originHeader)) {
+            if (originHeader.equals(Constants.FRONTEND_BARBEARIA_URL) || originHeader.equals(Constants.FRONTEND_CLIENTE_URL)) {
+                origin = originHeader;
+            }
+        } else {
+            String userAgentHeader = request.getHeader("user-agent");
+            if (userAgentHeader.contains("insomnia")) {
+                origin = userAgentHeader;
+            }
         }
+
+        response.setHeader("Access-Control-Allow-Origin", origin);
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
     }
 }
