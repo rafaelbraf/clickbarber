@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Alert, Button, Card, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { Toast, ToastContainer } from "react-bootstrap";
 import AutenticacaoService from "../services/AutenticacaoService";
+import { MdError } from "react-icons/md";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -11,6 +13,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [showToastSuccess, setShowToastSuccess] = useState(false);
+    const [showToastFailed, setShowToastFailed] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,9 +29,10 @@ export default function Login() {
                 localStorage.setItem('idBarbearia', response.result.idExterno);
                 navigate('/inicio');
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             setError(error.data.message);
+            setShowToastFailed(true);
         } finally {
             setLoading(false);
         }
@@ -37,9 +42,6 @@ export default function Login() {
         setMostrarSenha(!mostrarSenha);
     };
 
-    const handleCloseAlert = () => {
-        setError('');
-    }
 
     return (
         <div className="login-container">
@@ -63,7 +65,7 @@ export default function Login() {
 
                                 <Form.Group controlId="senha" className="mt-3">
                                     <Form.Label>Senha</Form.Label>
-                                    <InputGroup>                                    
+                                    <InputGroup>
                                         <Form.Control
                                             type={mostrarSenha ? "text" : "password"}
                                             value={senha}
@@ -85,10 +87,6 @@ export default function Login() {
                                     )}
                                 </Button>
 
-                                {error && (
-                                    <Alert variant="danger" onClose={handleCloseAlert} dismissible className="mt-2">{error}</Alert>
-                                )}
-
                                 <div className="text-center mt-3">
                                     <span>Ainda não tem conta? <Link to="/">Registre-se aqui</Link></span>
                                 </div>
@@ -97,6 +95,17 @@ export default function Login() {
                     </Card>
                 </Col>
             </Row>
+            <ToastContainer position="top-end" className="p-3" style={{ zIndex: 1 }}>
+                <Toast
+                 bg="danger"
+                 show={showToastFailed}
+                 delay={5000}
+                 autohide 
+                 onClose={() => setShowToastFailed(false)}>
+                    <Toast.Body className="text-white"><MdError /><span> {error}</span></Toast.Body>
+                    
+                </Toast>
+            </ToastContainer>
         </div>
     );
 }
