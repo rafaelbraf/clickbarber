@@ -5,6 +5,10 @@ import { Barbeiros } from "../pages/Barbeiros";
 import { Servicos } from "../pages/Servicos";
 import { Agendamentos } from "../pages/Agendamentos";
 import { Configuracoes } from "../pages/Configuracoes";
+import { ConfiguracoesPerfil } from "../pages/configuracoes/ConfiguracoesPerfil";
+import { ConfiguracoesSeguranca } from "../pages/configuracoes/ConfiguracoesSeguranca";
+import { ConfiguracoesNotificacoes } from "../pages/configuracoes/ConfiguracoesNotificacoes";
+import { ConfiguracoesPrivacidade } from "../pages/configuracoes/ConfiguracoesPrivacidade";
 
 function AppRoutes() {
     return (
@@ -15,7 +19,12 @@ function AppRoutes() {
                 <Route path="/barbeiros" element={<Barbeiros />} />
                 <Route path="/servicos" element={<Servicos />} />
                 <Route path="/agendamentos" element={<Agendamentos />} />
-                <Route path="/configuracoes" element={<Configuracoes />} />
+                <Route path="/configuracoes" element={<Configuracoes />}>
+                    <Route path="perfil" element={<ConfiguracoesPerfil />} />
+                    <Route path="seguranca" element={<ConfiguracoesSeguranca />} />
+                    <Route path="notificacoes" element={<ConfiguracoesNotificacoes />} />
+                    <Route path="privacidade" element={<ConfiguracoesPrivacidade />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
