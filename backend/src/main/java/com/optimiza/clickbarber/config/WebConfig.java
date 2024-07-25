@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         Constants.FRONTEND_BARBEARIA_URL,
                         Constants.FRONTEND_CLIENTE_URL)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }

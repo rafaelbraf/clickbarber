@@ -11,6 +11,7 @@ object Constants {
         const val LOGIN_REALIZADO_COM_SUCESSO: String = "Login realizado com sucesso!"
         const val BARBEARIAS_ENCONTRADAS_PELO_NOME: String = "Barbearias encontradas com nome"
         const val BARBEARIAS_ENCONTRADA_PELO_ID_EXTERNO: String = "Barbearias encontradas com idExterno"
+        const val BARBEARIA_ATUALIZADA_SUCESSO: String = "Barbearia atualizada com sucesso!"
         const val BARBEARIAS_ENCONTRADAS: String = "Barbearia(s) encontrada(s)"
         const val SERVICOS_ENCONTRADOS: String = "Serviços encontrados"
         const val SERVICO_ENCONTRADO_COM_SUCESSO: String = "Serviço encontrado com sucesso!"
