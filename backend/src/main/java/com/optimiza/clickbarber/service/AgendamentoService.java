@@ -80,6 +80,8 @@ public class AgendamentoService {
 
         var agendamentoCadastrado = agendamentoRepository.save(agendamento);
 
+        clienteService.inserirBarbearia(cliente, barbearia);
+
         return agendamentoMapper.toDto(agendamentoCadastrado);
     }
 

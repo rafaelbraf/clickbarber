@@ -15,7 +15,6 @@ import java.util.UUID;
 public class ClienteDto {
 
     private UUID idExterno;
-    private String cpf;
     private String nome;
     private LocalDate dataNascimento;
     private String celular;

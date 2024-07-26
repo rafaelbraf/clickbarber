@@ -1,6 +1,7 @@
 package com.optimiza.clickbarber.service
 
 import com.optimiza.clickbarber.exception.ResourceNotFoundException
+import com.optimiza.clickbarber.model.barbearia.Barbearia
 import com.optimiza.clickbarber.model.cliente.Cliente
 import com.optimiza.clickbarber.model.cliente.dto.ClienteCadastroDto
 import com.optimiza.clickbarber.model.cliente.dto.ClienteDto
@@ -41,5 +42,10 @@ class ClienteService @Autowired constructor(
         val cliente = clienteMapper.toEntity(usuarioCadastro)
         val clienteCadastrado = clienteRepository.save(cliente)
         return clienteMapper.toDto(clienteCadastrado)
+    }
+
+    fun inserirBarbearia(cliente: Cliente, barbearia: Barbearia): Cliente {
+        cliente.barbearias.add(barbearia)
+        return clienteRepository.save(cliente)
     }
 }

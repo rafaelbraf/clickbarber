@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class ClienteCadastroDto {
 
     private String nome;
-    private String cpf;
     private LocalDate dataNascimento;
     private String celular;
     private Usuario usuario;

@@ -7,13 +7,12 @@ import org.springframework.stereotype.Component;
 public class ClienteMapper {
 
     public Cliente toEntity(ClienteCadastroDto usuarioCadastro) {
-        return Cliente.builder()
-                .nome(usuarioCadastro.getNome())
-                .celular(usuarioCadastro.getCelular())
-                .cpf(usuarioCadastro.getCpf())
-                .dataNascimento(usuarioCadastro.getDataNascimento())
-                .usuario(usuarioCadastro.getUsuario())
-                .build();
+        return new Cliente(
+                usuarioCadastro.getNome(),
+                usuarioCadastro.getDataNascimento(),
+                usuarioCadastro.getCelular(),
+                usuarioCadastro.getUsuario()
+        );
     }
 
     public ClienteDto toDto(Cliente cliente) {
@@ -21,7 +20,6 @@ public class ClienteMapper {
                 .idExterno(cliente.getIdExterno())
                 .nome(cliente.getNome())
                 .celular(cliente.getCelular())
-                .cpf(cliente.getCpf())
                 .dataNascimento(cliente.getDataNascimento())
                 .build();
     }
@@ -31,7 +29,6 @@ public class ClienteMapper {
                 .id(cliente.getId())
                 .nome(cliente.getNome())
                 .celular(cliente.getCelular())
-                .cpf(cliente.getCpf())
                 .build();
     }
 

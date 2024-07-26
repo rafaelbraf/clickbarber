@@ -20,11 +20,13 @@ import com.optimiza.clickbarber.model.servico.dto.ServicoCadastroDto;
 import com.optimiza.clickbarber.model.servico.dto.ServicoDto;
 import com.optimiza.clickbarber.model.usuario.Usuario;
 import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
+import kotlin.jvm.internal.markers.KMutableSet;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -296,23 +298,24 @@ public class TestDataFactory {
     }
 
     public static Cliente montarCliente() {
-        return Cliente.builder()
-                .id(1L)
-                .nome("Cliente Teste")
-                .dataNascimento(LocalDate.of(2001, 1, 1))
-                .cpf("012345678910")
-                .celular("988888888")
-                .build();
+        return new Cliente(
+                1L,
+                UUID.randomUUID(),
+                "Cliente Teste",
+                LocalDate.of(2001, 1, 1),
+                "+5588988888888",
+                Collections.emptySet()
+        );
     }
 
     public static Cliente montarCliente(Long id, String nome) {
-        return Cliente.builder()
-                .id(id)
-                .nome(nome)
-                .dataNascimento(LocalDate.of(2001, 1, 1))
-                .cpf("012345678910")
-                .celular("988888888")
-                .build();
+        return new Cliente(
+                id,
+                nome,
+                LocalDate.of(2001, 1, 1),
+                "+5588988888888",
+                Collections.emptySet()
+        );
     }
 
     public static ClienteDto montarClienteDto(UUID idExterno) {
@@ -327,7 +330,6 @@ public class TestDataFactory {
 
     public static ClienteCadastroDto montarClienteCadastroDto() {
         return ClienteCadastroDto.builder()
-                .cpf("012345678910")
                 .nome("Cliente Teste")
                 .celular("988888888")
                 .dataNascimento(LocalDate.of(2001, 1, 1))

@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS barbeiros (
     id_externo UUID UNIQUE NOT NULL,
     cpf VARCHAR(11) UNIQUE NOT NULL,
     nome VARCHAR(100) NOT NULL,
-    celular VARCHAR(20),
+    celular VARCHAR(15) NOT NULL,
     admin BOOLEAN NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
     barbearia_id BIGINT REFERENCES barbearias(id),
