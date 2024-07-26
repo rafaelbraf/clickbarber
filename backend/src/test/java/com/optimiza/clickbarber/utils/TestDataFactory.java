@@ -322,7 +322,6 @@ public class TestDataFactory {
         return ClienteDto.builder()
                 .idExterno(idExterno)
                 .nome("Cliente Teste")
-                .cpf("012345678910")
                 .celular("988888888")
                 .dataNascimento(LocalDate.of(2001, 1, 1))
                 .build();

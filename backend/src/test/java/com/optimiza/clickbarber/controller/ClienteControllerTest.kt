@@ -52,7 +52,6 @@ internal class ClienteControllerTest {
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").value("${Constants.Success.CLIENTES_ENCONTRADOS_DA_BARBEARIA}$idExternoBarbearia"))
             .andExpect(jsonPath("$.result.[0].idExterno").value(idExternoCliente1.toString()))
-            .andExpect(jsonPath("$.result.[0].cpf").value(cliente1.cpf))
             .andExpect(jsonPath("$.result.[1].idExterno").value(idExternoCliente2.toString()))
     }
 
