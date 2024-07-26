@@ -2,13 +2,17 @@ package com.optimiza.clickbarber.controller
 
 import com.optimiza.clickbarber.model.Resposta
 import com.optimiza.clickbarber.model.RespostaUtils
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaAtualizarDto
 import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaDto
+import com.optimiza.clickbarber.model.barbearia.dto.BarbeariaRespostaDto
 import com.optimiza.clickbarber.service.BarbeariaService
 import com.optimiza.clickbarber.utils.Constants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -46,6 +50,12 @@ class BarbeariaController @Autowired constructor(
         val barbeariaEncontrada = barbeariaService.buscarDtoPorIdExteno(idExterno)
         val mensagem = "${Constants.Success.BARBEARIAS_ENCONTRADA_PELO_ID_EXTERNO} $idExterno"
         return RespostaUtils.ok(mensagem, barbeariaEncontrada)
+    }
+
+    @PatchMapping
+    fun atualizar(@RequestBody barbeariaAtualizarDto: BarbeariaAtualizarDto): Resposta<BarbeariaRespostaDto> {
+        val barbeariaAtualizada = barbeariaService.atualizar(barbeariaAtualizarDto)
+        return RespostaUtils.ok(Constants.Success.BARBEARIA_ATUALIZADA_SUCESSO, barbeariaAtualizada)
     }
 
 }

@@ -23,7 +23,7 @@ class Usuario(
     @Column(name = "id_externo", unique = true, nullable = false)
     var idExterno: UUID?,
 
-    val email: String,
+    var email: String,
     var senha: String,
 
     @Enumerated(EnumType.STRING)

@@ -20,6 +20,7 @@ public class BarbeariaDto {
     private UUID idExterno;
     private String cnpj;
     private String nome;
+    private String email;
     private String endereco;
     private String telefone;
     private List<ServicoDto> servicos;

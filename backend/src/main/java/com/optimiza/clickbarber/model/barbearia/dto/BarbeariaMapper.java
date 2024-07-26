@@ -34,6 +34,7 @@ public class BarbeariaMapper {
         return BarbeariaDto.builder()
                 .idExterno(barbearia.getIdExterno())
                 .nome(barbearia.getNome())
+                .email(barbearia.getUsuario().getEmail())
                 .cnpj(barbearia.getCnpj())
                 .telefone(barbearia.getTelefone())
                 .endereco(barbearia.getEndereco())
