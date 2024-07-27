@@ -34,4 +34,8 @@ public class UsuarioService {
         var usuario = usuarioMapper.toEntity(usuarioRegistrar);
         return usuarioRepository.save(usuario);
     }
+
+    public void deletarById(Long id) {
+        usuarioRepository.deleteById(id);
+    }
 }
