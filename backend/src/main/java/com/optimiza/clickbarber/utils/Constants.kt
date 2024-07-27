@@ -53,6 +53,7 @@ object Constants {
         const val CLIENTE_NAO_ENCONTRADO_PRO_AGENDAMENTO: String = "Cliente não encontrado pro Agendamento."
         const val SERVICO_NAO_ENCONTRADO_PRO_AGENDAMENTO: String = "Serviço não encontrado pro Agendamento."
         const val ENTIDADE_NAO_ENCONTRADA_PARA_BARBEARIA: String = "%s com ID %s não encontrado para Barbearia com ID Externo %s"
+        const val BARBEIRO_POSSUI_RELACAO_COM_AGENDAMENTOS: String = "Barbeiro não pode ser excluído pois possui relação com agendamentos."
     }
 
     object UrlPattern {

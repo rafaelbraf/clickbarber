@@ -125,7 +125,7 @@ class BarbeiroControllerTest {
 
     @Test
     void testDeletarBarbeiro() throws Exception {
-        doNothing().when(barbeiroService).deletarPorId(1L);
+        doNothing().when(barbeiroService).deletarPorIdExterno(UUID.randomUUID());
 
         mockMvc.perform(delete("/barbeiros/" + 1L))
                 .andExpect(status().isNoContent());

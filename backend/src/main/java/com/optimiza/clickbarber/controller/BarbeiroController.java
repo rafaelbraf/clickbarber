@@ -51,9 +51,9 @@ public class BarbeiroController {
         return RespostaUtils.ok(Constants.Success.BARBEIRO_ATUALIZADO_COM_SUCESSO, barbeiroAtualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
-        barbeiroService.deletarPorId(id);
+    @DeleteMapping("/{idExterno}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable UUID idExterno) {
+        barbeiroService.deletarPorIdExterno(idExterno);
         return ResponseEntity.noContent().build();
     }
 

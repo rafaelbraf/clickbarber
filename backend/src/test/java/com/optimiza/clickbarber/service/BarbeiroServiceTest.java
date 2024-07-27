@@ -167,7 +167,7 @@ class BarbeiroServiceTest {
 
     @Test
     void testDeletarBarbeiroPorId() {
-        barbeiroService.deletarPorId(1L);
+        barbeiroService.deletarPorIdExterno(UUID.randomUUID());
         verify(barbeiroRepository, times(1)).deleteById(anyLong());
     }
 

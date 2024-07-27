@@ -35,6 +35,7 @@ public class GlobalExceptionHandler {
         constraintsErrorMessages.put("agendamentos_usuario_id_fkey", Constants.Error.USUARIO_NAO_ENCONTRADO_PRO_AGENDAMENTO);
         constraintsErrorMessages.put("agendamentos_cliente_id_fkey", Constants.Error.CLIENTE_NAO_ENCONTRADO_PRO_AGENDAMENTO);
         constraintsErrorMessages.put("agendamentos_servicos_servico_id_fkey", Constants.Error.SERVICO_NAO_ENCONTRADO_PRO_AGENDAMENTO);
+        constraintsErrorMessages.put("agendamentos_barbeiros_barbeiro_id_fkey", Constants.Error.BARBEIRO_POSSUI_RELACAO_COM_AGENDAMENTOS);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

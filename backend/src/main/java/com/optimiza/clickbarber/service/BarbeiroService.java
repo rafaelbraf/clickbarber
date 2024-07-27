@@ -9,6 +9,7 @@ import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroMapper;
 import com.optimiza.clickbarber.repository.BarbeiroRepository;
 import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,11 +20,13 @@ public class BarbeiroService {
     private final BarbeiroRepository barbeiroRepository;
     private final BarbeariaService barbeariaService;
     private final BarbeiroMapper barbeiroMapper;
+    private final UsuarioService usuarioService;
 
-    public BarbeiroService(BarbeiroRepository barbeiroRepository, BarbeariaService barbeariaService, BarbeiroMapper barbeiroMapper) {
+    public BarbeiroService(BarbeiroRepository barbeiroRepository, BarbeariaService barbeariaService, BarbeiroMapper barbeiroMapper, UsuarioService usuarioService) {
         this.barbeiroRepository = barbeiroRepository;
         this.barbeariaService = barbeariaService;
         this.barbeiroMapper = barbeiroMapper;
+        this.usuarioService = usuarioService;
     }
 
     public Barbeiro buscarPorId(Long id) {
@@ -67,12 +70,12 @@ public class BarbeiroService {
         return barbeiroRepository.save(barbeiroExistente);
     }
 
-    public void deletarPorId(Long id) {
-        barbeiroRepository.deleteById(id);
-    }
-
-    private boolean isExisteBarbearia(Long barbeariaId) {
-        return barbeariaService.existePorId(barbeariaId);
+    @Transactional
+    public void deletarPorIdExterno(UUID idExterno) {
+        var barbeiro = barbeiroRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEIRO, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
+        usuarioService.deletarById(barbeiro.getUsuario().getId());
+        barbeiroRepository.deleteById(barbeiro.getId());
     }
 
 }
