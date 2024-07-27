@@ -8,15 +8,18 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { HiCheckCircle } from "react-icons/hi";
 import AutenticacaoService from "../services/AutenticacaoService";
 import { AxiosError } from "axios";
+import { Loading } from "../components/Loading";
 
 export const Barbeiros: React.FC = () => {
     const idBarbearia = localStorage.getItem('idBarbearia') as string;
     const [barbeiros, setBarbeiros] = useState<Barbeiro[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [messageLoading, setMessageLoading] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [showToastSuccess, setShowToastSuccess] = useState(false);
     const [showToastFailed, setShowToastFailed] = useState(false);
+    const [messageToast, setMessageToast] = useState<string>('');
     const barbeiroCadastroDefaultValues: BarbeiroCadastro = {
         email: '',
         senha: '',
@@ -33,6 +36,8 @@ export const Barbeiros: React.FC = () => {
     const [novoBarbeiro, setNovoBarbeiro] = useState<BarbeiroCadastro>(barbeiroCadastroDefaultValues);
 
     useEffect(() => {
+        setMessageLoading("Buscando barbeiros...");
+
         const fetchBarbeiros = async () => {
             try {
                 const barbeirosEncontrados: Barbeiro[] = await BarbeiroService.buscarBarbeirosDaBarbearia(idBarbearia);
@@ -81,12 +86,14 @@ export const Barbeiros: React.FC = () => {
     };
 
     const handleSalvar = async () => {
+        setMessageLoading("Cadastrando barbeiro...");
         setLoading(true);
         setError(null);
 
         try {
             const barbeiroCadastrado = await AutenticacaoService.cadastrarBarbeiro(novoBarbeiro);
             if (barbeiroCadastrado) {
+                setMessageToast("Barbeiro cadastrado com sucesso!");
                 setShowToastSuccess(true);
                 setBarbeiros([...barbeiros, barbeiroCadastrado]);
                 setNovoBarbeiro(barbeiroCadastroDefaultValues);
@@ -106,16 +113,28 @@ export const Barbeiros: React.FC = () => {
         console.log(`Editar barbeiro com ID externo: ${idExterno}`);
     };
 
-    const handleExcluir = (idExterno: string) => {
-        console.log(`Excluir barbeiro com ID externo: ${idExterno}`);
+    const handleExcluir = async (idExterno: string) => {
+        setMessageLoading("Excluindo barbeiro...");
+        setLoading(true);
+        setError(null);
+
+        try {
+            await BarbeiroService.deletarBarbeiroPorIdExterno(idExterno);
+        } catch (error) {           
+            const axiosError = error as AxiosError;            
+            setError(axiosError.data.message);
+            setShowToastFailed(true);
+        } finally {
+            window.location.reload();
+            setLoading(false);
+            setMessageToast("Barbeiro excluído com sucesso!")
+            setShowToastSuccess(true);
+        }
     };
 
     if (loading) {
         return (
-            <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <Spinner animation="border" />
-                <p className="mt-3">Buscando barbeiros...</p>
-            </div>
+            <Loading message={messageLoading} />
         );
     }
 
@@ -294,7 +313,7 @@ export const Barbeiros: React.FC = () => {
                         autohide >
                         <Toast.Body className="text-white">
                             <HiCheckCircle size={20} />
-                            <span> Barbeiro cadastrado com sucesso!</span>
+                            <span> {messageToast}</span>
                         </Toast.Body>
                     </Toast>
                 </ToastContainer>
