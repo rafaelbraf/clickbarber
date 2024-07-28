@@ -72,7 +72,9 @@ public class ServicoService {
         return servicoRepository.save(servico);
     }
 
-    public void deletarPorId(Long id) {
-        servicoRepository.deleteById(id);
+    public void deletarPorIdExterno(UUID idExterno) {
+        var servico = servicoRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.SERVICO, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
+        servicoRepository.deleteById(servico.getId());
     }
 }

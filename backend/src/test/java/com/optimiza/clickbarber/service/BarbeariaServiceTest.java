@@ -172,6 +172,9 @@ class BarbeariaServiceTest {
         var barbeariaDto = montarBarbeariaDto(barbeariaIdExterno);
         when(barbeariaMapper.toDto(any(Barbearia.class))).thenReturn(barbeariaDto);
 
+        var barbeariaRespostaDto = montarBarbeariaRespostaDto(barbeariaIdExterno);
+        when(barbeariaMapper.toRespostaDto(any(Barbearia.class))).thenReturn(barbeariaRespostaDto);
+
         var barbeariaCadastroDto = montarBarbeariaCadastroDto();
         var barbeariaCadastradaResult = barbeariaService.cadastrar(barbeariaCadastroDto);
         assertNotNull(barbeariaCadastradaResult);

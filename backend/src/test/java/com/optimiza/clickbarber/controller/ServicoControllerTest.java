@@ -134,9 +134,10 @@ class ServicoControllerTest {
 
     @Test
     void testDeletarServicoPorId() throws Exception {
-        doNothing().when(servicoService).deletarPorId(anyLong());
+        when(servicoService.buscarPorIdExterno(any(UUID.class))).thenReturn(montarServico());
+        doNothing().when(servicoService).deletarPorIdExterno(any(UUID.class));
 
-        mockMvc.perform(delete("/servicos/" + servicoId))
+        mockMvc.perform(delete("/servicos/" + idExternoServico))
                 .andExpect(status().isNoContent());
     }
 
