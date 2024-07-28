@@ -42,4 +42,24 @@ export class ServicoService {
             throw error;
         }
     }
+
+    static async deletarServicoPorIdExterno(idExterno: string, token: string): Promise<Servico> {
+        try {
+            const response = await axios.delete(`${apiUrl}/servicos/${idExterno}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const data = await response.data;
+            return data.result;
+        } catch (error) {
+            const axiosError = error as AxiosError;
+            if (axiosError.response) {
+                throw axiosError.response;
+            }
+
+            throw error;
+        }
+    }
 }
