@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ServicoService } from "../services/ServicoService";
 import MenuLateral from "../components/MenuLateral";
-import { Badge, Button, Card, Col, Container, Modal, Row, Spinner, Toast, ToastContainer } from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, Modal, Row, Toast, ToastContainer } from "react-bootstrap";
 import { Servico, ServicoCadastro } from "../models/Servico";
 
 import { BiPlus } from "react-icons/bi";
