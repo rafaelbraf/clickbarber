@@ -9,7 +9,6 @@ import { Cliente } from "../models/Cliente";
 import { ClienteService } from "../services/ClienteService";
 import { AgendamentoCadastro } from "../models/Agendamento";
 import { AgendamentoService } from "../services/AgendamentoService";
-import axios from "axios";
 
 interface CadastroModalProps {
     showModal: boolean;
@@ -130,17 +129,7 @@ export const AgendamentoCadastroModal: React.FC<CadastroModalProps> = ({
                 setShowToast(true);
             }
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                if (error.response) {
-                    setToastMessage(`Erro ao cadastrar agendamento: ${error.response.data}`);
-                } else if (error.request) {
-                    setToastMessage('Erro ao tentar se comunicar com o servidor. Verifique sua conexão de internet.');
-                } else {
-                    setToastMessage('Erro ao tentar cadastrar agendamento. Por favor, tente novamente mais tarde.');
-                }
-            } else {
-                setToastMessage(`Erro ao cadastrar agendamento: ${error.data.message}`);
-            }            
+            setToastMessage("Não foi possível cadastrar agendamento.");
             setShowToast(true);
         }
         
@@ -202,7 +191,7 @@ export const AgendamentoCadastroModal: React.FC<CadastroModalProps> = ({
                                     <Form.Control
                                         type="datetime-local"
                                         name="dataHora"
-                                        onChange={handleChange}
+                                        onChange={() => handleChange}
                                     />
                                 </Form.Group>
                             </Accordion.Body>

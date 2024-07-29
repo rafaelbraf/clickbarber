@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, Card, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from "react-bootstrap";
@@ -13,7 +13,6 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const [showToastSuccess, setShowToastSuccess] = useState(false);
     const [showToastFailed, setShowToastFailed] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

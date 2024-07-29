@@ -1,13 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Barbeiro, BarbeiroCadastro } from "../models/Barbeiro";
 import { BarbeiroService } from "../services/BarbeiroService";
-import { Badge, Button, Card, Col, Container, Modal, Row, Spinner, Toast, ToastContainer } from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, Modal, Row, Toast, ToastContainer } from "react-bootstrap";
 import MenuLateral from "../components/MenuLateral";
 import { BiPlus, BiSolidError } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { HiCheckCircle } from "react-icons/hi";
 import AutenticacaoService from "../services/AutenticacaoService";
-import { AxiosError } from "axios";
 import { Loading } from "../components/Loading";
 
 export const Barbeiros: React.FC = () => {
@@ -100,8 +99,7 @@ export const Barbeiros: React.FC = () => {
                 handleCloseModal();
             }
         } catch (error) {
-            const axiosError = error as AxiosError;            
-            setError(axiosError.data.message);
+            setError("Erro ao cadastrar barbeiro.");
             handleCloseModal();
             setShowToastFailed(true);
         } finally {
@@ -120,9 +118,8 @@ export const Barbeiros: React.FC = () => {
 
         try {
             await BarbeiroService.deletarBarbeiroPorIdExterno(idExterno);
-        } catch (error) {           
-            const axiosError = error as AxiosError;            
-            setError(axiosError.data.message);
+        } catch (error) {
+            setError("Não foi possível excluir barbeiro.");
             setShowToastFailed(true);
         } finally {
             window.location.reload();

@@ -8,7 +8,7 @@ import { MdCheck, MdError } from "react-icons/md";
 
 export const ConfiguracoesPerfil: React.FC = () => {
     const idBarbearia: string = localStorage.getItem('idBarbearia') as string;
-    const [barbearia, setBarbearia] = useState<Barbearia | null>(null);
+    const [_, setBarbearia] = useState<Barbearia | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [loadingAtualizacao, setLoadingAtualizacao] = useState<boolean>(false);
@@ -68,7 +68,7 @@ export const ConfiguracoesPerfil: React.FC = () => {
                 setDisabled(true);
             }
         } catch (error) {            
-            setErrorMessage(`Erro ao tentar atualizar barbearia: ${error.data}`);
+            setErrorMessage('Erro ao tentar atualizar barbearia.');
             setMessageToast(errorMessage as string);
             setShowToastError(true);
             setLoadingAtualizacao(false);
