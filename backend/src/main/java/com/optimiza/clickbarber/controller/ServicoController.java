@@ -59,9 +59,9 @@ public class ServicoController {
         return RespostaUtils.ok(Constants.Success.SERVICO_ATUALIZADO_COM_SUCESSO, servicoAtualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
-        servicoService.deletarPorId(id);
+    @DeleteMapping("/{idExterno}")
+    public ResponseEntity<Void> deletarPorIdExterno(@PathVariable UUID idExterno) {
+        servicoService.deletarPorIdExterno(idExterno);
         return ResponseEntity.noContent().build();
     }
 

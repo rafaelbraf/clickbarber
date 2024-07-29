@@ -7,6 +7,7 @@ import { Servico, ServicoCadastro } from "../models/Servico";
 import { BiPlus } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { HiCheckCircle } from "react-icons/hi";
+import { Loading } from "../components/Loading";
 
 export const Servicos: React.FC = () => {
     const idBarbearia: string = localStorage.getItem('idBarbearia') as string;
@@ -17,6 +18,8 @@ export const Servicos: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showToastSuccess, setShowToastSuccess] = useState(false);
     const [showToastFailed, setShowToastFailed] = useState(false);
+    const [messageLoading, setMessageLoading] = useState<string>('');
+    const [messageToast, setMessageToast] = useState<string>('');
     const servicoCadastroDefaultValues: ServicoCadastro = {
         nome: '',
         preco: 0,
@@ -26,18 +29,18 @@ export const Servicos: React.FC = () => {
     }
     const [novoServico, setNovoServico] = useState<ServicoCadastro>(servicoCadastroDefaultValues);    
 
-    useEffect(() => {
-        const fetchServicos = async () => {
-            try {
-                const servicosEncontrados: Servico[] = await ServicoService.buscarServicosDaBarbearia(idBarbearia, token);
-                setServicos(servicosEncontrados);
-            } catch (error) {
-                setError(`Erro ao buscar serviços ${servicos}`);
-            } finally {
-                setLoading(false);
-            }
+    const fetchServicos = async () => {
+        try {
+            const servicosEncontrados: Servico[] = await ServicoService.buscarServicosDaBarbearia(idBarbearia, token);
+            setServicos(servicosEncontrados);
+        } catch (error) {
+            setError(`Erro ao buscar serviços ${servicos}`);
+        } finally {
+            setLoading(false);
         }
+    }
 
+    useEffect(() => {
         fetchServicos();
     }, [idBarbearia, token]);
 
@@ -60,12 +63,14 @@ export const Servicos: React.FC = () => {
     }
 
     const handleSalvar = async () => {
+        setMessageLoading("Cadastrando serviço...");
         setLoading(true);
         setError(null);
 
         try {
             const servicoCadastrado = await ServicoService.cadastrarServico(novoServico, token);
             if (servicoCadastrado) {
+                setMessageToast("Serviço cadastrado com sucesso!");
                 setShowToastSuccess(true);
                 setServicos([...servicos, servicoCadastrado]);
                 setNovoServico(servicoCadastroDefaultValues);
@@ -83,17 +88,27 @@ export const Servicos: React.FC = () => {
         console.log(`Editar serviço com ID externo: ${idExterno}`);
     };
 
-    const handleExcluir = (idExterno: string) => {
-        console.log(`Excluir serviço com ID externo: ${idExterno}`);
+    const handleExcluir = async (idExterno: string) => {
+        setError(null);
+        setLoading(true);
+        setMessageLoading("Excluindo serviço...");
+
+        try {
+            await ServicoService.deletarServicoPorIdExterno(idExterno, token);
+            setMessageToast("Serviço excluído com sucesso!");
+            setShowToastSuccess(true);
+            fetchServicos();
+        } catch (error) {
+            setError("Erro ao excluir serviço: " + error);
+            setShowToastFailed(true);
+        } finally {
+            setLoading(false);
+            
+        }
     };
 
     if (loading) {
-        return (
-            <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <Spinner animation="border" />
-                <p className="mt-3">Buscando serviços...</p>
-            </div>
-        );
+        return <Loading message={messageLoading} />
     }
 
     return (
@@ -236,7 +251,7 @@ export const Servicos: React.FC = () => {
                         autohide >
                         <Toast.Body className="text-white">
                             <HiCheckCircle size={20} />
-                            <span> Serviço cadastrado com sucesso!</span>
+                            <span> {messageToast}</span>
                         </Toast.Body>
                     </Toast>
                 </ToastContainer>

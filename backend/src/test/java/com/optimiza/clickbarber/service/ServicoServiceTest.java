@@ -118,7 +118,9 @@ class ServicoServiceTest {
 
     @Test
     void testDeletarServicoPorId() {
-        servicoService.deletarPorId(1L);
+        when(servicoRepository.findByIdExterno(any(UUID.class))).thenReturn(Optional.of(montarServico()));
+
+        servicoService.deletarPorIdExterno(UUID.randomUUID());
         verify(servicoRepository, times(1)).deleteById(anyLong());
     }
 
