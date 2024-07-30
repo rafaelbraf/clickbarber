@@ -24,3 +24,9 @@ spring:
 
 jwt:
   secret: secretkeyclickbarbertestespringbootcomjava1234
+
+frontend:
+  admin:
+    url: ${FRONTEND_ADMIN_URL}
+  cliente:
+    url: ${FRONTEND_CLIENTE_URL

@@ -18,10 +18,12 @@ import static java.util.Objects.nonNull;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final PropertiesConfig propertiesConfig;
 
     @Autowired
-    public JwtRequestFilter(JwtUtil jwtUtil) {
+    public JwtRequestFilter(JwtUtil jwtUtil, PropertiesConfig propertiesConfig) {
         this.jwtUtil = jwtUtil;
+        this.propertiesConfig = propertiesConfig;
     }
 
     @Override
@@ -65,7 +67,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private boolean isRefererValido(HttpServletRequest request) {
         String referer = request.getHeader("Referer");
-        return nonNull(referer) && referer.startsWith(Constants.FRONTEND_CLIENTE_URL);
+        return nonNull(referer) && referer.startsWith(propertiesConfig.FRONTEND_CLIENTE_URL);
     }
 
     private void setCorsHeaders(HttpServletRequest request, HttpServletResponse response) {
@@ -73,7 +75,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String originHeader = request.getHeader("Origin");
         if (nonNull(originHeader)) {
-            if (originHeader.equals(Constants.FRONTEND_BARBEARIA_URL) || originHeader.equals(Constants.FRONTEND_CLIENTE_URL)) {
+            if (originHeader.equals(propertiesConfig.FRONTEND_ADMIN_URL) || originHeader.equals(propertiesConfig.FRONTEND_CLIENTE_URL)) {
                 origin = originHeader;
             }
         } else {

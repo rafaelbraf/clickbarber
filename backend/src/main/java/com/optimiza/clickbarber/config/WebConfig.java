@@ -15,18 +15,20 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     private final JwtRequestFilter jwtRequestFilter;
+    private final PropertiesConfig propertiesConfig;
 
     @Autowired
-    public WebConfig(JwtRequestFilter jwtRequestFilter) {
+    public WebConfig(JwtRequestFilter jwtRequestFilter, PropertiesConfig propertiesConfig) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.propertiesConfig = propertiesConfig;
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                        Constants.FRONTEND_BARBEARIA_URL,
-                        Constants.FRONTEND_CLIENTE_URL)
+                        propertiesConfig.FRONTEND_ADMIN_URL,
+                        propertiesConfig.FRONTEND_CLIENTE_URL)
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
