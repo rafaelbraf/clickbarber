@@ -5,6 +5,7 @@ import com.optimiza.clickbarber.model.Role;
 import com.optimiza.clickbarber.model.usuario.Usuario;
 import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
 import com.optimiza.clickbarber.model.usuario.dto.UsuarioMapper;
+import com.optimiza.clickbarber.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
