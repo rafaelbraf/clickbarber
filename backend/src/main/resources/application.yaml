@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: ${URL_BD}
+    url: ${BD_URL}
     driver-class-name: org.postgresql.Driver
     validation-query: SELECT 1;
     test-on-borrow: true
