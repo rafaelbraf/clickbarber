@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY . .
 
+RUN mvn -v
+
+RUN java -version
+
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jdk-jammy
