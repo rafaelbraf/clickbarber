@@ -1,5 +1,10 @@
 server:
   port: 8081
+  jetty:
+    threads:
+      max: 200
+      min: 5
+      idle-timeout: 60000
 
 spring:
   datasource:
