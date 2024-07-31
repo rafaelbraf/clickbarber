@@ -191,7 +191,7 @@ export const AgendamentoCadastroModal: React.FC<CadastroModalProps> = ({
                                     <Form.Control
                                         type="datetime-local"
                                         name="dataHora"
-                                        onChange={() => handleChange}
+                                        onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
                                     />
                                 </Form.Group>
                             </Accordion.Body>

@@ -65,6 +65,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resposta);
     }
 
+    @ExceptionHandler(CadastroAgendamentoException.class)
+    public ResponseEntity<Resposta<String>> handleCadastroAgendamentoException(CadastroAgendamentoException e) {
+        logger.error("CadastroAgendamentoException: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(RespostaUtils.error("Erro ao cadastrar agendamento", e.getMessage()));
+    }
+
     private String defineMensagemDeErroSQL(String mensagemErroSQL) {
         return constraintsErrorMessages.entrySet().stream()
                 .filter(entry -> mensagemErroSQL.contains(entry.getKey()))

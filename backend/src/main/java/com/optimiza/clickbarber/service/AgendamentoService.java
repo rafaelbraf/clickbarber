@@ -1,5 +1,6 @@
 package com.optimiza.clickbarber.service;
 
+import com.optimiza.clickbarber.exception.CadastroAgendamentoException;
 import com.optimiza.clickbarber.exception.EntidadeNaoPerteceABarbeariaException;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.model.agendamento.Agendamento;
@@ -16,9 +17,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 @Service
 public class AgendamentoService {
@@ -64,25 +68,31 @@ public class AgendamentoService {
 
     @Transactional
     public AgendamentoDto cadastrar(AgendamentoCadastroDto agendamentoCadastro) {
-        var agendamento = montarAgendamentoComInformacoesIniciais(agendamentoCadastro);
+        requireNonNull(agendamentoCadastro.getDataHora(), "Data e hora não podem ser nulos.");
 
-        var barbearia = barbeariaService.buscarPorIdExterno(agendamentoCadastro.getBarbeariaIdExterno());
-        agendamento.setBarbearia(barbearia);
+        try {
+            var agendamento = montarAgendamentoComInformacoesIniciais(agendamentoCadastro);
 
-        var cliente = clienteService.buscarPorIdExterno(agendamentoCadastro.getClienteIdExterno());
-        agendamento.setCliente(cliente);
+            var barbearia = barbeariaService.buscarPorIdExterno(agendamentoCadastro.getBarbeariaIdExterno());
+            agendamento.setBarbearia(barbearia);
 
-        var servicos = buscarServicosDaBarbearia(agendamentoCadastro.getServicosIdsExterno(), barbearia);
-        agendamento.setServicos(servicos);
+            var cliente = clienteService.buscarPorIdExterno(agendamentoCadastro.getClienteIdExterno());
+            agendamento.setCliente(cliente);
 
-        var barbeiros = buscarBarbeirosDaBarbearia(agendamentoCadastro.getBarbeirosIdsExterno(), barbearia);
-        agendamento.setBarbeiros(barbeiros);
+            var servicos = buscarServicosDaBarbearia(agendamentoCadastro.getServicosIdsExterno(), barbearia);
+            agendamento.setServicos(servicos);
 
-        var agendamentoCadastrado = agendamentoRepository.save(agendamento);
+            var barbeiros = buscarBarbeirosDaBarbearia(agendamentoCadastro.getBarbeirosIdsExterno(), barbearia);
+            agendamento.setBarbeiros(barbeiros);
 
-        clienteService.inserirBarbearia(cliente, barbearia);
+            var agendamentoCadastrado = agendamentoRepository.save(agendamento);
 
-        return agendamentoMapper.toDto(agendamentoCadastrado);
+            clienteService.inserirBarbearia(cliente, barbearia);
+
+            return agendamentoMapper.toDto(agendamentoCadastrado);
+        } catch (Exception e) {
+            throw new CadastroAgendamentoException(e.getMessage());
+        }
     }
 
     public AgendamentoDto atualizar(AgendamentoAtualizarDto agendamento) {
