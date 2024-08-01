@@ -132,31 +132,33 @@ export const Servicos: React.FC = () => {
                             <Col xs={12} key={servico.idExterno} className="mb-2">
                                 <Card className="shadow-sm">
                                     <Card.Body>
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <strong>Nome:</strong> {servico.nome}
-                                            </div>
-                                            <div>
-                                                <strong>ID:</strong> {servico.idExterno}
-                                            </div>
-                                            <div>
-                                                <strong>Preço:</strong> R${servico.preco.toFixed(2)}
-                                            </div>
-                                            <div>
-                                                <strong>Duração:</strong> {servico.tempoDuracaoEmMinutos} min
-                                            </div>
-                                            <div>
-                                                <strong>Status:</strong>{' '}
-                                                <Badge bg={servico.ativo ? 'success' : 'secondary'}>
-                                                    {servico.ativo ? 'Ativo' : 'Inativo'}
-                                                </Badge>
-                                            </div>
-                                            <div>
-                                                <Button variant="primary" onClick={() => handleEditar(servico.idExterno)}><MdEdit /></Button>{' '}
-                                                <Button variant="danger" onClick={() => handleExcluir(servico.idExterno)}><MdDelete /></Button>
-                                            </div>
-                                        </div>
-                                        
+                                        <Container>
+                                            <Row>
+                                                <Col sm={12} lg={3}>
+                                                    <strong>Nome:</strong> {servico.nome}
+                                                </Col>
+
+                                                <Col sm={12} lg={2}>
+                                                    <strong>Preço:</strong> R${servico.preco.toFixed(2)}
+                                                </Col>
+
+                                                <Col sm={12} lg={2}>
+                                                    <strong>Duração:</strong> {servico.tempoDuracaoEmMinutos} min
+                                                </Col>
+
+                                                <Col sm={12} lg={2}>
+                                                    <strong>Status:</strong>{' '}
+                                                    <Badge bg={servico.ativo ? 'success' : 'secondary'}>
+                                                        {servico.ativo ? 'Ativo' : 'Inativo'}
+                                                    </Badge>
+                                                </Col>
+
+                                                <Col sm={12} lg={3} className="text-end">
+                                                    <Button variant="primary" onClick={() => handleEditar(servico.idExterno)}><MdEdit /></Button>{' '}
+                                                    <Button variant="danger" onClick={() => handleExcluir(servico.idExterno)}><MdDelete /></Button>
+                                                </Col>
+                                            </Row>
+                                        </Container>                                        
                                     </Card.Body>
                                 </Card>
                             </Col>
