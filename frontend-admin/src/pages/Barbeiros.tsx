@@ -156,31 +156,33 @@ export const Barbeiros: React.FC = () => {
                             <Col xs={12} key={barbeiro.idExterno} className="mb-2">
                                 <Card className="shadow-sm">
                                     <Card.Body>
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <strong>ID:</strong> {barbeiro.idExterno}
-                                            </div>
-                                            <div>
-                                                <strong>Nome:</strong> {barbeiro.nome}
-                                            </div>
-                                            <div>
-                                                <strong>Celular:</strong> {barbeiro.celular}
-                                            </div>
-                                            <div>
-                                                <strong>Admin:</strong> {barbeiro.admin ? 'Sim' : 'Não'}
-                                            </div>
-                                            <div>
-                                                <strong>Ativo:</strong>{' '}
-                                                <Badge bg={barbeiro.ativo ? 'success' : 'secondary'}>
-                                                    {barbeiro.ativo ? 'Ativo' : 'Inativo'}
-                                                </Badge>
-                                            </div>
-                                            <div>
-                                                <Button variant="primary" onClick={() => handleEditar(barbeiro.idExterno)}><MdEdit /></Button>{' '}
-                                                <Button variant="danger" onClick={() => handleExcluir(barbeiro.idExterno)}><MdDelete /></Button>
-                                            </div>
-                                        </div>
-                                        
+                                        <Container>
+                                            <Row>
+                                                <Col sm={12} lg={3}>
+                                                    <strong>Nome:</strong> {barbeiro.nome}
+                                                </Col>
+
+                                                <Col sm={12} lg={2}>
+                                                    <strong>Celular:</strong> {barbeiro.celular}
+                                                </Col>
+
+                                                <Col sm={12} lg={2}>
+                                                    <strong>Admin:</strong> {barbeiro.admin ? 'Sim' : 'Não'}
+                                                </Col>
+
+                                                <Col sm={12} lg={2}>
+                                                    <strong>Ativo:</strong>{' '}
+                                                    <Badge bg={barbeiro.ativo ? 'success' : 'secondary'}>
+                                                        {barbeiro.ativo ? 'Ativo' : 'Inativo'}
+                                                    </Badge>
+                                                </Col>
+
+                                                <Col sm={12} lg={3} className="text-end">
+                                                    <Button variant="primary" onClick={() => handleEditar(barbeiro.idExterno)}><MdEdit /></Button>{' '}
+                                                    <Button variant="danger" onClick={() => handleExcluir(barbeiro.idExterno)}><MdDelete /></Button>
+                                                </Col>
+                                            </Row>
+                                        </Container>                                        
                                     </Card.Body>
                                 </Card>
                             </Col>
