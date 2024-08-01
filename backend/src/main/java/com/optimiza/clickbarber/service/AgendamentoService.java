@@ -12,6 +12,8 @@ import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.repository.AgendamentoRepository;
 import com.optimiza.clickbarber.utils.Constants;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,8 @@ public class AgendamentoService {
         this.barbeiroService = barbeiroService;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(AgendamentoService.class);
+
     public AgendamentoDto buscarPorIdExterno(UUID idExterno) {
         var agendamento = agendamentoRepository.findByIdExterno(idExterno)
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.AGENDAMENTO, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
@@ -68,6 +72,7 @@ public class AgendamentoService {
 
     @Transactional
     public AgendamentoDto cadastrar(AgendamentoCadastroDto agendamentoCadastro) {
+        logger.info("[AgendamentoService.cadastrar] Iniciando cadastro de agendamento...");
         requireNonNull(agendamentoCadastro.getDataHora(), "Data e hora não podem ser nulos.");
 
         try {
@@ -89,8 +94,10 @@ public class AgendamentoService {
 
             clienteService.inserirBarbearia(cliente, barbearia);
 
+            logger.info("[AgendamentoService.cadastrar] Agendamento {} cadastrado com sucesso!", agendamentoCadastrado.getId());
             return agendamentoMapper.toDto(agendamentoCadastrado);
         } catch (Exception e) {
+            logger.error("[AgendamentoService.cadastrar] Erro ao cadastrar agendamento: {}", e.getMessage());
             throw new CadastroAgendamentoException(e.getMessage());
         }
     }
