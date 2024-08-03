@@ -1,5 +1,7 @@
 package com.optimiza.clickbarber.model.barbearia.dto;
 
+import com.optimiza.clickbarber.model.horariofuncionamento.HorarioFuncionamento;
+import com.optimiza.clickbarber.model.horariofuncionamento.HorarioFuncionamentoDto;
 import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
 import com.optimiza.clickbarber.model.servico.dto.ServicoDto;
@@ -25,5 +27,6 @@ public class BarbeariaDto {
     private String telefone;
     private List<ServicoDto> servicos;
     private List<BarbeiroDto> barbeiros;
+    private List<HorarioFuncionamentoDto> horarios;
 
 }

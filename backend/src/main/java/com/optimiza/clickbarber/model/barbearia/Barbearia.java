@@ -3,6 +3,7 @@ package com.optimiza.clickbarber.model.barbearia;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
+import com.optimiza.clickbarber.model.horariofuncionamento.HorarioFuncionamento;
 import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.model.usuario.Usuario;
 import jakarta.persistence.*;
@@ -48,11 +49,18 @@ public class Barbearia {
     @JsonIgnoreProperties("barbearia")
     private List<Barbeiro> barbeiros;
 
+    @OneToMany(mappedBy = "barbearia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HorarioFuncionamento> horarios;
+
     @PrePersist
     void gerarIdExterno() {
         if (isNull(idExterno)) {
             idExterno = UUID.randomUUID();
         }
+    }
+
+    public Long getId() {
+        return id;
     }
 
 }
