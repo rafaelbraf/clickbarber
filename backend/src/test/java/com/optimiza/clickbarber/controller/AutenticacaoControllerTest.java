@@ -6,10 +6,10 @@ import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
 import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
 import com.optimiza.clickbarber.service.AutenticacaoService;
 import com.optimiza.clickbarber.utils.Constants;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -54,7 +54,7 @@ class AutenticacaoControllerTest {
         var token = "token_teste";
         var barbearia = montarBarbeariaDto(barbeariaIdExterno);
         var respostaLogin = RespostaLogin.authorized(barbearia, token);
-        when(autenticacaoService.login(ArgumentMatchers.any(LoginRequestDto.class))).thenReturn(respostaLogin);
+        when(autenticacaoService.login(any(LoginRequestDto.class), any(HttpServletRequest.class))).thenReturn(respostaLogin);
 
         var loginRequest = montarLoginRequestDto();
         var loginRequestJsonString = objectMapper.writeValueAsString(loginRequest);

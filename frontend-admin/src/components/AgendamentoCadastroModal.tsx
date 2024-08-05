@@ -183,7 +183,39 @@ export const AgendamentoCadastroModal: React.FC<CadastroModalProps> = ({
 
                 <Modal.Body>
                     <Accordion defaultActiveKey="0" alwaysOpen>
+
                         <Accordion.Item eventKey="0">
+                            <Accordion.Header>Serviços</Accordion.Header>
+                            <Accordion.Body>
+                                <Form.Group controlId="servicos">
+                                    <Form.Label>Serviços</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        name="selectedServico"
+                                        value={selectedServico}
+                                        onChange={(e) => setSelectedServico(e.target.value)}
+                                    >
+                                        <option value="">Selecione um ou mais serviços</option>
+                                        {servicos.map(servico => (
+                                            <option key={servico.idExterno} value={servico.idExterno}>
+                                                {servico.nome} - R${servico.preco}
+                                            </option>
+                                        ))}
+                                    </Form.Control>
+                                    <Button onClick={handleAddServico} className="mt-2">Adicionar</Button>
+                                </Form.Group>
+                                <ListGroup className="mt-3">
+                                    {formData.servicos.map(servico => (
+                                        <ListGroup.Item key={servico.idExterno}>
+                                            {servico.nome} - R${servico.preco}
+                                            <Button variant="danger" size="sm" onClick={() => handleRemoveServico(servico.idExterno)} className="float-end"><MdDelete size={20} /> Remover</Button>
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            </Accordion.Body>
+                        </Accordion.Item>
+
+                        <Accordion.Item eventKey="1">
                             <Accordion.Header>Agendamento</Accordion.Header>
                             <Accordion.Body>
                                 <Form.Group controlId="dataHora" className="mb-2">
@@ -196,27 +228,7 @@ export const AgendamentoCadastroModal: React.FC<CadastroModalProps> = ({
                                 </Form.Group>
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="1">
-                            <Accordion.Header>Cliente</Accordion.Header>
-                            <Accordion.Body>
-                                <Form.Group controlId="clientes">
-                                    <Form.Label>Cliente</Form.Label>
-                                    <Form.Control
-                                        as="select"
-                                        name="selectedCliente"
-                                        value={selectedCliente}
-                                        onChange={(e) => setSelectedCliente(e.target.value)}
-                                    >
-                                        <option value="">Selecione um cliente</option>
-                                        {clientes?.map(cliente => (
-                                            <option key={cliente.idExterno} value={cliente.idExterno}>
-                                                {cliente.nome}
-                                            </option>
-                                        ))}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Accordion.Body>
-                        </Accordion.Item>
+
                         <Accordion.Item eventKey="2">
                             <Accordion.Header>Barbeiros</Accordion.Header>
                             <Accordion.Body>
@@ -247,36 +259,29 @@ export const AgendamentoCadastroModal: React.FC<CadastroModalProps> = ({
                                 </ListGroup>
                             </Accordion.Body>
                         </Accordion.Item>
+
                         <Accordion.Item eventKey="3">
-                            <Accordion.Header>Serviços</Accordion.Header>
+                            <Accordion.Header>Cliente</Accordion.Header>
                             <Accordion.Body>
-                                <Form.Group controlId="servicos">
-                                    <Form.Label>Serviços</Form.Label>
+                                <Form.Group controlId="clientes">
+                                    <Form.Label>Cliente</Form.Label>
                                     <Form.Control
                                         as="select"
-                                        name="selectedServico"
-                                        value={selectedServico}
-                                        onChange={(e) => setSelectedServico(e.target.value)}
+                                        name="selectedCliente"
+                                        value={selectedCliente}
+                                        onChange={(e) => setSelectedCliente(e.target.value)}
                                     >
-                                        <option value="">Selecione um ou mais serviços</option>
-                                        {servicos.map(servico => (
-                                            <option key={servico.idExterno} value={servico.idExterno}>
-                                                {servico.nome} - R${servico.preco}
+                                        <option value="">Selecione um cliente</option>
+                                        {clientes?.map(cliente => (
+                                            <option key={cliente.idExterno} value={cliente.idExterno}>
+                                                {cliente.nome}
                                             </option>
                                         ))}
                                     </Form.Control>
-                                    <Button onClick={handleAddServico} className="mt-2">Adicionar</Button>
                                 </Form.Group>
-                                <ListGroup className="mt-3">
-                                    {formData.servicos.map(servico => (
-                                        <ListGroup.Item key={servico.idExterno}>
-                                            {servico.nome} - R${servico.preco}
-                                            <Button variant="danger" size="sm" onClick={() => handleRemoveServico(servico.idExterno)} className="float-end"><MdDelete size={20} /> Remover</Button>
-                                        </ListGroup.Item>
-                                    ))}
-                                </ListGroup>
                             </Accordion.Body>
-                        </Accordion.Item>                    
+                        </Accordion.Item>
+
                     </Accordion>
                 </Modal.Body>
 

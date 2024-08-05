@@ -28,8 +28,8 @@ public class RespostaLogin {
         return criarRespostaLogin(true, Constants.Success.LOGIN_REALIZADO_COM_SUCESSO, result, accessToken);
     }
 
-    public static RespostaLogin unauthorized() {
-        return criarRespostaLogin(false, Constants.Error.EMAIL_OU_SENHA_INCORRETA, null, null);
+    public static RespostaLogin unauthorized(String message) {
+        return criarRespostaLogin(false, message, null, null);
     }
 
 }

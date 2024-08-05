@@ -38,4 +38,8 @@ class Usuario(
             idExterno = UUID.randomUUID()
         }
     }
+
+    fun isCliente(): Boolean {
+        return role == Role.CLIENTE
+    }
 }

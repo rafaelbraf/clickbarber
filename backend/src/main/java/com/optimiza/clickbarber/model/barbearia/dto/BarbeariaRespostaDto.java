@@ -1,5 +1,6 @@
 package com.optimiza.clickbarber.model.barbearia.dto;
 
+import com.optimiza.clickbarber.model.Role;
 import lombok.*;
 
 import java.util.UUID;
@@ -18,5 +19,6 @@ public class BarbeariaRespostaDto {
     private String nome;
     private String endereco;
     private String telefone;
+    private Role role;
 
 }

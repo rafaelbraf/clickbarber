@@ -29,6 +29,7 @@ public class BarbeiroMapper {
                 .celular(barbeiro.getCelular())
                 .admin(barbeiro.isAdmin())
                 .ativo(barbeiro.isAtivo())
+                .role(barbeiro.getUsuario().getRole())
                 .build();
     }
 

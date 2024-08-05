@@ -4,6 +4,9 @@ import { BarbeariaService } from "../../services/BarbeariaService";
 import { Barbearia, BarbeariaAtualizarDto } from "../../models/Barbearia";
 import { Loading } from "../../components/Loading";
 import { MdCheck, MdError } from "react-icons/md";
+import { HorarioFuncionamento } from "../../models/HorarioFuncionamento";
+import { HorarioFuncionamentoForm } from "../../components/HorarioFuncionamentoForm";
+import { DiaDaSemana, mapDiaDaSemana } from "../../models/DiaDaSemana";
 
 
 export const ConfiguracoesPerfil: React.FC = () => {
@@ -13,12 +16,14 @@ export const ConfiguracoesPerfil: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [loadingAtualizacao, setLoadingAtualizacao] = useState<boolean>(false);
     const [disabled, setDisabled] = useState<boolean>(true);
+    const [disabledHorarioFuncionamento, setDisabledHorarioFuncionamento] = useState<boolean>(true);
 
     const [nome, setNome] = useState<string>('');
     const [cnpj, setCnpj] = useState<string>('');
     const [endereco, setEndereco] = useState<string>('');
     const [telefone, setTelefone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [horarios, setHorarios] = useState<HorarioFuncionamento[]>([]);
     const [showToastSuccess, setShowToastSuccess] = useState<boolean>(false);
     const [showToastError, setShowToastError] = useState<boolean>(false);
     const [messageToast, setMessageToast] = useState<string>('');
@@ -37,6 +42,7 @@ export const ConfiguracoesPerfil: React.FC = () => {
             setEndereco(barbeariaEncontrada.endereco);
             setTelefone(barbeariaEncontrada.telefone);
             setEmail(barbeariaEncontrada.email);
+            setHorarios(barbeariaEncontrada.horarios);
         } catch (error) {
             setErrorMessage(`Erro ao buscar Barbearia: ${error}`);
             setMessageToast(errorMessage as string);
@@ -163,7 +169,7 @@ export const ConfiguracoesPerfil: React.FC = () => {
 
                     <h3 className="mt-5">Informações de usuário</h3>
 
-                    <Form.Group className="mt-3" as={Row} controlId="formNome">
+                    <Form.Group className="mt-3" as={Row} controlId="formEmail">
                         <Form.Label column sm={2}>Email</Form.Label>
                         <Col sm={10}>
                             <Form.Control
@@ -176,11 +182,41 @@ export const ConfiguracoesPerfil: React.FC = () => {
                         </Col>
                     </Form.Group>
 
+                    <Row className="align-items-center mt-5">
+                        <Col>
+                            <h3>Horário de Funcionamento</h3>
+                        </Col>
+                        <Col className="text-end">
+                            <Button 
+                                variant={disabledHorarioFuncionamento ? 'primary' : 'secondary'} 
+                                onClick={() => setDisabledHorarioFuncionamento(!disabledHorarioFuncionamento)}
+                            >
+                                {disabledHorarioFuncionamento ? 'Editar' : 'Cancelar edição'}
+                            </Button>
+                        </Col>
+                    </Row>
+
+                    {Object.keys(DiaDaSemana).map(key => {
+                        const diaEnum = DiaDaSemana[key as keyof typeof DiaDaSemana];
+                        const horarioAtual = horarios.find(horario => mapDiaDaSemana(horario.diaDaSemana) === diaEnum);
+                        
+                        return (
+                            <Col xs={12} key={diaEnum}>
+                                <HorarioFuncionamentoForm 
+                                    diaDaSemana={diaEnum} 
+                                    horario={horarioAtual} 
+                                    disabled={disabledHorarioFuncionamento} 
+                                />
+                            </Col>
+                        )
+                    })}
+
                     <Form.Group className="mt-3" as={Row}>
                         <Col sm={{ span: 10, offset: 2 }} className="text-end">
                             <Button variant="primary" type="submit">Salvar</Button>
                         </Col>
                     </Form.Group>
+                    
                 </Form>
             </Container>
 
