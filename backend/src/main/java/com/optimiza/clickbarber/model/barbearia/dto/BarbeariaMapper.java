@@ -73,6 +73,7 @@ public class BarbeariaMapper {
                 .endereco(barbearia.getEndereco())
                 .telefone(barbearia.getTelefone())
                 .idExterno(barbearia.getIdExterno())
+                .role(barbearia.getUsuario().getRole())
                 .build();
     }
 

@@ -7,6 +7,7 @@ import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto;
 import com.optimiza.clickbarber.model.usuario.dto.UsuarioCadastrarDto;
 import com.optimiza.clickbarber.service.AutenticacaoService;
 import com.optimiza.clickbarber.utils.Constants;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<RespostaAutenticacao<Object>> login(@RequestBody LoginRequestDto loginRequest) {
-        var respostaLogin = autenticacaoService.login(loginRequest);
+    public ResponseEntity<RespostaAutenticacao<Object>> login(@RequestBody LoginRequestDto loginRequest, HttpServletRequest request) {
+        var respostaLogin = autenticacaoService.login(loginRequest, request);
         if (!respostaLogin.isSuccess()) {
             var resposta = RespostaUtils.unauthorized(respostaLogin.getMessage(), respostaLogin.getResult());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resposta);

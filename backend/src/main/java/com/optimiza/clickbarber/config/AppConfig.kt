@@ -40,7 +40,8 @@ open class AppConfig {
         jwtUtil: JwtUtil,
         objectMapper: ObjectMapper,
         clienteService: ClienteService,
-        barbeiroService: BarbeiroService
+        barbeiroService: BarbeiroService,
+        propertiesConfig: PropertiesConfig
     ): AutenticacaoService {
         return AutenticacaoService(
             barbeariaService,
@@ -49,7 +50,8 @@ open class AppConfig {
             objectMapper,
             clienteService,
             barbeiroService,
-            loginHandlerChain
+            loginHandlerChain,
+            propertiesConfig
         )
     }
 
