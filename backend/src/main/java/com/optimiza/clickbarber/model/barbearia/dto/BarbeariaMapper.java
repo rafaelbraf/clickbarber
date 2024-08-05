@@ -2,6 +2,7 @@ package com.optimiza.clickbarber.model.barbearia.dto;
 
 import com.optimiza.clickbarber.model.barbearia.Barbearia;
 import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroMapper;
+import com.optimiza.clickbarber.model.horariofuncionamento.HorarioFuncionamentoMapper;
 import com.optimiza.clickbarber.model.servico.dto.ServicoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,11 +14,13 @@ public class BarbeariaMapper {
 
     private final BarbeiroMapper barbeiroMapper;
     private final ServicoMapper servicoMapper;
+    private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
 
     @Autowired
-    public BarbeariaMapper(BarbeiroMapper barbeiroMapper, ServicoMapper servicoMapper) {
+    public BarbeariaMapper(BarbeiroMapper barbeiroMapper, ServicoMapper servicoMapper, HorarioFuncionamentoMapper horarioFuncionamentoMapper) {
         this.barbeiroMapper = barbeiroMapper;
         this.servicoMapper = servicoMapper;
+        this.horarioFuncionamentoMapper = horarioFuncionamentoMapper;
     }
 
     public BarbeariaDto toDto(Barbearia barbearia) {
@@ -31,6 +34,11 @@ public class BarbeariaMapper {
                 .map(servicoMapper::toDto)
                 .toList();
 
+        var horariosDto = barbearia.getHorarios().stream()
+                .map(horarioFuncionamentoMapper::toDto)
+                .toList();
+
+
         return BarbeariaDto.builder()
                 .idExterno(barbearia.getIdExterno())
                 .nome(barbearia.getNome())
@@ -40,6 +48,7 @@ public class BarbeariaMapper {
                 .endereco(barbearia.getEndereco())
                 .servicos(servicosDto)
                 .barbeiros(barbeirosDto)
+                .horarios(horariosDto)
                 .build();
     }
 

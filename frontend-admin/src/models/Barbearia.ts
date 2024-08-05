@@ -1,4 +1,5 @@
 import { Barbeiro } from "./Barbeiro";
+import { HorarioFuncionamento } from "./HorarioFuncionamento";
 import { Servico } from "./Servico";
 
 export interface Barbearia {
@@ -10,6 +11,7 @@ export interface Barbearia {
     telefone: string;
     servicos: Servico[];
     barbeiros: Barbeiro[];
+    horarios: HorarioFuncionamento[];
 }
 
 export interface BarbeariaAtualizarDto {
