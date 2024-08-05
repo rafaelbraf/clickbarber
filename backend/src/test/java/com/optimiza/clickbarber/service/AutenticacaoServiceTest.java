@@ -1,6 +1,7 @@
 package com.optimiza.clickbarber.service;
 
 import com.optimiza.clickbarber.config.JwtUtil;
+import com.optimiza.clickbarber.config.PropertiesConfig;
 import com.optimiza.clickbarber.exception.ResourceNotFoundException;
 import com.optimiza.clickbarber.handler.LoginHandlerChain;
 import com.optimiza.clickbarber.model.Role;
@@ -10,6 +11,7 @@ import com.optimiza.clickbarber.model.barbeiro.dto.BarbeiroDto;
 import com.optimiza.clickbarber.model.cliente.dto.ClienteDto;
 import com.optimiza.clickbarber.model.usuario.Usuario;
 import com.optimiza.clickbarber.utils.Constants;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +51,12 @@ class AutenticacaoServiceTest {
     @Mock
     private LoginHandlerChain loginHandlerChainMock;
 
+    @Mock
+    private HttpServletRequest requestMock;
+
+    @Mock
+    private PropertiesConfig propertiesConfigMock;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private Long usuarioId;
@@ -80,8 +88,10 @@ class AutenticacaoServiceTest {
         var respostaLogin = montarRespostaLoginSucesso(montarClienteDto(UUID.randomUUID()), "token_cliente");
         when(loginHandlerChainMock.handle(any(LoginRequestDto.class), any(Usuario.class))).thenReturn(respostaLogin);
 
+        when(propertiesConfigMock.isFrontendClienteOrigin(any(HttpServletRequest.class))).thenReturn(true);
+
         var loginRequest = montarLoginRequestDto();
-        var resposta = autenticacaoService.login(loginRequest);
+        var resposta = autenticacaoService.login(loginRequest, requestMock);
 
         assertNotNull(resposta);
         assertTrue(resposta.isSuccess());
@@ -103,7 +113,7 @@ class AutenticacaoServiceTest {
         when(loginHandlerChainMock.handle(any(LoginRequestDto.class), any(Usuario.class))).thenReturn(respostaLogin);
 
         var loginRequest = montarLoginRequestDto();
-        var resposta = autenticacaoService.login(loginRequest);
+        var resposta = autenticacaoService.login(loginRequest, requestMock);
 
         assertNotNull(resposta);
         assertTrue(resposta.isSuccess());
@@ -125,7 +135,7 @@ class AutenticacaoServiceTest {
         when(loginHandlerChainMock.handle(any(LoginRequestDto.class), any(Usuario.class))).thenReturn(respostaLogin);
 
         var loginRequest = montarLoginRequestDto();
-        var resposta = autenticacaoService.login(loginRequest);
+        var resposta = autenticacaoService.login(loginRequest, requestMock);
 
         assertNotNull(resposta);
         assertTrue(resposta.isSuccess());
@@ -141,7 +151,7 @@ class AutenticacaoServiceTest {
         when(usuarioService.buscarPorEmail(anyString())).thenReturn(usuario);
 
         var loginRequest = montarLoginRequestDto();
-        var resposta = autenticacaoService.login(loginRequest);
+        var resposta = autenticacaoService.login(loginRequest, requestMock);
 
         assertNotNull(resposta);
         assertFalse(resposta.isSuccess());
@@ -155,7 +165,7 @@ class AutenticacaoServiceTest {
         when(usuarioService.buscarPorEmail(anyString())).thenThrow(new ResourceNotFoundException(Constants.Entity.USUARIO, Constants.Attribute.EMAIL, email));
 
         var loginRequest = montarLoginRequestDto();
-        assertThrows(ResourceNotFoundException.class, () -> autenticacaoService.login(loginRequest));
+        assertThrows(ResourceNotFoundException.class, () -> autenticacaoService.login(loginRequest, requestMock));
     }
 
 }

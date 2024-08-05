@@ -1,5 +1,6 @@
 package com.optimiza.clickbarber.model.cliente.dto;
 
+import com.optimiza.clickbarber.model.Role;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -18,5 +19,6 @@ public class ClienteDto {
     private String nome;
     private LocalDate dataNascimento;
     private String celular;
+    private Role role;
 
 }

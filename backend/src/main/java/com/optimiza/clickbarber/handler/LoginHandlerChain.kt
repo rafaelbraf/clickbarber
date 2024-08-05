@@ -3,6 +3,7 @@ package com.optimiza.clickbarber.handler
 import com.optimiza.clickbarber.model.autenticacao.RespostaLogin
 import com.optimiza.clickbarber.model.autenticacao.dto.LoginRequestDto
 import com.optimiza.clickbarber.model.usuario.Usuario
+import com.optimiza.clickbarber.utils.Constants
 
 class LoginHandlerChain(
     private val handlers: List<LoginHandler>
@@ -16,7 +17,7 @@ class LoginHandlerChain(
             }
         }
 
-        return RespostaLogin.unauthorized()
+        return RespostaLogin.unauthorized(Constants.Error.EMAIL_OU_SENHA_INCORRETA)
     }
 
 }

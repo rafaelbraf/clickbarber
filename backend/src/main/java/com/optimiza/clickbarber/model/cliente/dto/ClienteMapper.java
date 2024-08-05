@@ -21,6 +21,7 @@ public class ClienteMapper {
                 .nome(cliente.getNome())
                 .celular(cliente.getCelular())
                 .dataNascimento(cliente.getDataNascimento())
+                .role(cliente.getUsuario().getRole())
                 .build();
     }
 
