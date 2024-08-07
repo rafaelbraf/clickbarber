@@ -26,6 +26,9 @@ object Constants {
         const val AGENDAMENTO_CADASTRADO_COM_SUCESSO: String = "Agendamento cadastrado com sucesso!"
         const val AGENDAMENTO_ATUALIZADO_COM_SUCESSO: String = "Agendamento atualizado com sucesso!"
         const val CLIENTES_ENCONTRADOS_DA_BARBEARIA: String = "Clientes encontrados para Barbearia com id "
+        const val FORMAS_PAGAMENTO_ENCONTRADAS: String = "Formas de pagamento encontradas"
+        const val FORMA_PAGAMENTO_CADASTRADA_COM_SUCESSO: String = "Forma de pagamento cadastrada com sucesso!"
+        const val FORMA_PAGAMENTO_ATUALIZADA_COM_SUCESSO: String = "Forma de pagamento atualizada com sucesso!"
     }
 
     object Error {
@@ -60,6 +63,7 @@ object Constants {
         const val SERVICOS_URL_PATTERN: String = "/servicos/*"
         const val BARBEIROS_URL_PATTERN: String = "/barbeiros/*"
         const val AGENDAMENTOS_URL_PATTERN: String = "/agendamentos/*"
+        const val FORMAS_PAGAMENTO_URL_PATTERN: String = "/formas-pagamento/**"
     }
 
     object Entity {
@@ -69,6 +73,7 @@ object Constants {
         const val USUARIO: String = "Usuario"
         const val AGENDAMENTO: String = "Agendamento"
         const val CLIENTE: String = "Cliente"
+        const val FORMA_PAGAMENTO: String = "FormaPagamento"
     }
 
     object Attribute {

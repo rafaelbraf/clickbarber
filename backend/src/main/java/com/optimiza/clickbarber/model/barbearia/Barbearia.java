@@ -3,6 +3,7 @@ package com.optimiza.clickbarber.model.barbearia;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
+import com.optimiza.clickbarber.model.formaspagamento.FormaPagamento;
 import com.optimiza.clickbarber.model.horariofuncionamento.HorarioFuncionamento;
 import com.optimiza.clickbarber.model.servico.Servico;
 import com.optimiza.clickbarber.model.usuario.Usuario;
@@ -51,6 +52,9 @@ public class Barbearia {
 
     @OneToMany(mappedBy = "barbearia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HorarioFuncionamento> horarios;
+
+    @OneToMany(mappedBy = "barbearia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormaPagamento> formasDePagamento;
 
     @PrePersist
     void gerarIdExterno() {
