@@ -30,6 +30,10 @@ spring:
 jwt:
   secret: secretkeyclickbarbertestespringbootcomjava1234
 
+aws:
+  s3:
+    bucketName: ${BUCKET_NAME}
+
 frontend:
   admin:
     url: ${FRONTEND_ADMIN_URL}

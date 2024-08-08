@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.optimiza</groupId>
 	<artifactId>clickbarber</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<name>Click Barber</name>
 	<description>Projeto de agendamentos para barbearias</description>
 	<properties>
@@ -113,6 +113,11 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.767</version>
 		</dependency>
 	</dependencies>
 
