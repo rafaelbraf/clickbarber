@@ -17,6 +17,11 @@ class FormaPagamentoService(
     private val barbeariaService: BarbeariaService
 ) {
 
+    fun buscarPorIdExterno(idExterno: UUID): FormaPagamento {
+        return formaPagamentoRepository.findByIdExterno(idExterno)
+            .orElseThrow { ResourceNotFoundException(Constants.Entity.FORMA_PAGAMENTO, Constants.Attribute.ID_EXTERNO, idExterno.toString()) }
+    }
+
     fun buscarPorIdExternoBarbearia(idExternoBarbearia: UUID): List<FormaPagamentoRespostaDto> {
         val barbearia = barbeariaService.buscarPorIdExterno(idExternoBarbearia)
 
