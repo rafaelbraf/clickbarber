@@ -34,7 +34,7 @@ public class RespostaUtils {
         return criarResposta(HttpStatus.CREATED.value(), true, message, result);
     }
 
-    public static <T> Resposta<T> noContent() {
+    public static Resposta<Void> noContent() {
         return criarResposta(HttpStatus.NO_CONTENT.value(), true, null, null);
     }
 

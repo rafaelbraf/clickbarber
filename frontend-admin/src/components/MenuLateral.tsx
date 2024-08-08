@@ -5,7 +5,7 @@ import { BiHome, BiLogOut } from "react-icons/bi";
 import { TiThMenu } from "react-icons/ti";
 import { IoSettingsOutline } from "react-icons/io5";
 import { RiCalendarScheduleLine, RiScissorsFill } from "react-icons/ri";
-import { FaUsers } from "react-icons/fa";
+import { FaMoneyCheck, FaUsers } from "react-icons/fa";
 
 const MenuLateral: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -35,6 +35,10 @@ const MenuLateral: React.FC = () => {
                 <Nav.Link href="/servicos">
                     <RiScissorsFill />
                     {isExpanded && <span>Serviços</span>}
+                </Nav.Link>
+                <Nav.Link href="/formas-pagamento">
+                    <FaMoneyCheck />
+                    {isExpanded && <span>Formas de Pagamento</span>}
                 </Nav.Link>
                 <Nav.Link href="/configuracoes">
                     <IoSettingsOutline />

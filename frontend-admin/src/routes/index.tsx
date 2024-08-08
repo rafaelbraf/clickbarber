@@ -9,6 +9,7 @@ import { ConfiguracoesPerfil } from "../pages/configuracoes/ConfiguracoesPerfil"
 import { ConfiguracoesSeguranca } from "../pages/configuracoes/ConfiguracoesSeguranca";
 import { ConfiguracoesNotificacoes } from "../pages/configuracoes/ConfiguracoesNotificacoes";
 import { ConfiguracoesPrivacidade } from "../pages/configuracoes/ConfiguracoesPrivacidade";
+import { FormasPagamento } from "../pages/FormasPagamento";
 
 function AppRoutes() {
     return (
@@ -25,6 +26,7 @@ function AppRoutes() {
                     <Route path="notificacoes" element={<ConfiguracoesNotificacoes />} />
                     <Route path="privacidade" element={<ConfiguracoesPrivacidade />} />
                 </Route>
+                <Route path="/formas-pagamento" element={<FormasPagamento />} />
             </Routes>
         </BrowserRouter>
     );
