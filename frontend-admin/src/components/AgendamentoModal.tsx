@@ -34,6 +34,8 @@ export const AgendamentoModal: React.FC<ModalProps> = ({
                                 <p><strong>Valor total:</strong> R${selectedAgendamento.valorTotal}</p>
                                 <p><strong>Data e Hora de Início: </strong>{selectedAgendamento.dataHora}</p>
                                 <p><strong>Data e Hora de Fim: </strong>{selectedAgendamento.dataHora}</p>
+                                <p><strong>Forma de pagamento: </strong>{selectedAgendamento.formaPagamento.tipo}</p>
+                                <p><strong>Criado por: </strong>{selectedAgendamento.criadoPor.email}</p>
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">

@@ -1,6 +1,8 @@
 import { Barbeiro } from "./Barbeiro";
 import { Cliente } from "./Cliente";
+import { FormaPagamento } from "./FormaPagamento";
 import { Servico } from "./Servico";
+import { Usuario } from "./Usuario";
 
 export interface Agendamento {
     idExterno: number;
@@ -10,6 +12,8 @@ export interface Agendamento {
     cliente: Cliente;
     barbeiros: Barbeiro[];
     servicos: Servico[];
+    formaPagamento: FormaPagamento;
+    criadoPor: Usuario;
 }
 
 export interface AgendamentoReduzido {
@@ -28,4 +32,5 @@ export interface AgendamentoCadastro {
     clienteIdExterno: string;
     servicosIdsExterno: string[];
     barbeirosIdsExterno: string[];
+    formaPagamentoIdExterno: string;
 }
