@@ -56,6 +56,8 @@ public class Barbearia {
     @OneToMany(mappedBy = "barbearia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormaPagamento> formasDePagamento;
 
+    private String logoUrl;
+
     @PrePersist
     void gerarIdExterno() {
         if (isNull(idExterno)) {

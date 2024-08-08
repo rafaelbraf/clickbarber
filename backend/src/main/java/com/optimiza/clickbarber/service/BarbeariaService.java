@@ -9,6 +9,7 @@ import com.optimiza.clickbarber.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,5 +114,12 @@ public class BarbeariaService {
                     e
             );
         }
+    }
+
+    @Transactional
+    public void atualizarLogoUrl(UUID idExterno, String logoUrl) {
+        var barbearia = barbeariaRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.ID, idExterno.toString()));
+        barbeariaRepository.updateLogoUrlById(barbearia.getId(), logoUrl);
     }
 }
