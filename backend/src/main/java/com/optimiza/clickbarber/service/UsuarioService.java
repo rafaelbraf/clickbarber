@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UsuarioService {
 
@@ -22,6 +24,11 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    }
+
+    public Usuario buscarPorIdExterno(UUID idExterno) {
+        return usuarioRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.USUARIO, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
     }
 
     public Usuario buscarPorEmail(String email) {

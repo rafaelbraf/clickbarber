@@ -14,10 +14,6 @@ import java.util.UUID;
 @Builder
 public class UsuarioAgendamentoDto {
 
-    private Long id;
-    private String cpf;
-    private String nome;
     private String email;
-    private String celular;
 
 }
