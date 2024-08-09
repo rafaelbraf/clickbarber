@@ -10,12 +10,14 @@ RUN java -version
 
 RUN mvn clean package -DskipTests
 
+# Executa o script para extrair a versão e renomear o JAR
+RUN chmod +x get_version.sh && ./get_version.sh
+
 FROM eclipse-temurin:21-jdk-jammy
 
 WORKDIR /app
-
-COPY --from=build app/target/clickbarber-0.0.1-SNAPSHOT.jar /app/clickbarber-0.0.1-SNAPSHOT.jar
+COPY --from=build /app/target/clickbarber.jar /app/clickbarber.jar
 
 EXPOSE 8081
 
-CMD ["java", "-jar", "clickbarber-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "clickbarber.jar"]
