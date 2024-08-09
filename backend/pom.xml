@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.optimiza</groupId>
 	<artifactId>clickbarber</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>Click Barber</name>
 	<description>Projeto de agendamentos para barbearias</description>
 	<properties>

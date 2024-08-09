@@ -3,7 +3,9 @@ package com.optimiza.clickbarber.model.agendamento;
 import com.optimiza.clickbarber.model.barbearia.Barbearia;
 import com.optimiza.clickbarber.model.barbeiro.Barbeiro;
 import com.optimiza.clickbarber.model.cliente.Cliente;
+import com.optimiza.clickbarber.model.formaspagamento.FormaPagamento;
 import com.optimiza.clickbarber.model.servico.Servico;
+import com.optimiza.clickbarber.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -59,6 +61,14 @@ public class Agendamento {
             inverseJoinColumns = @JoinColumn(name = "barbeiro_id")
     )
     private Set<Barbeiro> barbeiros;
+
+    @ManyToOne
+    @JoinColumn(name = "forma_pagamento_id", nullable = false)
+    private FormaPagamento formaPagamento;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private Usuario createdBy;
 
     @PrePersist
     void gerarIdExterno() {

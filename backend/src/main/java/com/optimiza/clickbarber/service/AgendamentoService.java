@@ -33,15 +33,19 @@ public class AgendamentoService {
     private final ClienteService clienteService;
     private final ServicoService servicoService;
     private final BarbeiroService barbeiroService;
+    private final FormaPagamentoService formaPagamentoService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public AgendamentoService(AgendamentoRepository agendamentoRepository, AgendamentoMapper agendamentoMapper, BarbeariaService barbeariaService, ClienteService clienteService, ServicoService servicoService, BarbeiroService barbeiroService, BarbeiroMapper barbeiroMapper) {
+    public AgendamentoService(AgendamentoRepository agendamentoRepository, AgendamentoMapper agendamentoMapper, BarbeariaService barbeariaService, ClienteService clienteService, ServicoService servicoService, BarbeiroService barbeiroService, BarbeiroMapper barbeiroMapper, FormaPagamentoService formaPagamentoService, UsuarioService usuarioService) {
         this.agendamentoRepository = agendamentoRepository;
         this.agendamentoMapper = agendamentoMapper;
         this.barbeariaService = barbeariaService;
         this.clienteService = clienteService;
         this.servicoService = servicoService;
         this.barbeiroService = barbeiroService;
+        this.formaPagamentoService = formaPagamentoService;
+        this.usuarioService = usuarioService;
     }
 
     public AgendamentoDto buscarPorIdExterno(UUID idExterno) {
@@ -84,6 +88,12 @@ public class AgendamentoService {
 
             var barbeiros = buscarBarbeirosDaBarbearia(agendamentoCadastro.getBarbeirosIdsExterno(), barbearia);
             agendamento.setBarbeiros(barbeiros);
+
+            var formaPagamento = formaPagamentoService.buscarPorIdExterno(agendamentoCadastro.getFormaPagamentoIdExterno());
+            agendamento.setFormaPagamento(formaPagamento);
+
+            var criador = usuarioService.buscarPorIdExterno(barbearia.getUsuario().getIdExterno());
+            agendamento.setCreatedBy(criador);
 
             var agendamentoCadastrado = agendamentoRepository.save(agendamento);
 

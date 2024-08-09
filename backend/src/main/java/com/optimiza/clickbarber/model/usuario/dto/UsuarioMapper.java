@@ -18,7 +18,6 @@ public class UsuarioMapper {
 
     public UsuarioAgendamentoDto toAgendamentoDto(Usuario usuario) {
         return UsuarioAgendamentoDto.builder()
-                .id(usuario.getId())
                 .email(usuario.getEmail())
                 .build();
     }

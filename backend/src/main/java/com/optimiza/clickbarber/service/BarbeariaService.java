@@ -19,11 +19,13 @@ public class BarbeariaService {
 
     private final BarbeariaRepository barbeariaRepository;
     private final BarbeariaMapper barbeariaMapper;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public BarbeariaService(BarbeariaRepository barbeariaRepository, BarbeariaMapper barbeariaMapper) {
+    public BarbeariaService(BarbeariaRepository barbeariaRepository, BarbeariaMapper barbeariaMapper, UsuarioService usuarioService) {
         this.barbeariaRepository = barbeariaRepository;
         this.barbeariaMapper = barbeariaMapper;
+        this.usuarioService = usuarioService;
     }
 
     public boolean existePorId(Long id) {
@@ -83,6 +85,13 @@ public class BarbeariaService {
         var barbearia = barbeariaRepository.findByUsuarioId(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.USUARIO_ID, usuarioId.toString()));
         return barbeariaMapper.toRespostaDto(barbearia);
+    }
+
+    public UUID buscarIdExternoUsuarioIdPorIdExterno(UUID idExterno) {
+        var barbearia = barbeariaRepository.findByIdExterno(idExterno)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.Entity.BARBEARIA, Constants.Attribute.ID_EXTERNO, idExterno.toString()));
+
+        return barbearia.getUsuario().getIdExterno();
     }
 
     public BarbeariaRespostaDto cadastrar(BarbeariaCadastroDto barbeariaCadastro) {

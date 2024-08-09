@@ -23,5 +23,6 @@ public class AgendamentoCadastroDto {
     private UUID clienteIdExterno;
     private List<UUID> servicosIdsExterno;
     private List<UUID> barbeirosIdsExterno;
+    private UUID formaPagamentoIdExterno;
 
 }
